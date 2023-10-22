@@ -325,7 +325,7 @@
     event(".listing-item-container").on("mouseover", function () {
       if (void 0 !== event(this).data("marker-id")) {
         var t = event(this).data("marker-id") - 1,
-          o = f[t].div;
+          o = allListingsNew[t].div;
         event(o).addClass("clicked"),
           event(this).on("mouseout", function () {
             event(o).is(":not(.infoBox-opened)") &&
@@ -354,10 +354,10 @@
         pane: "floatPane",
         enableEventPropagation: !1,
       },
-      f = [];
+      allListingsNew = [];
     for (p = 0; p < listings.length; p++) {
       c = listings[p][4];
-      var y = new s(
+      var newListingMarkerthing = new markerobj(
         new google.maps.LatLng(listings[p][1], listings[p][2]),
         m,
         {
@@ -365,9 +365,15 @@
         },
         c
       );
-      f.push(y),
+      function markerobj(e, t, o, l) {
+        (this.latlng = e),
+          (this.args = o),
+          (this.markerIco = l),
+          this.setMap(t);
+      }
+      allListingsNew.push(newListingMarkerthing),
         google.maps.event.addDomListener(
-          y,
+          newListingMarkerthing,
           "click",
           (function (o, i) {
             return function () {
@@ -400,10 +406,10 @@
                   });
                 });
             };
-          })(y, p)
+          })(newListingMarkerthing, p)
         );
     }
-    new MarkerClusterer(m, f, {
+    new MarkerClusterer(m, allListingsNew, {
       imagePath: "images/",
       styles: [
         {
@@ -414,11 +420,11 @@
         },
       ],
       minClusterSize: 2,
-    }),
-      google.maps.event.addDomListener(window, "resize", function () {
-        var e = m.getCenter();
-        google.maps.event.trigger(m, "resize"), m.setCenter(e);
-      });
+    });
+    google.maps.event.addDomListener(window, "resize", function () {
+      var e = m.getCenter();
+      google.maps.event.trigger(m, "resize"), m.setCenter(e);
+    });
     var u = document.createElement("div");
     new (function (e, t) {
       (u.index = 1),
@@ -705,7 +711,7 @@
     })(l, map);
     var mapIcon =
       "<i class='" + event("#singleListingMap").data("map-icon") + "'></i>";
-    new s(
+    new overlayView(
       googleMaps,
       map,
       {
@@ -719,47 +725,56 @@
     (google.maps.event.addDomListener(window, "load", setupMap),
     google.maps.event.addDomListener(window, "resize", setupMap));
   var i = document.getElementById("singleListingMap");
-  function s(e, t, o, l) {
+  function overlayView(e, t, o, l) {
     (this.latlng = e), (this.args = o), (this.markerIco = l), this.setMap(t);
   }
   void 0 !== i &&
     null != i &&
     (google.maps.event.addDomListener(window, "load", setIconsOnMap),
     google.maps.event.addDomListener(window, "resize", setIconsOnMap)),
-    (s.prototype = new google.maps.OverlayView()),
-    (s.prototype.draw = function () {
+    (overlayView.prototype = new google.maps.OverlayView()),
+    (overlayView.prototype.draw = function () {
       var t = this,
-        o = this.div;
-      o ||
-        (((o = this.div = document.createElement("div")).className =
-          "map-marker-container"),
-        (o.innerHTML =
+        newMarkerMapObject = this.div;
+      newMarkerMapObject ||
+        (((newMarkerMapObject = this.div =
+          document.createElement("div")).className = "map-marker-container"),
+        (newMarkerMapObject.innerHTML =
           '<div class="marker-container"><div class="marker-card"><div class="front face">' +
           t.markerIco +
           '</div><div class="back face">' +
           t.markerIco +
           '</div><div class="marker-arrow"></div></div></div>'),
-        google.maps.event.addDomListener(o, "click", function (o) {
-          var open = false;
-          if (event(this).hasClass("infoBox-opened")) open = true;
-          event(".map-marker-container").removeClass("clicked infoBox-opened"),
-            google.maps.event.trigger(t, "click");
-          if (!open) {
-            event(this).addClass("clicked infoBox-opened");
+        google.maps.event.addDomListener(
+          newMarkerMapObject,
+          "click",
+          function (o) {
+            var open = false;
+            if (event(this).hasClass("infoBox-opened")) open = true;
+            event(".map-marker-container").removeClass(
+              "clicked infoBox-opened"
+            ),
+              google.maps.event.trigger(t, "click");
+            if (!open) {
+              event(this).addClass("clicked infoBox-opened");
+            }
           }
-        }),
-        void 0 !== t.args.marker_id && (o.dataset.marker_id = t.args.marker_id),
-        this.getPanes().overlayImage.appendChild(o));
+        ),
+        void 0 !== t.args.marker_id &&
+          (newMarkerMapObject.dataset.marker_id = t.args.marker_id),
+        this.getPanes().overlayImage.appendChild(newMarkerMapObject));
       var l = this.getProjection().fromLatLngToDivPixel(this.latlng);
-      l && ((o.style.left = l.x + "px"), (o.style.top = l.y + "px"));
+      l &&
+        ((newMarkerMapObject.style.left = l.x + "px"),
+        (newMarkerMapObject.style.top = l.y + "px"));
     }),
-    (s.prototype.remove = function () {
+    (overlayView.prototype.remove = function () {
       this.div &&
         (this.div.parentNode.removeChild(this.div),
         (this.div = null),
         event(this).removeClass("clicked"));
     }),
-    (s.prototype.getPosition = function () {
+    (overlayView.prototype.getPosition = function () {
       return this.latlng;
     });
 })(this.jQuery);
