@@ -24,8 +24,7 @@ async function initMap() {
 
   const iconContainer = document.createElement("div");
 
-  const icon =
-    '<i class="fa fa-pizza-slice fa-lg" style="font-size:auto" ></i>';
+  const icon = '<i class="bx bx-party"></i>';
   iconContainer.className = "map-marker-container";
   iconContainer.innerHTML =
     '<div class="marker-container"><div class="marker-card"><div class="front face">' +
