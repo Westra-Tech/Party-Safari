@@ -1,1 +1,35 @@
 PLEASE DOCUMENT ALL API ENDPOINTS AND WHAT THEY DO HERE:
+
+
+1. Read Host Information
+- Endpoint: /party_listings
+- Method: GET
+- Parameters: 
+  - party_id (query parameter)
+- Functionality: This endpoint retrieves information about a specific party based on the provided party_id.
+- Error Handling: 
+  - If the party_id parameter is missing, a 400 Bad Request error is returned.
+  - If no party is found with the provided party_id, a 404 Not Found error is returned.
+  - If an internal server error occurs, a 500 Internal Server Error is returned.
+
+2. Add Host to Favorites
+- Endpoint: /favorites
+- Method: PATCH
+- Parameters: 
+  - user_id (query parameter)
+  - host_id (query parameter)
+- Functionality: This endpoint adds a host to a user's list of favorites. If the user does not already have a favorites list, one is created.
+- Error Handling: 
+  - If either the user_id or host_id parameters are missing, a 400 Bad Request error is returned.
+  - If an internal server error occurs, a 500 Internal Server Error is returned.
+
+3. Remove Host from Favorites
+- Endpoint: /favorites
+- Method: DELETE
+- Parameters: 
+  - user_id (query parameter)
+  - host_id (query parameter)
+- Functionality: This endpoint removes a host from a user's list of favorites.
+- Error Handling: 
+  - If either the user_id or host_id parameters are missing, a 400 Bad Request error is returned.
+  - If an internal server error occurs, a 500 Internal Server Error is returned.
