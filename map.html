@@ -221,8 +221,8 @@
                                 <div class="tab-pane fade show active" id="grid-view-tab1" role="tabpanel"
                                     aria-labelledby="grid-view-tab1">
                                     <div class="list_products">
-                                        <div class="row">
-                                            <div class="col-lg-6 col-md-6">
+                                        <div class="row" id="sidebarListings">
+                                            <!--    <div class="col-lg-6 col-md-6">
                                                 <div class="card">
                                                     <a href="24_Property_Single.html" title="">
                                                         <div class="img-block">
@@ -437,7 +437,7 @@
                                                     </div>
                                                     <a href="24_Property_Single.html" title="" class="ext-link"></a>
                                                 </div>
-                                            </div>
+                                            </div> -->
                                         </div>
                                     </div><!--list_products end-->
 
@@ -670,7 +670,7 @@
                                     </div><!-- list-products end-->
                                 </div>
                             </div><!--tab-content end-->
-                            <nav aria-label="Page navigation example">
+                            <!-- <nav aria-label="Page navigation example">
                                 <ul class="pagination">
                                     <li class="page-item active"><a class="page-link" href="#">1</a></li>
                                     <li class="page-item"><a class="page-link" href="#">2</a></li>
@@ -681,7 +681,7 @@
                                         </a>
                                     </li>
                                 </ul>
-                            </nav><!--pagination end-->
+                            </nav> -->
                         </div><!--listing-directs end-->
                     </div>
                     <div class="col-xl-6 col-lg-12">
@@ -703,8 +703,10 @@
     <script>(g => { var h, a, k, p = "The Google Maps JavaScript API", c = "google", l = "importLibrary", q = "__ib__", m = document, b = window; b = b[c] || (b[c] = {}); var d = b.maps || (b.maps = {}), r = new Set, e = new URLSearchParams, u = () => h || (h = new Promise(async (f, n) => { await (a = m.createElement("script")); e.set("libraries", [...r] + ""); for (k in g) e.set(k.replace(/[A-Z]/g, t => "_" + t[0].toLowerCase()), g[k]); e.set("callback", c + ".maps." + q); a.src = `https://maps.${c}apis.com/maps/api/js?` + e; d[q] = f; a.onerror = () => h = n(Error(p + " could not load.")); a.nonce = m.querySelector("script[nonce]")?.nonce || ""; m.head.append(a) })); d[l] ? console.warn(p + " only loads once. Ignoring:", g) : d[l] = (f, ...n) => r.add(f) && u().then(() => d[l](f, ...n)) })
             ({ key: "AIzaSyDj7ZKjp59zvl952KxV8bxrmtRQr0QdMmk", v: "beta" });</script>
     <script src="assets/js/map-cluster/map.js"></script>
+    <script src="assets/js/map-cluster/sidebarListings.js"></script>
     <script src="assets/js/map-cluster/infobox.min.js"></script>
     <script src="assets/js/map-cluster/markerclusterer.js"></script>
+
 
 
 </body>

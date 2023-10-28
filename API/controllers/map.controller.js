@@ -33,7 +33,7 @@ exports.getPartyDetails = async (req, res) => {
 
   try {
     // Fetch the party details using the provided 'party_id'
-    const party = await partyListingCollection.findOne({ party_id: party_id });
+    const party = await partyListingCollection.findOne({ _id: party_id });
 
     // If party not found, return 404 error
     if (!party) {
@@ -171,8 +171,13 @@ exports.getPartyListingsByLocation = async (req, res, location) => {
   }
 
   try {
+    // find parties with zip code same as location, and time is within next 3 days
     const parties = await partyListingCollection
-      .find({ Zip: location })
+      .find({
+        Zip: location,
+        StartDate: { $lt: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000) },
+        EndDate: { $gt: new Date() },
+      })
       .toArray();
     let partyListings = [];
     await parties.map((party) => {
