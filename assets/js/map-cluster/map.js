@@ -22,6 +22,14 @@ async function initMap() {
     mapId: "a9ad8d72f2c5e145",
     disableDefaultUI: true,
   });
+
+  // get all parties from the database
+  const response = await fetch("http://localhost:3000/map?location=08901");
+  response.json().then((data) => {
+    console.log(data);
+    // addMarkersToMap(data);
+  });
+  console.log(response);
 }
 
 // Add Markers to the map
