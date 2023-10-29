@@ -3,24 +3,19 @@
 const { MongoClient } = require("mongodb");
 
 // Initialize the MongoDB client
-const mongoClient = new MongoClient("MONGODB_CONNECTION_STRING");
-
+const mongoClient = new MongoClient(
+  "mongodb+srv://MapUser:7DoUXjEodleBvqkZ@atlascluster.bvzvel0.mongodb.net/"
+);
+//mongoapikey rCEuML281QoOjSLAEpJxDmjD8Yq0J61AG8Wru3dGbkrBH3chhNWlJQYR61SrxnUi
 let partyListingCollection;
 let favoritesCollection;
 
 // Connect to MongoDB and set up collections for use
-mongoClient.connect((err) => {
-  // Handle connection errors
-  if (err) throw err;
-
-  // Logging successful database connection
-  console.log("Connected to the database");
-
-  // Reference to the required collections
-  const db = mongoClient.db("YOUR_DB_NAME");
-  partyListingCollection = db.collection("partyListing");
+exports.dbConnect = () => {
+  const db = mongoClient.db("Map");
+  partyListingCollection = db.collection("Parties");
   favoritesCollection = db.collection("favorites");
-});
+};
 
 /**
  * Handle request for fetching party details.
@@ -38,7 +33,7 @@ exports.getPartyDetails = async (req, res) => {
 
   try {
     // Fetch the party details using the provided 'party_id'
-    const party = await partyListingCollection.findOne({ party_id: party_id });
+    const party = await partyListingCollection.findOne({ _id: party_id });
 
     // If party not found, return 404 error
     if (!party) {
@@ -132,6 +127,69 @@ exports.removeHostFromFavorites = async (req, res) => {
     res.end(JSON.stringify(updatedFavorites));
   } catch (error) {
     // Handle any errors that might occur during the update operation
+    res.writeHead(500, { "Content-Type": "application/json" });
+    res.end(JSON.stringify({ error: "Internal Server Error" }));
+  }
+};
+
+exports.getFavorites = async (req, res) => {
+  const { user_id } = req.query;
+
+  // Validate the presence of required parameters
+  if (!user_id) {
+    res.writeHead(400, { "Content-Type": "application/json" });
+    return res.end(
+      JSON.stringify({
+        error: "user_id parameter is required",
+      })
+    );
+  }
+
+  try {
+    // Fetch the user's favorites
+    const favorites = await favoritesCollection.findOne({ user_id: user_id });
+
+    // Return the user's favorites
+    res.writeHead(200, { "Content-Type": "application/json" });
+    res.end(JSON.stringify(favorites));
+  } catch (error) {
+    // Handle any errors that might occur during the fetch operation
+    res.writeHead(500, { "Content-Type": "application/json" });
+    res.end(JSON.stringify({ error: "Internal Server Error" }));
+  }
+};
+
+exports.getPartyListingsByLocation = async (req, res, location) => {
+  // Validate the presence of required parameters
+  if (!location) {
+    res.writeHead(400, { "Content-Type": "application/json" });
+    return res.end(
+      JSON.stringify({
+        error: "location parameter is required",
+      })
+    );
+  }
+
+  try {
+    // find parties with zip code same as location, and time is within next 3 days
+    const parties = await partyListingCollection
+      .find({
+        Zip: location,
+        StartDate: { $lt: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000) },
+        EndDate: { $gt: new Date() },
+      })
+      .toArray();
+    let partyListings = [];
+    await parties.map((party) => {
+      partyListings.push(party);
+    });
+
+    // Return the parties
+    res.writeHead(200, { "Content-Type": "application/json" });
+    res.end(JSON.stringify(partyListings));
+  } catch (error) {
+    console.log("error", error);
+    // Handle any errors that might occur during the fetch operation
     res.writeHead(500, { "Content-Type": "application/json" });
     res.end(JSON.stringify({ error: "Internal Server Error" }));
   }

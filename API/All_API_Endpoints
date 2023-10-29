@@ -33,3 +33,14 @@ PLEASE DOCUMENT ALL API ENDPOINTS AND WHAT THEY DO HERE:
 - Error Handling: 
   - If either the user_id or host_id parameters are missing, a 400 Bad Request error is returned.
   - If an internal server error occurs, a 500 Internal Server Error is returned.
+
+
+4. Get Parties based on zip code location
+- Endpoint: /map?location=zip_code
+- Method: GET
+- Parameters: 
+  - location (query parameter)
+- Functionality: This endpoint retrieves all parties within a 5 mile radius of the provided zip code.
+- Error Handling: 
+  - If the location parameter is missing, a 400 Bad Request error is returned.
+  - If an internal server error occurs, a 500 Internal Server Error is returned.
