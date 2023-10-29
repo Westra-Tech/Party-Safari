@@ -1,4 +1,5 @@
 const listingHTML = (
+  id,
   price,
   title,
   description,
@@ -20,7 +21,7 @@ const listingHTML = (
                         class="img-fluid">
                     <div class="rate-info">
                         <h5>$${price}</h5>
-                        <span>For Rent</span>
+                        <span>Party</span>
                     </div>
                 </div>
             </a>
@@ -38,7 +39,7 @@ const listingHTML = (
                 <p>${description}</p>
             </div>
             <div class="card-footer">
-                <a href="#" class="pull-left">
+                <a class="pull-left" onclick="favoriteParty('${id}')">
                     <i class="la la-heart-o"></i>
                 </a>
                 <a href="#" class="pull-right">
@@ -57,6 +58,7 @@ function loadSidebarListings(listings) {
   console.log("typeof", listings, typeof listings);
   listings.map((listing) => {
     sidebarListingsContent += listingHTML(
+      listing._id,
       listing.Price,
       listing.Name,
       listing.Description,
@@ -96,4 +98,20 @@ function formatDate(inputDate) {
   const dateObj = new Date(inputDate);
   const formattedDate = dateObj.toLocaleDateString("en-US", options);
   return formattedDate;
+}
+
+function toggleFavErrorModal(show) {
+  $("#errorFavModal").modal("show");
+}
+
+function favoriteParty(party_id) {
+  console.log(party_id);
+  // if there are no users logged in, show error modal
+  if (isLoggedIn) {
+    toggleFavErrorModal(true);
+  }
+}
+
+function isLoggedIn() {
+  return false;
 }
