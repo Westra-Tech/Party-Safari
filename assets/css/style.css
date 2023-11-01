@@ -518,7 +518,7 @@ header.pb .menu-button span {
 }
 
 .sbmt-btn:hover {
-  background-color: rgba(106, 123, 231, 0.8);
+  background-color: rgba(108, 215, 244, 0.8);
 }
 .sbmt-btn {
   position: relative;
@@ -697,7 +697,7 @@ header.pb .menu-button span {
   z-index: 99;
 }
 .banner-search .btn:hover {
-  background-color: rgba(106, 123, 231, 0.8);
+  background-color: rgba(108, 215, 244, 0.8);
 }
 .banner-search .btn i {
   margin-right: 8px;
@@ -879,7 +879,7 @@ header.pb .menu-button span {
 .view-btn:hover,
 .view-btn:focus,
 .view-btn.active {
-  background: rgba(106, 123, 231, 0.8);
+  background: rgba(108, 215, 244, 0.8);
   color: #fff;
   border-color: transparent;
   box-shadow: inherit;
@@ -1006,7 +1006,7 @@ header.pb .menu-button span {
   left: 0;
   width: 50%;
   height: 100%;
-  background: rgba(106, 123, 231, 0.8);
+  background: rgba(108, 215, 244, 0.8);
   opacity: 0;
   visibility: hidden;
 }
@@ -1077,7 +1077,7 @@ header.pb .menu-button span {
   right: 0;
   top: 0;
   bottom: 0;
-  background: rgba(106, 123, 231, 0.8);
+  background: rgba(108, 215, 244, 0.8);
   opacity: 0;
 }
 .card .card-body {
@@ -1252,7 +1252,7 @@ header.pb .menu-button span {
   right: 0;
   top: 0;
   bottom: 0;
-  background: rgba(106, 123, 231, 0.8);
+  background: rgba(108, 215, 244, 0.8);
   opacity: 0;
 }
 .popular-cities .card::after {

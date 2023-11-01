@@ -1,12 +1,15 @@
 // This file will contain the logic for handling each API request.
-// Required modules
-const { MongoClient } = require("mongodb");
-
 // Initialize the MongoDB client
-const mongoClient = new MongoClient(
-  "mongodb+srv://MapUser:7DoUXjEodleBvqkZ@atlascluster.bvzvel0.mongodb.net/"
-);
-//mongoapikey rCEuML281QoOjSLAEpJxDmjD8Yq0J61AG8Wru3dGbkrBH3chhNWlJQYR61SrxnUi
+require("dotenv").config();
+const { MongoClient, ServerApiVersion } = require("mongodb");
+const uri = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_USER_PASSWORD}@atlascluster.bvzvel0.mongodb.net/?retryWrites=true&w=majority`;
+const mongoClient = new MongoClient(uri, {
+  serverApi: {
+    version: ServerApiVersion.v1,
+    strict: true,
+    deprecationErrors: true,
+  },
+});
 let partyListingCollection;
 let favoritesCollection;
 
@@ -14,7 +17,8 @@ let favoritesCollection;
 exports.dbConnect = () => {
   const db = mongoClient.db("Map");
   partyListingCollection = db.collection("Parties");
-  favoritesCollection = db.collection("favorites");
+
+  favoritesCollection = db.collection("Favorites");
 };
 
 /**
