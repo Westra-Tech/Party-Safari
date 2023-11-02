@@ -1,3 +1,35 @@
+/**
+ * map.js
+ * -------
+ * Overview:
+ * Initializes a map using Google Maps API and populates it with markers
+ * representing parties sourced from a local backend.
+ *
+ * Inputs:
+ * 1. `zoom`: Value read from the "data-map-zoom" attribute of the #map HTML element.
+ * 2. Default map position coordinates (latitude and longitude).
+ * 3. Party data from the database, fetched from the backend using the specified endpoint.
+ *
+ * Outputs:
+ * 1. A fully initialized map displayed on the frontend with markers for each party.
+ * 2. Each marker either directly uses provided lat-long values or resolves the location
+ *    from the party's address if lat-long isn't provided.
+ *
+ * API Calls:
+ * 1. Google Maps API:
+ *    - Used to initialize the map, create markers, and geocode addresses.
+ *    - Library imports: "maps" for basic map functionalities and "marker" for advanced marker elements.
+ * 2. Backend API:
+ *    - Endpoint: "http://localhost:3000/map?location=08901"
+ *    - Purpose: Fetch all parties associated with a given location.
+ *
+ * Functions Defined:
+ * 1. `initMap()`: Initializes the map and fetches data to place markers.
+ * 2. `addMarkersToMap(markers)`: Populates the map with markers using the provided data.
+ * 3. `createNewMarker()`: Creates a new marker element with a custom icon.
+ * 4. `geocodeAddress(address)`: Converts an address into geographical coordinates.
+ */
+
 var map;
 
 async function initMap() {

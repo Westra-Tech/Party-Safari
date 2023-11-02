@@ -199,3 +199,71 @@ exports.getPartyListingsByLocation = async (req, res, location) => {
     res.end(JSON.stringify({ error: "Internal Server Error" }));
   }
 };
+
+exports.getPartyListingsByFilters = async (
+  req,
+  res,
+  start_time,
+  end_time,
+  min_price,
+  max_price,
+  host,
+  sort_by,
+  page,
+  limit
+) => {
+  try {
+    // Build the query object based on the provided filters
+    let query = {};
+    if (start_time && end_time) {
+      query.StartDate = { $gte: new Date(start_time) };
+      query.EndDate = { $lte: new Date(end_time) };
+    }
+    if (min_price && max_price) {
+      query.Price = { $gte: Number(min_price), $lte: Number(max_price) };
+    }
+    if (host) {
+      query.Host = { $regex: new RegExp(host, "i") };
+    }
+
+    // Build the sort object based on the provided sort_by parameter
+    let sort = {};
+    if (sort_by) {
+      const [field, order] = sort_by.split("_");
+      sort[field] = order === "desc" ? -1 : 1;
+    }
+
+    // Calculate the number of items to skip for pagination
+    let skip = 0;
+    if (page && limit) {
+      skip = (Number(page) - 1) * Number(limit);
+    }
+
+    // Fetch the total number of parties that match the filters
+    const totalParties = await partyListingCollection.countDocuments(query);
+
+    // Fetch the parties for the current page
+    const parties = await partyListingCollection
+      .find(query)
+      .sort(sort)
+      .skip(skip)
+      .limit(Number(limit))
+      .toArray();
+
+    // Return the parties along with the pagination data
+    res.writeHead(200, { "Content-Type": "application/json" });
+    res.end(
+      JSON.stringify({
+        parties: parties,
+        pagination: {
+          totalParties: totalParties,
+          currentPage: page ? Number(page) : 1,
+          totalPages: limit ? Math.ceil(totalParties / Number(limit)) : 1,
+        },
+      })
+    );
+  } catch (error) {
+    res.writeHead(500, { "Content-Type": "application/json" });
+    res.end(JSON.stringify({ error: "Internal Server Error" }));
+  }
+};

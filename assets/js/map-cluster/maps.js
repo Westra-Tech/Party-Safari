@@ -1,4 +1,33 @@
-!(function (event) {
+/*
+// Important Variables
+  var infobox;  // InfoBox for displaying information about listings
+  var listings; // Array containing information about listings
+  var datamapzoom; // Zoom level for the map
+  var datamapscroll; // Whether map scrolling is enabled
+  var n; // Parsed zoom level
+  var r; // Parsed map scroll setting
+  var m; // Google Maps Map object
+  var g; // Container for infobox content
+  var p, c; // Variables used for listing markers
+  var d; // InfoBox options
+  var allListingsNew = []; // Array to store listing markers
+  var u; // Zoom control element
+  var v; // Scroll enabling element
+  var i; // Single listing map element
+
+// Functions
+  function setupMap() { ... } // Initializes the Google Map and sets up markers
+  function newListing(e, t, o, l, i, s) { ... } // Generates HTML for listing markers
+  function markerobj(e, t, o, l) { ... } // Constructor for listing markers
+  function setIconsOnMap() { ... } // Sets up a map for a single listing with custom icons
+  function overlayView(e, t, o, l) { ... } // Constructor for custom overlay markers
+
+APIs used:
+
+  Google Maps JavaScript API
+  MarkerClusterer library (used for marker clustering)
+
+*/!(function (event) {
   "use strict";
   function setupMap() {
     var infobox = new InfoBox();

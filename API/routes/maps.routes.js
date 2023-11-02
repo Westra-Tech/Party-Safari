@@ -37,6 +37,22 @@ function handleRequest(req, res) {
     req.method === "DELETE"
   ) {
     mapController.removeHostFromFavorites(req, res);
+  } else if (
+    parsedUrl.pathname === "/map/party_listings_by_filters" &&
+    req.method === "GET"
+  ) {
+    mapController.getPartyListingsByFilters(
+      req,
+      res,
+      parsedUrl.searchParams.get("start_time"),
+      parsedUrl.searchParams.get("end_time"),
+      parsedUrl.searchParams.get("min_price"),
+      parsedUrl.searchParams.get("max_price"),
+      parsedUrl.searchParams.get("host"),
+      parsedUrl.searchParams.get("sort_by"),
+      parsedUrl.searchParams.get("page"),
+      parsedUrl.searchParams.get("limit")
+    );
   } else {
     // Handle 404 Not Found
     console.log("404 Not Found");
