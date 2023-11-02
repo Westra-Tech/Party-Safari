@@ -1,6 +1,7 @@
 // This file will contain the logic for handling each API request.
 // Initialize the MongoDB client
 require("dotenv").config();
+const { ObjectId } = require("mongodb");
 const { MongoClient, ServerApiVersion } = require("mongodb");
 const uri = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_USER_PASSWORD}@atlascluster.bvzvel0.mongodb.net/?retryWrites=true&w=majority`;
 const mongoClient = new MongoClient(uri, {
@@ -26,9 +27,7 @@ exports.dbConnect = () => {
  * @param {Object} req - The incoming request object.
  * @param {Object} res - The response object.
  */
-exports.getPartyDetails = async (req, res) => {
-  const party_id = req.query.party;
-
+exports.getPartyDetails = async (req, res, party_id) => {
   // Validate the presence of the 'party_id' parameter
   if (!party_id) {
     res.writeHead(400, { "Content-Type": "application/json" });
@@ -37,7 +36,9 @@ exports.getPartyDetails = async (req, res) => {
 
   try {
     // Fetch the party details using the provided 'party_id'
-    const party = await partyListingCollection.findOne({ _id: party_id });
+    const party = await partyListingCollection.findOne({
+      _id: new ObjectId(party_id),
+    });
 
     // If party not found, return 404 error
     if (!party) {

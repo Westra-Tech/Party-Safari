@@ -14,7 +14,7 @@ const listingHTML = (
   return `
     <div class="col-lg-6 col-md-6">
         <div class="card">
-            <a href="24_Property_Single.html" title="">
+            <a href="partyDetail.html?party_id=${id}" title="">
                 <div class="img-block">
                     <div class="overlay"></div>
                     <img src="assets/images/listing/1.jpg" alt=""
@@ -26,7 +26,7 @@ const listingHTML = (
                 </div>
             </a>
             <div class="card-body">
-                <a href="partyInfo.html" title="">
+                <a href="partyDetail.html" title="">
                     <h3>${title}</h3>
                     <p>
                         <i class="la la-map-marker"></i>${addressLine}, ${city}, ${state} ${zip}
@@ -47,7 +47,7 @@ const listingHTML = (
                       startTime
                     )}</a>
             </div>
-            <a href="24_Property_Single.html" title="" class="ext-link"></a>
+            <a href="partyDetail.html" title="" class="ext-link"></a>
         </div>
     </div>`;
 };
@@ -66,7 +66,7 @@ function loadSidebarListings(listings) {
       listing.City,
       listing.Zip,
       listing.State,
-      listing.Host,
+      listing.HostName,
       listing.StartDate,
       listing.EndDate
     );

@@ -22,7 +22,11 @@ function handleRequest(req, res) {
     parsedUrl.pathname === "/map/party_listings" &&
     req.method === "GET"
   ) {
-    mapController.getPartyDetails(req, res);
+    mapController.getPartyDetails(
+      req,
+      res,
+      parsedUrl.searchParams.get("party_id")
+    );
   } else if (
     parsedUrl.pathname === "/map/favorites" &&
     req.method === "PATCH"
