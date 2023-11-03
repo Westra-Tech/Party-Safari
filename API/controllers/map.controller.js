@@ -179,7 +179,12 @@ exports.getPartyListingsByLocation = async (req, res, location) => {
     // find parties with zip code same as location, and time is within next 3 days
     const parties = await partyListingCollection
       .find({
-        Zip: location,
+        $or: [
+          { AddressLine1: location },
+          { Zip: location },
+          { State: location },
+          { City: location },
+        ],
         StartDate: { $lt: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000) },
         EndDate: { $gt: new Date() },
       })

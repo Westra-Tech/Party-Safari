@@ -1,8 +1,8 @@
 // gets the map data for the location
-function fetchMapDataForLocation(location) {
-  return fetch("http://localhost:3000/api/map?location=" + location)
-    .then((response) => response.json())
-    .then((data) => {
-      return data;
-    });
+async function fetchMapDataForLocation(location) {
+  return fetch("http://localhost:3000/map?location=" + location);
+}
+
+async function getPartyUsingID(id) {
+  return fetch("http://localhost:3000/map/party_listings?party_id=" + id);
 }
