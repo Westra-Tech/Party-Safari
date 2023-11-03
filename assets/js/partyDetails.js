@@ -1,7 +1,6 @@
 var queryString = window.location.search;
 var urlParams = new URLSearchParams(queryString);
 var id = urlParams.get("party_id");
-console.log(id);
 
 // Display the received data on the page
 

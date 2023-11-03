@@ -104,7 +104,6 @@ function toggleFavErrorModal(show) {
 }
 
 function favoriteParty(party_id) {
-  console.log(party_id);
   // if there are no users logged in, show error modal
   if (isLoggedIn) {
     toggleFavErrorModal(true);

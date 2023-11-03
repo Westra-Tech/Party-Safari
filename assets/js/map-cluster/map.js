@@ -67,6 +67,9 @@ async function addMarkersToMap(markers) {
           content: createNewMarker(),
           title: marker.Name,
         });
+        faMarker.addListener("click", () => {
+          window.location.href = "partyDetail.html?party_id=" + marker._id;
+        });
         allMarkers.push(faMarker);
       });
     } else {
@@ -76,6 +79,9 @@ async function addMarkersToMap(markers) {
         position: latlng,
         content: createNewMarker(),
         title: marker.Name,
+      });
+      faMarker.addListener("click", () => {
+        window.location.href = "partyDetail.html?party_id=" + marker._id;
       });
       allMarkers.push(faMarker);
     }
