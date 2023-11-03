@@ -1,8 +1,42 @@
-$(document).ready(function () {
-  $('[data-provide="datepicker"]').datepicker({
-    format: "yyyy-mm-dd",
-  });
-});
+// document
+//   .getElementById("searchFilterSubmit")
+//   .addEventListener("click", function () {
+//     console.log("searchFilterSubmit clicked");
+//     var formData = new FormData(event.target);
+//     var searchParams = new URLSearchParams(formData).toString();
+//     console.log("searchParams", searchParams);
+//     fetch("http:localhost:3000/map/party_listings_by_filters?" + searchParams)
+//       .then((response) => response.json())
+//       .then((data) => {
+//         // Update the sidebar with the new parties
+//         loadSidebarListings(data.parties);
+//         console.log("parties: ", data.parties);
+//         // Update the map markers with the new parties
+//         initMap(data.parties);
+//       })
+//       .catch((error) => {
+//         console.error("Error:", error);
+//       });
+//   });
+
+// function submitSearch() {
+//   console.log("searchFilterSubmit clicked");
+//   var formData = new FormData(event.target);
+//   var searchParams = new URLSearchParams(formData).toString();
+//   console.log("searchParams", searchParams);
+//   fetch("http:localhost:3000/map/party_listings_by_filters?" + searchParams)
+//     .then((response) => response.json())
+//     .then((data) => {
+//       // Update the sidebar with the new parties
+//       loadSidebarListings(data.parties);
+//       console.log("parties: ", data.parties);
+//       // Update the map markers with the new parties
+//       initMap(data.parties);
+//     })
+//     .catch((error) => {
+//       console.error("Error:", error);
+//     });
+// }
 
 // Handle form submission: send form data to endpoint and send response to map.js and sidebarListings.js
 document
@@ -12,15 +46,17 @@ document
 
     var formData = new FormData(event.target);
     var searchParams = new URLSearchParams(formData).toString();
-
-    fetch("/map/party_listings_by_filters?" + searchParams)
+    console.log("searchParams", searchParams);
+    fetch("http:localhost:3000/map/party_listings_by_filters?" + searchParams)
       .then((response) => response.json())
       .then((data) => {
         // Update the sidebar with the new parties
         loadSidebarListings(data.parties);
-
+        clearAllMarkersFromMap();
+        addMarkersToMap(data.parties);
+        console.log("parties: ", data.parties);
         // Update the map markers with the new parties
-        initMap(data.parties);
+        // initMap(data.parties);
       })
       .catch((error) => {
         console.error("Error:", error);

@@ -44,8 +44,8 @@ function handleRequest(req, res) {
     mapController.getPartyListingsByFilters(
       req,
       res,
-      parsedUrl.searchParams.get("start_time"),
-      parsedUrl.searchParams.get("end_time"),
+      parsedUrl.searchParams.get("start_date"),
+      parsedUrl.searchParams.get("end_date"),
       parsedUrl.searchParams.get("min_price"),
       parsedUrl.searchParams.get("max_price"),
       parsedUrl.searchParams.get("host"),

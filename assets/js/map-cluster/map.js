@@ -33,45 +33,29 @@
 var map;
 let allMarkers = [];
 
-async function initMap(parties) {
+async function initMap() {
   let zoom = document.getElementById("map").getAttribute("data-map-zoom");
   var defaultPosition = { lat: 40.50165524175918, lng: -74.44824480993542 };
   var defaultZip = "08901";
 
-  // Check if location data exists in localStorage
-  let storedPosition = localStorage.getItem("defaultPosition");
-  let storedZip = localStorage.getItem("defaultZip");
-
-  if (storedPosition && storedZip) {
-    defaultPosition = JSON.parse(storedPosition);
-    defaultZip = storedZip;
-    console.log(
-      "Location loaded from localStorage",
-      defaultPosition,
-      defaultZip
-    );
-  } else {
-    // No data in localStorage, proceed to request user location
-
-    requestUserLocation()
-      .then((position) => {
-        if (position) {
-          defaultPosition = {
-            lat: position.coords.latitude,
-            lng: position.coords.longitude,
-          };
-          defaultZip = position.coords.zip;
-          console.log("defaultPosition", defaultPosition, defaultZip);
-          // Save to localStorage
-          localStorage.setItem(
-            "defaultPosition",
-            JSON.stringify(defaultPosition)
-          );
-          localStorage.setItem("defaultZip", defaultZip);
-        }
-      })
-      .catch((e) => console.log("Error getting user location, denied", e));
-  }
+  requestUserLocation()
+    .then((position) => {
+      if (position) {
+        defaultPosition = {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude,
+        };
+        defaultZip = position.coords.zip;
+        console.log("defaultPosition", defaultPosition, defaultZip);
+        // Save to localStorage
+        localStorage.setItem(
+          "defaultPosition",
+          JSON.stringify(defaultPosition)
+        );
+        localStorage.setItem("defaultZip", defaultZip);
+      }
+    })
+    .catch((e) => console.log("Error getting user location, denied", e));
   const { Map } = await google.maps.importLibrary("maps");
 
   map = new Map(document.getElementById("map"), {
@@ -90,7 +74,6 @@ async function initMap(parties) {
 async function showParties(zip) {
   const response = await fetchMapDataForLocation(zip);
   response.json().then((data) => {
-    console.log(data);
     loadSidebarListings(data);
     addMarkersToMap(data);
   });

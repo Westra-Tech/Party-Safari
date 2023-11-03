@@ -22,9 +22,6 @@ exports.dbConnect = () => {
   favoritesCollection = db.collection("Favorites");
 };
 
-
-
-
 /**
  * Handle request for fetching party details.
  * @param {Object} req - The incoming request object.
@@ -223,15 +220,23 @@ exports.getPartyListingsByFilters = async (
   try {
     // Build the query object based on the provided filters
     let query = {};
-    if (start_time && end_time) {
+    if (start_time) {
       query.StartDate = { $gte: new Date(start_time) };
+    }
+    if (end_time) {
       query.EndDate = { $lte: new Date(end_time) };
     }
-    if (min_price && max_price) {
-      query.Price = { $gte: Number(min_price), $lte: Number(max_price) };
+    if (max_price) {
+      query.Price = {
+        ...query.Price,
+        $gte: Number(min_price),
+        $lte: Number(max_price),
+      };
     }
+    if (min_price) query.Price = { ...query.Price, $gte: Number(min_price) };
+
     if (host) {
-      query.Host = { $regex: new RegExp(host, "i") };
+      query.HostName = { $regex: new RegExp(host, "i") };
     }
 
     // Build the sort object based on the provided sort_by parameter
@@ -248,8 +253,7 @@ exports.getPartyListingsByFilters = async (
     }
 
     // Fetch the total number of parties that match the filters
-    const totalParties = await partyListingCollection.countDocuments(query);
-
+    const totalParties = await partyListingCollection.find(query);
     // Fetch the parties for the current page
     const parties = await partyListingCollection
       .find(query)

@@ -54,7 +54,6 @@ const listingHTML = (
 function loadSidebarListings(listings) {
   var sidebarListings = document.getElementById("sidebarListings");
   var sidebarListingsContent = "";
-  console.log("typeof", listings, typeof listings);
   listings.map((listing) => {
     sidebarListingsContent += listingHTML(
       listing._id,
