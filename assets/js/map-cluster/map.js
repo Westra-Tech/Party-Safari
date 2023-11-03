@@ -35,8 +35,22 @@ let allMarkers = [];
 
 async function initMap(parties) {
   let zoom = document.getElementById("map").getAttribute("data-map-zoom");
+  var defaultPosition = { lat: 40.50165524175918, lng: -74.44824480993542 };
+  var defaultZip = "08901";
 
-  const defaultPosition = { lat: 40.50165524175918, lng: -74.44824480993542 };
+  requestUserLocation()
+    .then((position) => {
+      if (position) {
+        defaultPosition = {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude,
+        };
+        defaultZip = position.coords.zip;
+        console.log("defaultPosition", defaultPosition, defaultZip);
+      }
+    })
+    .catch((e) => console.log("Error getting user location, denied", e));
+
   const { Map } = await google.maps.importLibrary("maps");
 
   map = new Map(document.getElementById("map"), {
@@ -46,12 +60,26 @@ async function initMap(parties) {
     mapId: "a9ad8d72f2c5e145",
     disableDefaultUI: true,
   });
+  initAutocomplete();
 
-  // Clear existing markers
-  clearAllMarkersFromMap();
+  // get all parties from the database
+  await showParties(defaultZip);
+}
 
-  // Add new markers
-  addMarkersToMap(parties);
+async function showParties(zip) {
+  const response = await fetchMapDataForLocation(zip);
+  response.json().then((data) => {
+    console.log(data);
+    loadSidebarListings(data);
+    addMarkersToMap(data);
+  });
+}
+
+function clearAllMarkersFromMap() {
+  allMarkers.map((marker) => {
+    marker.setMap(null);
+  });
+  allMarkers = [];
 }
 
 /* Add Markers to the map
@@ -71,6 +99,9 @@ async function addMarkersToMap(markers) {
           content: createNewMarker(),
           title: marker.Name,
         });
+        faMarker.addListener("click", () => {
+          window.location.href = "partyDetail.html?party_id=" + marker._id;
+        });
         allMarkers.push(faMarker);
       });
     } else {
@@ -80,6 +111,9 @@ async function addMarkersToMap(markers) {
         position: latlng,
         content: createNewMarker(),
         title: marker.Name,
+      });
+      faMarker.addListener("click", () => {
+        window.location.href = "partyDetail.html?party_id=" + marker._id;
       });
       allMarkers.push(faMarker);
     }
@@ -121,5 +155,74 @@ async function geocodeAddress(address) {
   // .catch((e) => console.log("Error trying to geocode address", e));
 }
 
-// Call initMap() without any parties when the page loads
-initMap([]);
+function initAutocomplete() {
+  const input = document.querySelector("#addressSearch");
+  const autocomplete = new google.maps.places.Autocomplete(input);
+  autocomplete.addListener("place_changed", function () {
+    const place = autocomplete.getPlace();
+    if (place.geometry) {
+      map.setCenter(place.geometry.location);
+      console.log("changed place", place);
+
+      let address = "";
+      let city = "";
+
+      place.address_components.forEach((component) => {
+        if (component.types.includes("locality")) {
+          city = component.long_name;
+        }
+        if (component.types.includes("street_number")) {
+          address += component.long_name;
+        }
+        if (component.types.includes("route")) {
+          address += " " + component.long_name;
+        }
+      });
+
+      if (address) {
+        clearAllMarkersFromMap();
+        showParties(address);
+      } else {
+        clearAllMarkersFromMap();
+        showParties(city);
+      }
+    }
+  });
+}
+
+function initAutocomplete() {
+  const input = document.querySelector("#addressSearch");
+  const autocomplete = new google.maps.places.Autocomplete(input);
+  autocomplete.addListener("place_changed", function () {
+    const place = autocomplete.getPlace();
+    if (place.geometry) {
+      map.setCenter(place.geometry.location);
+      console.log("changed place", place);
+
+      let address = "";
+      let city = "";
+
+      place.address_components.forEach((component) => {
+        if (component.types.includes("locality")) {
+          city = component.long_name;
+        }
+        if (component.types.includes("street_number")) {
+          address += component.long_name;
+        }
+        if (component.types.includes("route")) {
+          address += " " + component.long_name;
+        }
+      });
+
+      if (address) {
+        clearAllMarkersFromMap();
+        showParties(address);
+      } else {
+        clearAllMarkersFromMap();
+        showParties(city);
+      }
+    }
+  });
+}
+
+initMap();

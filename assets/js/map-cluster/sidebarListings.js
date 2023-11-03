@@ -17,7 +17,7 @@ const listingHTML = (
             <a href="partyDetail.html?party_id=${id}" title="">
                 <div class="img-block">
                     <div class="overlay"></div>
-                    <img src="assets/images/listing/1.jpg" alt=""
+                    <img src="assets/images/listing/9.jpg" alt=""
                         class="img-fluid">
                     <div class="rate-info">
                         <h5>$${price}</h5>
@@ -26,7 +26,7 @@ const listingHTML = (
                 </div>
             </a>
             <div class="card-body">
-                <a href="partyDetail.html" title="">
+                <a href="partyDetail.html?party_id=${id}" title="">
                     <h3>${title}</h3>
                     <p>
                         <i class="la la-map-marker"></i>${addressLine}, ${city}, ${state} ${zip}
@@ -36,7 +36,6 @@ const listingHTML = (
                     <li>${host}</li>
                     
                 </ul>
-                <p>${description}</p>
             </div>
             <div class="card-footer">
                 <a class="pull-left" onclick="favoriteParty('${id}')">
@@ -47,7 +46,7 @@ const listingHTML = (
                       startTime
                     )}</a>
             </div>
-            <a href="partyDetail.html" title="" class="ext-link"></a>
+            <a href="partyDetail.html?party_id=${id}" title="" class="ext-link"></a>
         </div>
     </div>`;
 };
@@ -105,7 +104,6 @@ function toggleFavErrorModal(show) {
 }
 
 function favoriteParty(party_id) {
-  console.log(party_id);
   // if there are no users logged in, show error modal
   if (isLoggedIn) {
     toggleFavErrorModal(true);
