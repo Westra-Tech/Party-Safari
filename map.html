@@ -1,197 +1,73 @@
-<!doctype html>
+<!DOCTYPE html>
 <html class="no-js" lang="en">
 
-
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
     <title>Party Safari</title>
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
     <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
-    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
+    <!-- Bootstrap datepicker CSS -->
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" />
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
         crossorigin="anonymous"></script>
 
-    <link rel="shortcut icon" href="assets/images/favicon.png">
-    <link rel="stylesheet" href="assets/css/animate.min.css">
-    <link rel="stylesheet" href="assets/css/style.css">
-    <link rel="stylesheet" type="text/css" href="assets/css/responsive.css">
-    <link rel="stylesheet" type="text/css" href="assets/css/color.css">
+    <!-- Bootstrap datepicker JS -->
+    <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+
+    <link rel="shortcut icon" href="assets/images/favicon.png" />
+    <link rel="stylesheet" href="assets/css/animate.min.css" />
+    <link rel="stylesheet" href="assets/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="assets/css/responsive.css" />
+    <link rel="stylesheet" type="text/css" href="assets/css/color.css" />
 </head>
 
 <body>
     <div class="wrapper half_map">
         <section class="half-map-sec">
             <div class="container">
-                <div class="row" style="flex-direction: column-reverse; margin-left:0px; margin-right:0px">
-
+                <div class="row" style="
+              flex-direction: column-reverse;
+              margin-left: 0px;
+              margin-right: 0px;
+            ">
                     <div class="col-xl-6 col-lg-12">
                         <div class="widget-property-search">
-                            <form action="#" class="row banner-search">
+                            <form action="#" class="row banner-search" id="searchForm">
                                 <div class="form_field full">
-                                    <input type="text" class="form-control" id="addressSearch"
-                                        placeholder="Enter Address, City or State">
+                                    <input type="text" class="form-control" name="host" id="addressSearch"
+                                        placeholder="Enter Address, City or State" />
                                 </div>
                                 <div class="form_field">
-                                    <div class="form-group">
-                                        <div class="drop-menu">
-                                            <div class="select">
-                                                <span>Any type</span>
-                                                <i class="fa fa-angle-down"></i>
-                                            </div>
-                                            <input type="hidden" name="gender">
-                                            <ul class="dropeddown">
-                                                <li>For Sale</li>
-                                                <li>For Rent</li>
-                                            </ul>
-                                        </div>
-                                    </div>
+                                    <input type="text" class="form-control" name="start_date" placeholder="Start Date"
+                                        data-provide="datepicker" />
                                 </div>
                                 <div class="form_field">
-                                    <div class="form-group">
-                                        <div class="drop-menu">
-                                            <div class="select">
-                                                <span>Min Price</span>
-                                                <i class="fa fa-angle-down"></i>
-                                            </div>
-                                            <input type="hidden" name="gender">
-                                            <ul class="dropeddown">
-                                                <li>300$</li>
-                                                <li>400$</li>
-                                                <li>500$</li>
-                                                <li>200$</li>
-                                                <li>600$</li>
-                                            </ul>
-                                        </div>
-                                    </div>
+                                    <input type="text" class="form-control" name="min_price" placeholder="Min Price" />
                                 </div>
                                 <div class="form_field">
-                                    <div class="form-group">
-                                        <div class="drop-menu">
-                                            <div class="select">
-                                                <span>Max Price</span>
-                                                <i class="fa fa-angle-down"></i>
-                                            </div>
-                                            <input type="hidden" name="gender">
-                                            <ul class="dropeddown">
-                                                <li>2000</li>
-                                                <li>3000</li>
-                                                <li>4000</li>
-                                                <li>5000</li>
-                                                <li>6000</li>
-                                            </ul>
-                                        </div>
-                                    </div>
+                                    <input type="text" class="form-control" name="max_price" placeholder="Max Price" />
+                                </div>
+                                <div class="form_field"></div>
+                                <div class="form_field">
+                                    <input type="text" class="form-control" name="Host" placeholder="Host Name" />
                                 </div>
                                 <div class="form_field">
-                                    <div class="form-group">
-                                        <div class="drop-menu">
-                                            <div class="select">
-                                                <span>Badrooms</span>
-                                                <i class="fa fa-angle-down"></i>
-                                            </div>
-                                            <input type="hidden" name="gender">
-                                            <ul class="dropeddown">
-                                                <li>1</li>
-                                                <li>2</li>
-                                                <li>3</li>
-                                                <li>4</li>
-                                                <li>5</li>
-                                            </ul>
-                                        </div>
-                                    </div>
+                                    <button type="submit" class="btn btn-outline-primary">
+                                        Search
+                                    </button>
                                 </div>
-                                <div class="feat-srch">
-                                    <div class="more-feat">
-                                        <h3> <i class="la la-cog"></i> Show More Features</h3>
-                                    </div><!--more-feat end-->
-                                    <div class="form_field">
-                                        <a href="#" class="btn btn-outline-primary ">
-                                            <span>Search</span>
-                                        </a>
-                                    </div>
-                                </div><!--more-feat end-->
-                                <div class="features_list">
-                                    <ul>
-                                        <li class="input-field">
-                                            <input type="checkbox" name="bb" id="b1">
-                                            <label for="b1">
-                                                <span></span>
-                                                <small>Parking</small>
-                                            </label>
-                                        </li>
-                                        <li class="input-field">
-                                            <input type="checkbox" name="bb" id="b2">
-                                            <label for="b2">
-                                                <span></span>
-                                                <small>Gym</small>
-                                            </label>
-                                        </li>
-                                        <li class="input-field">
-                                            <input type="checkbox" name="bb" id="b3">
-                                            <label for="b3">
-                                                <span></span>
-                                                <small>Washing Machine</small>
-                                            </label>
-                                        </li>
-                                        <li class="input-field">
-                                            <input type="checkbox" name="bb" id="b4">
-                                            <label for="b4">
-                                                <span></span>
-                                                <small>Elevator</small>
-                                            </label>
-                                        </li>
-                                        <li class="input-field">
-                                            <input type="checkbox" name="bb" id="b5">
-                                            <label for="b5">
-                                                <span></span>
-                                                <small>Storage</small>
-                                            </label>
-                                        </li>
-                                        <li class="input-field">
-                                            <input type="checkbox" name="bb" id="b6">
-                                            <label for="b6">
-                                                <span></span>
-                                                <small>Air Conditioner</small>
-                                            </label>
-                                        </li>
-                                        <li class="input-field">
-                                            <input type="checkbox" name="bb" id="b7">
-                                            <label for="b7">
-                                                <span></span>
-                                                <small>Wireless Internet</small>
-                                            </label>
-                                        </li>
-                                        <li class="input-field">
-                                            <input type="checkbox" name="bb" id="b8">
-                                            <label for="b8">
-                                                <span></span>
-                                                <small>Heating</small>
-                                            </label>
-                                        </li>
-                                        <li class="input-field">
-                                            <input type="checkbox" name="bb" id="b9">
-                                            <label for="b9">
-                                                <span></span>
-                                                <small>Swimming Pool</small>
-                                            </label>
-                                        </li>
-                                        <li class="input-field">
-                                            <input type="checkbox" name="bb" id="b10">
-                                            <label for="b10">
-                                                <span></span>
-                                                <small>Home Theater</small>
-                                            </label>
-                                        </li>
-                                    </ul>
-                                </div>
+                                <input type="hidden" name="sort_by" />
                             </form>
                         </div>
                         <div class="listing-directs">
@@ -203,13 +79,28 @@
                                             <span>Relevant</span>
                                             <i class="la la-caret-down"></i>
                                         </div>
-                                        <input type="hidden" name="gender">
+                                        <input type="hidden" name="sort_by" />
                                         <ul class="dropeddown">
-                                            <li>For Sale</li>
-                                            <li>For Rent</li>
+                                            <li data-value="Price_asc">Price (Low to High)</li>
+                                            <li data-value="Price_desc">Price (High to Low)</li>
+                                            <li data-value="StartDate_asc">
+                                                Start Date (Earliest to Latest)
+                                            </li>
+                                            <li data-value="StartDate_desc">
+                                                Start Date (Latest to Earliest)
+                                            </li>
+                                            <li data-value="EndDate_asc">
+                                                End Date (Earliest to Latest)
+                                            </li>
+                                            <li data-value="EndDate_desc">
+                                                End Date (Latest to Earliest)
+                                            </li>
+                                            <li data-value="Host_asc">Host (A to Z)</li>
+                                            <li data-value="Host_desc">Host (Z to A)</li>
                                         </ul>
                                     </div>
-                                </div><!--sortby end-->
+                                </div>
+                                <!--sortby end-->
                                 <div class="view-change">
                                     <ul class="nav nav-tabs" id="myTab" role="tablist">
                                         <li class="nav-item">
@@ -223,41 +114,50 @@
                                                     class="la la-th-list"></i></a>
                                         </li>
                                     </ul>
-                                </div><!--view-change end-->
+                                </div>
+                                <!--view-change end-->
                             </div>
+
                             <div class="tab-content" id="myTabContent">
                                 <div class="tab-pane fade show active" id="grid-view-tab1" role="tabpanel"
                                     aria-labelledby="grid-view-tab1">
                                     <div class="list_products">
-                                        <div class="row" id="sidebarListings">
-                                        </div>
+                                        <div class="row" id="sidebarListings"></div>
                                     </div>
-
                                 </div>
-
                             </div>
-
+                            <button id="prevPageButton" class="btn btn-outline-primary">
+                                Previous Page
+                            </button>
+                            <button id="nextPageButton" class="btn btn-outline-primary">
+                                Next Page
+                            </button>
                             <!-- Modal -->
                             <div class="modal fade" id="errorFavModal" tabindex="-1"
                                 aria-labelledby="errorFavModalLabel" aria-hidden="true">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h1 class="modal-title" id="errorFavModalLabel">Error Adding to Favorites
+                                            <h1 class="modal-title" id="errorFavModalLabel">
+                                                Error Adding to Favorites
                                             </h1>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                 aria-label="Close"></button>
                                         </div>
-                                        <div class="modal-body"
-                                            style="color:black; display:flex;flex-direction: column; align-items: center;">
-                                            <i class='bx bxs-error-circle bx-tada bx-flip-horizontal'
-                                                style='color:#e5142e; font-size:5em'></i>
-                                            <p>Please Login/Register to add to favorites
-                                            </p>
+                                        <div class="modal-body" style="
+                          color: black;
+                          display: flex;
+                          flex-direction: column;
+                          align-items: center;
+                        ">
+                                            <i class="bx bxs-error-circle bx-tada bx-flip-horizontal"
+                                                style="color: #e5142e; font-size: 5em"></i>
+                                            <p>Please Login/Register to add to favorites</p>
                                         </div>
                                         <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary"
-                                                data-bs-dismiss="modal">Close</button>
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                                Close
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
@@ -275,26 +175,62 @@
                                     </li>
                                 </ul>
                             </nav> -->
-                        </div><!--listing-directs end-->
+                        </div>
+                        <!--listing-directs end-->
                     </div>
                     <div class="col-xl-6 col-lg-12">
                         <div id="map-container" class="fullwidth-home-map">
                             <div id="map" data-map-zoom="15"></div>
                         </div>
                     </div>
-
                 </div>
             </div>
-        </section><!--half-map-sec end-->
-
-    </div><!--wrapper end-->
+        </section>
+        <!--half-map-sec end-->
+    </div>
+    <!--wrapper end-->
 
     <script src="assets/js/jquery-3.3.1.min.js"></script>
     <script src="assets/js/bootstrap.min.js"></script>
 
     <!-- Generic Google Maps API required function (called by the callback parameter in the script tag above) -->
-    <script>(g => { var h, a, k, p = "The Google Maps JavaScript API", c = "google", l = "importLibrary", q = "__ib__", m = document, b = window; b = b[c] || (b[c] = {}); var d = b.maps || (b.maps = {}), r = new Set, e = new URLSearchParams, u = () => h || (h = new Promise(async (f, n) => { await (a = m.createElement("script")); e.set("libraries", [...r] + ""); for (k in g) e.set(k.replace(/[A-Z]/g, t => "_" + t[0].toLowerCase()), g[k]); e.set("callback", c + ".maps." + q); a.src = `https://maps.${c}apis.com/maps/api/js?` + e; d[q] = f; a.onerror = () => h = n(Error(p + " could not load.")); a.nonce = m.querySelector("script[nonce]")?.nonce || ""; m.head.append(a) })); d[l] ? console.warn(p + " only loads once. Ignoring:", g) : d[l] = (f, ...n) => r.add(f) && u().then(() => d[l](f, ...n)) })
-            ({ key: "AIzaSyDj7ZKjp59zvl952KxV8bxrmtRQr0QdMmk", v: "beta" });</script>
+    <script>
+        ((g) => {
+            var h,
+                a,
+                k,
+                p = "The Google Maps JavaScript API",
+                c = "google",
+                l = "importLibrary",
+                q = "__ib__",
+                m = document,
+                b = window;
+            b = b[c] || (b[c] = {});
+            var d = b.maps || (b.maps = {}),
+                r = new Set(),
+                e = new URLSearchParams(),
+                u = () =>
+                    h ||
+                    (h = new Promise(async (f, n) => {
+                        await (a = m.createElement("script"));
+                        e.set("libraries", [...r] + "");
+                        for (k in g)
+                            e.set(
+                                k.replace(/[A-Z]/g, (t) => "_" + t[0].toLowerCase()),
+                                g[k]
+                            );
+                        e.set("callback", c + ".maps." + q);
+                        a.src = `https://maps.${c}apis.com/maps/api/js?` + e;
+                        d[q] = f;
+                        a.onerror = () => (h = n(Error(p + " could not load.")));
+                        a.nonce = m.querySelector("script[nonce]")?.nonce || "";
+                        m.head.append(a);
+                    }));
+            d[l]
+                ? console.warn(p + " only loads once. Ignoring:", g)
+                : (d[l] = (f, ...n) => r.add(f) && u().then(() => d[l](f, ...n)));
+        })({ key: "AIzaSyDj7ZKjp59zvl952KxV8bxrmtRQr0QdMmk", v: "beta" });
+    </script>
     <script
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDj7ZKjp59zvl952KxV8bxrmtRQr0QdMmk&libraries=places&callback=initAutocomplete">
         </script>
@@ -306,9 +242,6 @@
     <script src="assets/js/map-cluster/map.js"></script>
     <script src="assets/js/map-cluster/sidebarListings.js"></script>
     <script src="assets/js/searchFilter.js"></script>
-
-
-
 
 
 </body>

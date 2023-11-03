@@ -4,6 +4,11 @@ const handleMapRequests = require("./routes/maps.routes.js");
 const handlePartyRequests = require("./routes/party.routes.js");
 
 const server = http.createServer((req, res) => {
+  
+  // Log incoming requests
+  console.log(`Incoming request: ${req.method} ${req.url}`);
+  
+
   // Enable CORS - Allow all origins
   res.setHeader("Access-Control-Allow-Origin", "*"); // Allow all origins
 

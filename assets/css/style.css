@@ -248,6 +248,11 @@ select:focus {
   box-shadow: none;
 }
 
+#sidebarListings {
+  overflow-y: auto;
+  height: 100vh; /* We should adjust this value*/
+}
+
 /* ================================================================================== 
                               CROSS BROWSER COMPATABILITY
 ===================================================================================== */
