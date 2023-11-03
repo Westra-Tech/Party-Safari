@@ -30,12 +30,45 @@ function loadPartyDetails(data) {
 
   var hostDescription = document.getElementById("hostDescription");
   hostDescription.textContent = data.HostDescription;
+
+  var alcoholPolicy = document.getElementById("alcoholPolicy");
+  alcoholPolicy.textContent = data.AlcoholPolicy;
+
+  var capacity = document.getElementById("capacity");
+  capacity.textContent = data.PersonCapacity;
+
+  var dressCode = document.getElementById("dressCode");
+  dressCode.textContent = data.DressCode;
+
+  var startTime = document.getElementById("startDatetime");
+  startTime.textContent = formatDate(data.StartDate);
+
+  var endTime = document.getElementById("endDatetime");
+  endTime.textContent = formatDate(data.EndDate);
+
+  var partyTheme = document.getElementById("partyTheme");
+  partyTheme.textContent = data.Theme;
+}
+// format date as mm/dd/yyyy hh:mm AM/PM
+function formatDate(date) {
+  var d = new Date(date);
+  var hours = d.getHours();
+  var minutes = d.getMinutes();
+  var ampm = hours >= 12 ? "PM" : "AM";
+  var month = d.getMonth() + 1;
+  var day = d.getDate();
+  var year = d.getFullYear();
+  hours = hours % 12;
+  hours = hours ? hours : 12;
+  minutes = minutes < 10 ? "0" + minutes : minutes;
+
+  var strTime =
+    month + "/" + day + "/" + year + " " + hours + ":" + minutes + " " + ampm;
+  return strTime;
 }
 
 async function getPartyWithID(id) {
-  const response = await fetch(
-    `http://localhost:3000/map/party_listings?party_id=${id}`
-  );
+  const response = await getPartyUsingID(id);
   const party = await response.json();
   return party;
 }
