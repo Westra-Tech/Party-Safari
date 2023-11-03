@@ -31,8 +31,9 @@
  */
 
 var map;
+let allMarkers = [];
 
-async function initMap() {
+async function initMap(parties) {
   let zoom = document.getElementById("map").getAttribute("data-map-zoom");
 
   const defaultPosition = { lat: 40.50165524175918, lng: -74.44824480993542 };
@@ -46,13 +47,11 @@ async function initMap() {
     disableDefaultUI: true,
   });
 
-  // get all parties from the database
-  const response = await fetch("http://localhost:3000/map?location=08901");
-  response.json().then((data) => {
-    console.log(data);
-    loadSidebarListings(data);
-    addMarkersToMap(data);
-  });
+  // Clear existing markers
+  clearAllMarkersFromMap();
+
+  // Add new markers
+  addMarkersToMap(parties);
 }
 
 /* Add Markers to the map
@@ -61,7 +60,6 @@ async function initMap() {
 async function addMarkersToMap(markers) {
   const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
   let latlng;
-  let allMarkers = [];
 
   markers.map((marker) => {
     if (!marker.Latitude || !marker.Longitude) {
@@ -86,6 +84,13 @@ async function addMarkersToMap(markers) {
       allMarkers.push(faMarker);
     }
   });
+}
+
+function clearAllMarkersFromMap() {
+  for (let i = 0; i < allMarkers.length; i++) {
+    allMarkers[i].setMap(null);
+  }
+  allMarkers = [];
 }
 
 function createNewMarker() {
@@ -116,4 +121,5 @@ async function geocodeAddress(address) {
   // .catch((e) => console.log("Error trying to geocode address", e));
 }
 
-initMap();
+// Call initMap() without any parties when the page loads
+initMap([]);

@@ -22,6 +22,9 @@ exports.dbConnect = () => {
   favoritesCollection = db.collection("Favorites");
 };
 
+
+
+
 /**
  * Handle request for fetching party details.
  * @param {Object} req - The incoming request object.
