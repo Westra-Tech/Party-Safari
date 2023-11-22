@@ -4,7 +4,8 @@
   "description": "find partys near you",
   "main": "map.html",
   "scripts": {
-    "test": "jasmine"
+    "test": "jasmine",
+    "start": "node API/server.js"
   },
   "repository": {
     "type": "git",
