@@ -1,10 +1,16 @@
-import { defineConfig } from 'astro/config';
-
+import { defineConfig } from "astro/config";
 import svelte from "@astrojs/svelte";
-import prefetch from "@astrojs/prefetch";
 import tailwind from "@astrojs/tailwind";
+
+import cloudflare from "@astrojs/cloudflare";
 
 // https://astro.build/config
 export default defineConfig({
-  integrations: [svelte(), prefetch(), tailwind()]
+  integrations: [svelte(), tailwind()],
+  prefetch: {
+    prefetchAll: true
+  },
+  site: "https://party-safari.westra.tech",
+  output: "server",
+  adapter: cloudflare()
 });
