@@ -20,7 +20,7 @@
  *    - Used to initialize the map, create markers, and geocode addresses.
  *    - Library imports: "maps" for basic map functionalities and "marker" for advanced marker elements.
  * 2. Backend API:
- *    - Endpoint: "http://localhost:3000/map?location=08901"
+ *    - Endpoint: "http://localhost:8000/map?location=08901"
  *    - Purpose: Fetch all parties associated with a given location.
  *
  * Functions Defined:
@@ -74,6 +74,7 @@ async function initMap() {
 async function showParties(zip) {
   const response = await fetchMapDataForLocation(zip);
   response.json().then((data) => {
+    console.log("mydata", data);
     loadSidebarListings(data);
     addMarkersToMap(data);
   });
@@ -103,9 +104,10 @@ async function addMarkersToMap(markers) {
           content: createNewMarker(),
           title: marker.Name,
         });
-        faMarker.addListener("click", () => {
-          window.location.href = "partyDetail.html?party_id=" + marker._id;
-        });
+        // faMarker.addListener("click", () => {
+        //   window.location.href = "partyDetail.html?party_id=" + marker._id;
+        // });
+        addInfoBox(faMarker, marker);
         allMarkers.push(faMarker);
       });
     } else {
@@ -116,9 +118,10 @@ async function addMarkersToMap(markers) {
         content: createNewMarker(),
         title: marker.Name,
       });
-      faMarker.addListener("click", () => {
-        window.location.href = "partyDetail.html?party_id=" + marker._id;
-      });
+      // faMarker.addListener("click", () => {
+      //   window.location.href = "partyDetail.html?party_id=" + marker._id;
+      // });
+      addInfoBox(faMarker, marker);
       allMarkers.push(faMarker);
     }
   });
@@ -131,6 +134,32 @@ function clearAllMarkersFromMap() {
   allMarkers = [];
 }
 
+function addInfoBox(marker, markerData) {
+  const infoWindow = new google.maps.InfoWindow({
+    content:
+      "<div class='infoBox'><div class='map-box'><a href='partyDetail.html?party_id=" +
+      markerData._id +
+      "' class='listing-img-container'><img src='assets/images/listing/9.jpg' alt=''><div class='rate-info'> <h5>$550.000</h5> <span>New Party</span> </div><div class='listing-item-content'><h3>" +
+      markerData.Name +
+      "</h3><span><i class='la la-map-marker'></i>" +
+      markerData.AddressLine1 +
+      "</span></div></a></div></div>",
+  });
+
+  //<div class='infoBox-close' onclick='closePopupWindow()'><i class='fa fa-times'></i></div>
+  marker.addListener("click", () => {
+    console.log("mouseover");
+    infoWindow.open({ anchor: marker, map, shouldFocus: true });
+  });
+  marker.addListener("mouseout", () => {
+    infoWindow.close();
+  });
+  infoWindow.addListener("closeclick", () => {
+    console.log("closing");
+    infoWindow.close();
+  });
+}
+
 function createNewMarker() {
   const iconContainer = document.createElement("div");
   const icon = '<i class="bx bx-party"></i>';
@@ -141,6 +170,7 @@ function createNewMarker() {
     '</div><div class="back face">' +
     icon +
     '</div><div class="marker-arrow"></div></div></div>';
+
   return iconContainer;
 }
 
@@ -157,41 +187,6 @@ async function geocodeAddress(address) {
   // return results.results[0].geometry.location;
   // })
   // .catch((e) => console.log("Error trying to geocode address", e));
-}
-
-function initAutocomplete() {
-  const input = document.querySelector("#addressSearch");
-  const autocomplete = new google.maps.places.Autocomplete(input);
-  autocomplete.addListener("place_changed", function () {
-    const place = autocomplete.getPlace();
-    if (place.geometry) {
-      map.setCenter(place.geometry.location);
-      console.log("changed place", place);
-
-      let address = "";
-      let city = "";
-
-      place.address_components.forEach((component) => {
-        if (component.types.includes("locality")) {
-          city = component.long_name;
-        }
-        if (component.types.includes("street_number")) {
-          address += component.long_name;
-        }
-        if (component.types.includes("route")) {
-          address += " " + component.long_name;
-        }
-      });
-
-      if (address) {
-        clearAllMarkersFromMap();
-        showParties(address);
-      } else {
-        clearAllMarkersFromMap();
-        showParties(city);
-      }
-    }
-  });
 }
 
 function initAutocomplete() {

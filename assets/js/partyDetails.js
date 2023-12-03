@@ -7,6 +7,7 @@ var id = urlParams.get("party_id");
 const partyDetails = getPartyWithID(id);
 
 partyDetails.then((data) => {
+  if (!data || !id) window.location.href = "404.html";
   loadPartyDetails(data);
 });
 
@@ -70,4 +71,7 @@ async function getPartyWithID(id) {
   const response = await getPartyUsingID(id);
   const party = await response.json();
   return party;
+}
+function toggleAddToCartErrorModal(show) {
+  $("#errAddPartyModal").modal("show");
 }
