@@ -220,9 +220,13 @@ exports.getPartyListingsByFilters = async (
   try {
     // Build the query object based on the provided filters
     let query = {};
+
     if (start_time) {
       query.StartDate = { $gte: new Date(start_time) };
+    } else {
+      query.StartDate = { $gte: new Date() }; // Default to today's date if start_time is not provided
     }
+
     if (end_time) {
       query.EndDate = { $lte: new Date(end_time) };
     }
