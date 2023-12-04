@@ -1,5 +1,20 @@
 PLEASE DOCUMENT ALL API ENDPOINTS AND WHAT THEY DO HERE:
 
+URL High Level
+Server Configured for: http://localhost:3000
+
+GET /map?location=<location>)
+ - http://localhost:3000/map?location=<location>
+GET /map/party_listings?party_id=<party_id>
+ - http://localhost:3000/map/party_listings?party_id=<party_id>
+PATCH /map/favorites
+ - http://localhost:3000/map/favorites
+DELETE /map/favorites
+ - http://localhost:3000/map/favorites
+GET /map/party_listings_by_filters
+ - http://localhost:3000/map/party_listings_by_filters?start_date=<start_date>&end_date=<end_date>&min_price=<min_price>&max_price=<max_price>&host=<host>&sort_by=<sort_by>&page=<page>&limit=<limit>
+
+
 
 1. Read Host Information
 - Endpoint: /party_listings
