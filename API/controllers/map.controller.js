@@ -377,13 +377,21 @@ exports.getPromotedParties = async (req, res) => {
 };
 
 
-
+/**
+ * filterFavoriteHostParties - Returns parties hosted by a user's favorite hosts.
+ * 
+ * @param {Object} req - HTTP request with user ID as a query parameter and array of either party objects or party IDs in the body.
+ * @param {Object} res - HTTP response with either an array of party objects or array of party IDs that are from favorite hosts.
+ *                      Responds with 404 if user favorites are not found and 500 for other errors.
+ *  You pass in partys and it returns the same list back keeping only partys hosted by the Users favorite Host
+ */
 exports.filterFavoriteHostParties = async (req, res) => {
   // Parse the URL to get user_id from query parameters
   const parsedUrl = new URL(req.url, `http://${req.headers.host}`);
   const userId = parsedUrl.searchParams.get("user_id");
   
   if (!userId) {
+    // If user_id is missing, return a 400 Bad Request response
     res.writeHead(400, { "Content-Type": "application/json" });
     res.end(JSON.stringify({ error: "user_id parameter is missing" }));
     return;
@@ -400,19 +408,20 @@ exports.filterFavoriteHostParties = async (req, res) => {
       const partiesOrIds = Array.isArray(parsedBody) ? parsedBody : parsedBody.partiesOrIds;
 
       // Fetch favorite hosts for the user
-      console.log("Fetching user favorites for user ID:", userId);
+      // console.log("Fetching user favorites for user ID:", userId);
       const userFavorites = await favoritesCollection.findOne({ user_id: userId });
       if (!userFavorites) {
-        console.log("User favorites not found for user ID:", userId);
+        // console.log("User favorites not found for user ID:", userId);
+        // If user favorites are not found, return a 404 Not Found response
         res.writeHead(404, { "Content-Type": "application/json" });
         res.end(JSON.stringify({ error: "User favorites not found" }));
         return;
       }
-      console.log("User favorites found:", userFavorites);
+      // console.log("User favorites found:", userFavorites);
 
       // Extract favorite host names
       const favoriteHostNames = userFavorites.favoriteList;
-      console.log("Favorite host names:", favoriteHostNames);
+      // console.log("Favorite host names:", favoriteHostNames);
 
       let parties;
       if (partiesOrIds[0] && typeof partiesOrIds[0] === 'object') {
@@ -420,13 +429,13 @@ exports.filterFavoriteHostParties = async (req, res) => {
       } else {
         // Log the IDs being searched in the collection
         const idsToSearch = partiesOrIds.map(id => new ObjectId(id));
-        console.log("Searching for IDs in partyListingCollection:", idsToSearch);
+        // console.log("Searching for IDs in partyListingCollection:", idsToSearch);
 
         parties = await partyListingCollection.find({
           _id: { $in: idsToSearch }
         }).toArray();
 
-        console.log("Found parties:", parties);
+        // console.log("Found parties:", parties);
       }
 
       // Filter parties whose host name is in the favorite host names
@@ -440,6 +449,7 @@ exports.filterFavoriteHostParties = async (req, res) => {
       res.end(JSON.stringify(result));
     } catch (error) {
       console.error("Error filtering favorite host parties: ", error);
+      // If there's an error, return a 500 Internal Server Error response
       res.writeHead(500, { "Content-Type": "application/json" });
       res.end(JSON.stringify({ error: "Internal Server Error" }));
     }
