@@ -1,5 +1,23 @@
 PLEASE DOCUMENT ALL API ENDPOINTS AND WHAT THEY DO HERE:
 
+URL High Level
+Server Configured for: http://localhost:3000
+
+GET /map?location=<location>)
+ - http://localhost:3000/map?location=<location>
+GET /map/party_listings?party_id=<party_id>
+ - http://localhost:3000/map/party_listings?party_id=<party_id>
+PATCH /map/favorites
+ - http://localhost:3000/map/favorites
+DELETE /map/favorites
+ - http://localhost:3000/map/favorites
+GET /map/party_listings_by_filters
+ - http://localhost:3000/map/party_listings_by_filters?start_date=<start_date>&end_date=<end_date>&min_price=<min_price>&max_price=<max_price>&host=<host>&sort_by=<sort_by>&page=<page>&limit=<limit>
+POST map/promoted_parties
+ - http://localhost:3000/map/promoted_parties
+POST favorite_host_parties?user_id=<user_id>
+ - http://localhost:3000/map/favorite_host_parties?user_id=11
+
 
 1. Read Host Information
 - Endpoint: /party_listings
@@ -61,6 +79,30 @@ Query Parameters:
   page (optional): The current page number for pagination. Should be a string that can be parsed into a number. The first page is 1.
   limit (optional): The number of items per page for pagination. Should be a string that can be parsed into a number.
   Response: A JSON object containing an array of parties and a pagination object. Each party is an object with details about the party. The pagination object contains the total number of parties, the current page number, and the total number of pages.
+
+6. Return Promoted Parties
+Endpoint: /map/promoted_parties
+Method: POST
+Input: Request body contains JSON data with an array of party objects or party IDs. Example: {"partiesOrIds": [...]}. Party objects should include an "_id" field.
+Functionality: Retrieves and returns promoted parties based on the provided array of party objects or party IDs. The parties are sorted by the amount paid for promotion, with the highest-paying promotions listed first.
+Output: Responds with a JSON array of either full promoted party objects (if party objects were provided) or promoted party IDs (if party IDs were provided).
+Error Handling: Responds with a 500 Internal Server Error in case of any processing errors.
+
+7. Filter Parties by Favorite Hosts
+Endpoint: /map/favorite_host_parties
+Method: POST
+Parameters:
+  user_id (query parameter)
+Functionality: Fetches parties hosted by a user's favorite hosts, using a user_id and an array of party objects or IDs in the request body.
+Error Handling:
+Returns 400 Bad Request if user_id is missing.
+Returns 404 Not Found if user's favorites are not found.
+Returns 500 Internal Server Error for other errors.
+
+
+
+
+
 
 Example Request:
 http GET /map/party_listings_by_filters?start_date=2022-01-01T00:00:00Z&end_date=2022-12-31T23:59:59Z&min_price=50&max_price=100&host=John&sort_by=Price_asc&page=1&limit=10

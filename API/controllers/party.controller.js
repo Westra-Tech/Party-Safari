@@ -19,7 +19,9 @@ exports.dbConnect = () => {
   favoritesCollection = db.collection("Favorites");
 };
 
-exports.getPartyDetails = async (req, res, party_id) => {
+// This function handles the retrieval of party details based on party IDs.
+
+exports.getPartyDetails = async (req, res, party_ids) => {
   try {
     if (party_id === null) {
       res.writeHead(400, { "Content-Type": "application/json" });
@@ -29,10 +31,19 @@ exports.getPartyDetails = async (req, res, party_id) => {
     const party = await partyListingCollection.findOne({ _id: party_id });
     console.log(party);
     res.writeHead(200, { "Content-Type": "application/json" });
-    res.end(JSON.stringify(party));
+
+    // Send the retrieved party details as a JSON response.
+    res.end(JSON.stringify(parties));
   } catch (error) {
-    console.log(error);
+    // Handle errors that may occur during the database query or response creation.
+
+    // Log the error for debugging purposes.
+    console.error("Error retrieving party details: ", error);
+
+    // Set a 500 Internal Server Error status and content type.
     res.writeHead(500, { "Content-Type": "application/json" });
+
+    // Send an error JSON response to the client.
     res.end(JSON.stringify({ error: "Internal Server Error" }));
   }
 };
