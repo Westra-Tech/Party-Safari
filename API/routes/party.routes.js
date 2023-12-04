@@ -5,7 +5,7 @@ function handleRequest(req, res) {
   partyController.dbConnect();
 
   console.log("handling request");
-  const parsedUrl = new URL(req.url, "http://localhost:3000");
+  const parsedUrl = new URL(req.url, "http://localhost:8000");
   if (
     parsedUrl.pathname === "/party_listings/party_id" &&
     req.method === "GET"

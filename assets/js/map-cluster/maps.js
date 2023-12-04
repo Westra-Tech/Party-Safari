@@ -27,7 +27,7 @@ APIs used:
   Google Maps JavaScript API
   MarkerClusterer library (used for marker clustering)
 
-*/!(function (event) {
+*/ !(function (event) {
   "use strict";
   function setupMap() {
     var infobox = new InfoBox();
@@ -362,12 +362,12 @@ APIs used:
           });
       }
     });
-    var g = document.createElement("div");
-    g.className = "map-box";
+    var inforbox = document.createElement("div");
+    inforbox.className = "map-box";
     var p,
       c,
       d = {
-        content: g,
+        content: inforbox,
         disableAutoPan: !1,
         alignBottom: !0,
         maxWidth: 0,
@@ -422,7 +422,7 @@ APIs used:
               listings[i].open = true;
 
               infobox.setOptions(d),
-                (g.innerHTML = listings[i][0]),
+                (inforbox.innerHTML = listings[i][0]),
                 infobox.open(m, o),
                 listings[i][3],
                 google.maps.event.addListener(infobox, "domready", function () {

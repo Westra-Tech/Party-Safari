@@ -260,6 +260,24 @@ exports.getPartyListingsByFilters = async (
       skip = (Number(page) - 1) * Number(limit);
     }
 
+    // checks if any of the prices provided are negative, if so, return error
+    if (min_price && Number(min_price) < 0) {
+      res.writeHead(400, { "Content-Type": "application/json" });
+      return res.end(
+        JSON.stringify({
+          error: "min_price cannot be negative",
+        })
+      );
+    }
+    if (max_price && Number(max_price) < 0) {
+      res.writeHead(400, { "Content-Type": "application/json" });
+      return res.end(
+        JSON.stringify({
+          error: "max_price cannot be negative",
+        })
+      );
+    }
+
     // Fetch the total number of parties that match the filters
     const totalParties = await partyListingCollection.find(query);
     // Fetch the parties for the current page

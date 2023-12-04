@@ -5,7 +5,7 @@
 //     var formData = new FormData(event.target);
 //     var searchParams = new URLSearchParams(formData).toString();
 //     console.log("searchParams", searchParams);
-//     fetch("http:localhost:3000/map/party_listings_by_filters?" + searchParams)
+//     fetch("http:localhost:8000/map/party_listings_by_filters?" + searchParams)
 //       .then((response) => response.json())
 //       .then((data) => {
 //         // Update the sidebar with the new parties
@@ -24,7 +24,7 @@
 //   var formData = new FormData(event.target);
 //   var searchParams = new URLSearchParams(formData).toString();
 //   console.log("searchParams", searchParams);
-//   fetch("http:localhost:3000/map/party_listings_by_filters?" + searchParams)
+//   fetch("http:localhost:8000/map/party_listings_by_filters?" + searchParams)
 //     .then((response) => response.json())
 //     .then((data) => {
 //       // Update the sidebar with the new parties
@@ -47,7 +47,7 @@ document
     var formData = new FormData(event.target);
     var searchParams = new URLSearchParams(formData).toString();
     console.log("searchParams", searchParams);
-    fetch("http:localhost:3000/map/party_listings_by_filters?" + searchParams)
+    fetch("http:localhost:8000/map/party_listings_by_filters?" + searchParams)
       .then((response) => response.json())
       .then((data) => {
         // Update the sidebar with the new parties

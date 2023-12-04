@@ -23,12 +23,13 @@ exports.dbConnect = () => {
 
 exports.getPartyDetails = async (req, res, party_ids) => {
   try {
-    // Fetch party details from the database using the provided party IDs.
-    const parties = await partyListingCollection.find({
-      _id: { $in: party_ids.map(id => new ObjectId(id)) }
-    }).toArray();
-
-    // Set the response status and content type.
+    if (party_id === null) {
+      res.writeHead(400, { "Content-Type": "application/json" });
+      res.end(JSON.stringify({ error: "Bad Request" }));
+      return;
+    }
+    const party = await partyListingCollection.findOne({ _id: party_id });
+    console.log(party);
     res.writeHead(200, { "Content-Type": "application/json" });
 
     // Send the retrieved party details as a JSON response.
