@@ -139,7 +139,9 @@ function addInfoBox(marker, markerData) {
     content:
       "<div class='infoBox'><div class='map-box'><a href='partyDetail.html?party_id=" +
       markerData._id +
-      "' class='listing-img-container'><img src='assets/images/listing/9.jpg' alt=''><div class='rate-info'> <h5>$550.000</h5> <span>New Party</span> </div><div class='listing-item-content'><h3>" +
+      "' class='listing-img-container'><img src='assets/images/listing/9.jpg' alt=''><div class='rate-info'> <h5>$" +
+      markerData.Price +
+      "</h5> <span>New Party</span> </div><div class='listing-item-content'><h3>" +
       markerData.Name +
       "</h3><span><i class='la la-map-marker'></i>" +
       markerData.AddressLine1 +

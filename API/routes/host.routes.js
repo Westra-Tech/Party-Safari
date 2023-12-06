@@ -3,7 +3,6 @@ const hostController = require("../controllers/host.controller");
 function handleRequest(req, res) {
   hostController.dbConnect();
   const parsedUrl = new URL(req.url, "http://localhost:8000");
-
   if (parsedUrl.pathname === "/host" && req.method === "GET") {
     hostController.getHostDetails(
       req,

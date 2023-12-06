@@ -1,3 +1,5 @@
+const user_id = "3d6985d6-2f06-493d-82d1-d808e4bd7218";
+
 const listingHTML = (
   id,
   price,
@@ -9,7 +11,8 @@ const listingHTML = (
   state,
   host,
   startTime,
-  endTime
+  endTime,
+  isFavorited
 ) => {
   return `
     <div class="col-lg-6 col-md-6">
@@ -38,23 +41,27 @@ const listingHTML = (
                 </ul>
             </div>
             <div class="card-footer">
-                <a class="pull-left" onclick="favoriteParty('${id}')">
-                    <i class="la la-heart-o"></i>
+                <a class="pull-left" onclick="favoriteParty('${id}', ${isFavorited})" id="${id}">
+                    ${
+                      isFavorited
+                        ? "<i class='bx bxs-heart' style='color:#d57d19'></i>"
+                        : '<i class="la la-heart-o"></i>'
+                    }
                 </a>
                 <a href="#" class="pull-right">
                     <i class="la la-calendar-check-o"></i> ${formatDate(
                       startTime
                     )}</a>
             </div>
-            <a href="partyDetail.html?party_id=${id}" title="" class="ext-link"></a>
         </div>
     </div>`;
 };
 
-function loadSidebarListings(listings) {
+async function loadSidebarListings(listings) {
   var sidebarListings = document.getElementById("sidebarListings");
   var sidebarListingsContent = "";
-  listings.map((listing) => {
+  for (listing of listings) {
+    const response = await checkUserFavs(user_id, listing._id);
     sidebarListingsContent += listingHTML(
       listing._id,
       listing.Price,
@@ -66,9 +73,10 @@ function loadSidebarListings(listings) {
       listing.State,
       listing.HostName,
       listing.StartDate,
-      listing.EndDate
+      listing.EndDate,
+      response
     );
-  });
+  }
 
   sidebarListings.innerHTML = sidebarListingsContent;
   //use below code to zoom in on a marker from listing
@@ -102,13 +110,56 @@ function toggleFavErrorModal(show) {
   $("#errorFavModal").modal("show");
 }
 
-function favoriteParty(party_id) {
+function favoriteParty(party_id, isFavorited) {
+  const testing = true;
+  isLoggedIn = testing ? true : isLoggedIn();
+  const user_id = "3d6985d6-2f06-493d-82d1-d808e4bd7218";
   // if there are no users logged in, show error modal
-  if (isLoggedIn) {
+  if (!isLoggedIn) {
     toggleFavErrorModal(true);
+  } else {
+    if (isFavorited) {
+      removePartyFromFavorites(user_id, party_id).then((response) => {
+        console.log(response);
+        if (response.status === 200) {
+          console.log("success");
+          // if the party was removed from favorites successfully, show success modal
+        } else {
+          // if the party was not removed from favorites successfully, show error modal
+          toggleFavErrorModal(true);
+        }
+      });
+      const favButton = document.getElementById(party_id);
+      favButton.innerHTML = "<i class='la la-heart-o'></i>";
+      favButton.onclick = function () {
+        favoriteParty(party_id, false);
+      };
+    } else {
+      addPartyToFavorites(user_id, party_id).then((response) => {
+        console.log(response);
+        if (response.status === 201) {
+          $("#successFavModal").modal("show");
+        } else {
+          // if the party was not added to favorites successfully, show error modal
+          toggleFavErrorModal(true);
+        }
+      });
+      const favButton = document.getElementById(party_id);
+      favButton.innerHTML =
+        "<i class='bx bxs-heart' style='color:#d57d19'></i>";
+      favButton.onclick = function () {
+        favoriteParty(party_id, true);
+      };
+    }
+    // if there is a user logged in, add party to favorites
   }
 }
 
 function isLoggedIn() {
   return false;
+}
+
+async function checkUserFavs(user_id, party_id) {
+  const response = await isInFavorites(user_id, party_id);
+  return response.json();
 }

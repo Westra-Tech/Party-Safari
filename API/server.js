@@ -12,13 +12,21 @@ const server = http.createServer((req, res) => {
   // Enable CORS - Allow all origins
   res.setHeader("Access-Control-Allow-Origin", "*"); // Allow all origins
 
+  if (req.method === "OPTIONS") {
+    res.setHeader("Access-Control-Allow-Methods", "GET, POST, PATCH, DELETE");
+    res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+    res.writeHead(204); // No content in the response for preflight requests
+    res.end();
+    return;
+  }
+
   if (req.url.startsWith("/party_listings")) {
     handlePartyRequests(req, res);
     return;
   } else if (req.url.startsWith("/map")) {
     handleMapRequests(req, res);
     return;
-  } else if (req.url.startsWith("favorites")) {
+  } else if (req.url.startsWith("/favorites")) {
     handleFavoritesRequests(req, res);
     return;
   } else if (req.url.startsWith("/host")) {

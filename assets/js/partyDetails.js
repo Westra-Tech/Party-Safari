@@ -48,6 +48,9 @@ function loadPartyDetails(data) {
 
   var partyTheme = document.getElementById("partyTheme");
   partyTheme.textContent = data.Theme;
+
+  var partyHoster = document.getElementById("partyHosterId");
+  partyHoster.setAttribute("href", "hostInfo.html?host_id=" + data.HostId);
 }
 // format date as mm/dd/yyyy hh:mm AM/PM
 function formatDate(date) {

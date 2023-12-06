@@ -26,7 +26,6 @@ exports.getHostDetails = async (req, res, host_id) => {
       return;
     }
     const host = await hostCollection.findOne({ _id: host_id });
-    console.log(host);
     res.writeHead(200, { "Content-Type": "application/json" });
     res.end(JSON.stringify(host));
   } catch (error) {
