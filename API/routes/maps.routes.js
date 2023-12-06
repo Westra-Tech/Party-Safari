@@ -37,6 +37,10 @@ function handleRequest(req, res) {
     req.method === "DELETE"
   ) {
     mapController.removeHostFromFavorites(req, res);
+  } else if (parsedUrl.pathname === "/map/promoted_parties" && req.method === "POST") {
+    mapController.getPromotedParties(req, res);
+  }  else if (parsedUrl.pathname === "/map/favorite_host_parties" && req.method === "POST") {
+    mapController.filterFavoriteHostParties(req, res);
   } else if (
     parsedUrl.pathname === "/map/party_listings_by_filters" &&
     req.method === "GET"
