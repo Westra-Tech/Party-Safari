@@ -1,53 +1,59 @@
+// assets/js/map-cluster/getUserCurrentLocation.js
 function requestUserLocation() {
+  console.log("Requesting user location...");
   return new Promise((resolve, reject) => {
     // Check if we already have the location stored in sessionStorage
     const storedLocation = sessionStorage.getItem("userLocation");
     if (storedLocation) {
-      return resolve(JSON.parse(storedLocation));
+      console.log("Using stored location from sessionStorage.");
+      const parsedLocation = JSON.parse(storedLocation);
+      showPosition(parsedLocation); // Display the stored location
+      return resolve(parsedLocation);
     }
 
-    navigator.permissions
-      .query({ name: "geolocation" })
-      .then(function (result) {
-        if (result.state === "granted") {
-          navigator.geolocation.getCurrentPosition((position) => {
-            // Store the location in sessionStorage
-            sessionStorage.setItem(
-              "userLocation",
-              JSON.stringify(position.coords)
-            );
-            resolve(position);
-          }, reject);
-        } else if (result.state === "prompt") {
-          navigator.geolocation.getCurrentPosition(
-            (position) => {
-              // Store the location in sessionStorage
-              sessionStorage.setItem(
-                "userLocation",
-                JSON.stringify(position.coords)
-              );
-              resolve(position);
-            },
-            (error) => {
-              if (error.code === error.PERMISSION_DENIED) {
-                // If permission is denied, remove any stored location
-                sessionStorage.removeItem("userLocation");
-              }
-              reject(error);
-            }
-          );
-        } else if (result.state === "denied") {
-          // Permission has been denied previously
-          reject(new Error("Geolocation permission denied"));
+    const options = {
+      enableHighAccuracy: true,
+      timeout: 10000,
+    };
+
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        console.log("getCurrentPosition callback called.");
+        if (position && position.coords) {
+          // Store the location in sessionStorage
+          const coordinates = position.coords;
+          sessionStorage.setItem("userLocation", JSON.stringify(coordinates));
+          showPosition(coordinates); // Display the current location
+          console.log("User location obtained successfully.");
+          resolve(coordinates);
+        } else {
+          console.log("Position or coordinates are undefined.");
+          reject(new Error("Unable to retrieve user location coordinates."));
         }
-      });
+      },
+      (error) => {
+        console.log("Error in getCurrentPosition callback:", error);
+        if (error.code === error.PERMISSION_DENIED) {
+          // If permission is denied, remove any stored location
+          sessionStorage.removeItem("userLocation");
+          console.log("Geolocation permission denied.");
+        }
+        reject(error);
+      },
+      options
+    );
   });
 }
 
 function showPosition(position) {
-  console.log(
-    "Latitude: " + position.latitude + ", Longitude: " + position.longitude
-  );
+  if (position && position.coords) {
+    const coordinates = position.coords;
+    console.log(
+      "Latitude: " + coordinates.latitude + ", Longitude: " + coordinates.longitude
+    );
+  } else {
+    console.log("Unable to retrieve user location coordinates.");
+  }
 }
 
 function showError(error) {

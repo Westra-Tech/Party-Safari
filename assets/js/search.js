@@ -39,31 +39,47 @@
 // }
 
 // Handle form submission: send form data to endpoint and send response to map.js and sidebarListings.js
-document
-  .getElementById("searchForm")
-  .addEventListener("submit", function (event) {
+// assets/js/search.js
+let allParties = []; // Global array to store all parties
+let currentPage = 1;
+const partiesPerPage = 2; // Number of parties to show per page
+
+document.getElementById("searchForm").addEventListener("submit", function (event) {
     event.preventDefault();
 
     var formData = new FormData(event.target);
     var searchParams = new URLSearchParams(formData).toString();
-    console.log("searchParams", searchParams);
-    fetch("http:localhost:8000/map/party_listings_by_filters?" + searchParams)
+    
+    fetch("http://localhost:8000/map/party_listings_by_filters?" + searchParams)
       .then((response) => response.json())
       .then((data) => {
-        // Update the sidebar with the new parties
-        loadSidebarListings(data.parties);
+        allParties = data.parties; // Store parties in the global array
         clearAllMarkersFromMap();
-        addMarkersToMap(data.parties);
-        console.log("parties: ", data.parties);
-        // Update the map markers with the new parties
-        // initMap(data.parties);
+        addMarkersToMap(data.parties); // Add all parties to the map
+        paginateParties(1); // Load first page of parties in the sidebar
       })
       .catch((error) => {
         console.error("Error:", error);
       });
-  });
+});
 
-// Handle dropdown selection
+function paginateParties(page) {
+    currentPage = page; // Update the current page
+    const startIndex = (page - 1) * partiesPerPage;
+    const endIndex = startIndex + partiesPerPage;
+    const partiesToShow = allParties.slice(startIndex, endIndex);
+    loadSidebarListings(partiesToShow); // Load listings for current page
+    updatePaginationButtons(); // Update the state of pagination buttons
+}
+
+function updatePaginationButtons() {
+    const nextPageButton = document.getElementById("nextPageButton");
+    const prevPageButton = document.getElementById("prevPageButton");
+
+    nextPageButton.disabled = currentPage * partiesPerPage >= allParties.length;
+    prevPageButton.disabled = currentPage === 1;
+}
+
 document.addEventListener("DOMContentLoaded", function () {
   const dropMenu = document.querySelector(".drop-menu");
   const displaySpan = dropMenu.querySelector(".select > span");
@@ -74,36 +90,32 @@ document.addEventListener("DOMContentLoaded", function () {
       displaySpan.textContent = this.textContent;
       hiddenInput.value = this.getAttribute("data-value");
       dropMenu.classList.remove("open");
+      // Trigger the search form submission to re-fetch and sort the parties
+      document.getElementById("searchForm").dispatchEvent(new Event("submit"));
     });
   });
 
-  // Handle dropdown open
   dropMenu.querySelector(".select").addEventListener("click", function () {
     dropMenu.classList.toggle("open");
   });
-});
 
-// Handle "Next Page" button click
-document
-  .getElementById("nextPageButton")
-  .addEventListener("click", function () {
-    var pageInput = document.querySelector('input[name="page"]');
-    pageInput.value = Number(pageInput.value || 0) + 1;
+  const nextPageButton = document.getElementById("nextPageButton");
+  const prevPageButton = document.getElementById("prevPageButton");
 
-    var event = new Event("submit");
-    document.getElementById("searchForm").dispatchEvent(event);
-  });
-
-// Handle "Previous Page" button click
-document
-  .getElementById("prevPageButton")
-  .addEventListener("click", function () {
-    var pageInput = document.querySelector('input[name="page"]');
-    var currentPage = Number(pageInput.value || 1);
-    if (currentPage > 1) {
-      pageInput.value = currentPage - 1;
-
-      var event = new Event("submit");
-      document.getElementById("searchForm").dispatchEvent(event);
+  nextPageButton.addEventListener("click", function () {
+    if (currentPage * partiesPerPage < allParties.length) {
+        currentPage++;
+        paginateParties(currentPage);
     }
   });
+
+  prevPageButton.addEventListener("click", function () {
+      if (currentPage > 1) {
+          currentPage--;
+          paginateParties(currentPage);
+      }
+  });
+
+  // Initial pagination setup on page load
+  paginateParties(currentPage);
+});
