@@ -63,8 +63,9 @@ document
       .then((data) => {
         console.log(data);
         allParties = data.parties; // Store parties in the global array
+        allParties = sortPartiesByPromotedStatus(data.parties); // Sort parties before pagination
         clearAllMarkersFromMap();
-        addMarkersToMap(data.parties); // Add all parties to the map
+        addMarkersToMap(allParties); // Add all parties to the map
         paginateParties(1); // Load first page of parties in the sidebar
       })
       .catch((error) => {
@@ -72,6 +73,11 @@ document
       });
   });
 
+
+function sortPartiesByPromotedStatus(parties) {
+  return parties.sort((a, b) => b.Promoted - a.Promoted);
+}
+  
 function paginateParties(page) {
   currentPage = page; // Update the current page
   const startIndex = (page - 1) * partiesPerPage;
