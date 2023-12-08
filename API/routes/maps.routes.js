@@ -64,6 +64,7 @@ function handleRequest(req, res) {
       parsedUrl.searchParams.get("limit"),
       parsedUrl.searchParams.get("Favorites"),
       parsedUrl.searchParams.get("Discounted"),
+      parsedUrl.searchParams.get("favParties"),
       parsedUrl.searchParams.get("user_id")
     );
   } else {

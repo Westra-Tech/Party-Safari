@@ -85,7 +85,7 @@ async function addHostToFavsWithID(user_id, id) {
 function addHostToFavorites() {
   var queryString = window.location.search;
   var urlParams = new URLSearchParams(queryString);
-  var id = urlParams.get("host_id");
+  var id = document.getElementById("hostName").textContent;
   var user_id = "3d6985d6-2f06-493d-82d1-d808e4bd7218";
 
   const isHostInFav = getFavoritesList(user_id, id);
