@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QR Code Scanner</title>
+
+  <script src="../scripts/tickets.script.js"></script>
+  <script src="../scripts/jsQR.js"></script>
+  <script src="../client.js"></script>
+  <link rel="stylesheet" href="../css/styles.css">
+</head>
+
+
+<body>
+  <div id="videoDisplay">
+    <video id="videoElement" autoplay hidden></video>
+    <canvas id="canvas" hidden></canvas>
+  </div>
+  <button id="scanButton" onclick="scan()">Begin Scanning Tickets</button>
+  <div id="results">
+    <p id="ticketNumber"></p>
+    <p id="status"></p>
+  </div>
+
+
+  <script>
+    // set up camera
+    const videoElement = document.getElementById('videoElement');
+    const resultElement = document.getElementById('result');
+
+    // Check if the browser supports getUserMedia
+    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+      // Get video stream from the user's camera
+      navigator.mediaDevices.getUserMedia({ video: true, audio: false })
+        .then(function(stream) {
+          // Attach the stream to the video element
+          videoElement.srcObject = stream;
+          scanQRCode();
+          console.log("hello");
+        })
+        .catch(function(err) {
+          console.error('Error accessing camera:', err);
+        });
+    } else {
+      console.error('getUserMedia is not supported in this browser.');
+    }
+  </script>
+</body>
+</html>

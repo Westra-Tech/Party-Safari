@@ -1,0 +1,32 @@
+:root{
+    --bg: #404040;
+    --bg-darkened: #333333;
+    --orange: #f2af6f;
+    --darkened-orange: #f0a35c;
+    --blue: #6cd7f4;
+    --green: #baf26f;
+    --darkened-green: #99eb2d;
+    --almost-white: rgb(226, 226, 226);
+    --darkened-almost-white: rgb(182, 182, 182);
+
+}
+
+/* scan-tickets.html */
+
+body{
+    background-color: var(--bg);
+    color: var(--almost-white);
+}
+
+button{
+    background-color: var(--blue);
+    width: 50%;
+    padding: 10px;
+    border-radius: 20px;
+    border: none;
+}
+
+video{  
+    border: 6px solid red;
+    border-radius: 20px;
+}

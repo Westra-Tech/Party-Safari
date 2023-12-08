@@ -1,0 +1,94 @@
+:root{
+    --bg: #404040;
+    --bg-darkened: #333333;
+    --orange: #f2af6f;
+    --darkened-orange: #f0a35c;
+    --blue: #6cd7f4;
+    --green: #baf26f;
+    --darkened-green: #99eb2d;
+    --almost-white: rgb(226, 226, 226);
+    --darkened-almost-white: rgb(182, 182, 182);
+
+}
+
+body{
+    background-color: var(--bg);
+}
+
+.comment_menu{
+	color: #000;
+	background-color: var(--orange);
+	font-size: 20px;
+	font-style: normal;
+	font-weight: 700;
+	line-height: 20px;
+    border: none;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+.comment_menu:hover{
+    background-color: var(--darkened-orange);
+}
+
+.modify_button{
+    background-color: var(--almost-white);
+    border: none;
+    color:black;
+    display: block;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 14px;
+    font-weight: bold;
+    letter-spacing: 3px;
+    margin: 5px;
+    text-align: center;
+}
+
+.modify_button:hover{
+    background-color: var(--darkened-almost-white);
+}
+
+.pfp{
+	border-radius: 100px;
+	margin-right: 20px;
+    margin-left: 5px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.profile_container{
+	margin-left: auto;
+	margin-right: auto;
+    margin-top: 10px;
+    display: flex;
+    flex-direction: row;   
+
+}
+
+.review_text_container{
+    background-color: rgb(222, 221, 221);
+    padding: 5px;
+    margin-top: 10px;
+}
+
+.review_user_data{
+    display: flex;
+    flex-direction: column;
+    justify-content: center; 
+    width: 95%;
+}
+
+.text{
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+.user_review_container{
+    background-color: var(--orange);
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+    padding: 10px;
+    margin-bottom: 20px;
+    margin-top: 10px;
+    margin-left: 2%;
+    margin-right: 2%;
+
+
+}

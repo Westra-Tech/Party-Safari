@@ -1,0 +1,94 @@
+PLEASE DOCUMENT ALL API ENDPOINTS AND WHAT THEY DO HERE:
+
+
+1. Read Host Information
+- Endpoint: /party_listings
+- Method: GET
+- Parameters: 
+  - party_id (query parameter)
+- Functionality: This endpoint retrieves information about a specific party based on the provided party_id.
+- Error Handling: 
+  - If the party_id parameter is missing, a 400 Bad Request error is returned.
+  - If no party is found with the provided party_id, a 404 Not Found error is returned.
+  - If an internal server error occurs, a 500 Internal Server Error is returned.
+
+2. Add Host to Favorites
+- Endpoint: /favorites
+- Method: PATCH
+- Parameters: 
+  - user_id (query parameter)
+  - host_id (query parameter)
+- Functionality: This endpoint adds a host to a user's list of favorites. If the user does not already have a favorites list, one is created.
+- Error Handling: 
+  - If either the user_id or host_id parameters are missing, a 400 Bad Request error is returned.
+  - If an internal server error occurs, a 500 Internal Server Error is returned.
+
+3. Remove Host from Favorites
+- Endpoint: /favorites
+- Method: DELETE
+- Parameters: 
+  - user_id (query parameter)
+  - host_id (query parameter)
+- Functionality: This endpoint removes a host from a user's list of favorites.
+- Error Handling: 
+  - If either the user_id or host_id parameters are missing, a 400 Bad Request error is returned.
+  - If an internal server error occurs, a 500 Internal Server Error is returned.
+
+
+4. Get Parties based on zip code location
+- Endpoint: /map?location=zip_code
+- Method: GET
+- Parameters: 
+  - location (query parameter)
+- Functionality: This endpoint retrieves all parties within a 5 mile radius of the provided zip code.
+- Error Handling: 
+  - If the location parameter is missing, a 400 Bad Request error is returned.
+  - If an internal server error occurs, a 500 Internal Server Error is returned.
+
+
+
+5. Search and Filter Parties
+Endpoint: /map/party_listings_by_filters
+Method: GET
+Description: This endpoint retrieves a list of parties based on various filters, sorts them by a specified field, and supports pagination.
+Query Parameters:
+  start_date (optional): The start date of the parties. Should be a string in a format that can be parsed into a JavaScript Date object.
+  end_date (optional): The end date of the parties. Should be a string in a format that can be parsed into a JavaScript Date object.
+  min_price (optional): The minimum price of the parties. Should be a string that can be parsed into a number.
+  max_price (optional): The maximum price of the parties. Should be a string that can be parsed into a number.
+  host (optional): The host of the parties. Should be a string. The search is case-insensitive and supports partial matching.
+  sort_by (optional): The field to sort the parties by. Should be a string in the format field_order, where field is the field to sort by (e.g., Price, StartDate, EndDate, Host) and order is either asc for ascending order or desc for descending order.
+  page (optional): The current page number for pagination. Should be a string that can be parsed into a number. The first page is 1.
+  limit (optional): The number of items per page for pagination. Should be a string that can be parsed into a number.
+  Response: A JSON object containing an array of parties and a pagination object. Each party is an object with details about the party. The pagination object contains the total number of parties, the current page number, and the total number of pages.
+
+Example Request:
+http GET /map/party_listings_by_filters?start_date=2022-01-01T00:00:00Z&end_date=2022-12-31T23:59:59Z&min_price=50&max_price=100&host=John&sort_by=Price_asc&page=1&limit=10
+Example Response:
+json
+{
+  "parties": [
+    {
+      "_id": "1",
+      "Name": "New Year Party",
+      "Description": "A fun party to celebrate the new year.",
+      "AddressLine1": "123 Main St",
+      "City": "New York",
+      "EndDate": "2022-01-01T23:59:59Z",
+      "Guests": ["Alice", "Bob"],
+      "Host": "John",
+      "Price": 50,
+      "StartDate": "2022-01-01T00:00:00Z",
+      "State": "NY",
+      "Zip": "10001",
+      "Latitude": 40.7128,
+      "Longitude": -74.0060
+    },
+    // More parties...
+  ],
+  "pagination": {
+    "totalParties": 100,
+    "currentPage": 1,
+    "totalPages": 10
+  }
+}
