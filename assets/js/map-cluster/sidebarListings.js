@@ -1,3 +1,4 @@
+// assets/js/map-cluster/sidebarListings.js
 const user_id = "3d6985d6-2f06-493d-82d1-d808e4bd7218";
 
 const listingHTML = (
@@ -56,6 +57,7 @@ const listingHTML = (
         </div>
     </div>`;
 };
+
 
 async function loadSidebarListings(listings) {
   var sidebarListings = document.getElementById("sidebarListings");
