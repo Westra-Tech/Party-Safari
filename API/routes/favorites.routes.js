@@ -18,7 +18,9 @@ function handleRequest(req, res) {
   } else if (
     parsedUrl.pathname === "/favorites" &&
     req.method === "GET" &&
-    parsedUrl.searchParams.get("user_id")
+    parsedUrl.searchParams.get("user_id") &&
+    !parsedUrl.searchParams.get("party_id") &&
+    !parsedUrl.searchParams.get("host_id")
   ) {
     favoritesController.getFavorites(
       req,

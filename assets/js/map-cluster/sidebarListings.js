@@ -112,6 +112,7 @@ async function loadSidebarListings(listings) {
       -74.44824480993542
     );
     const response = await checkUserFavs(user_id, listing._id);
+    console.log(response);
     sidebarListingsContent += listingHTML(
       listing._id,
       listing.Price,
