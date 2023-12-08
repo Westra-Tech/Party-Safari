@@ -126,7 +126,6 @@ exports.getFavorites = async (req, res, user_id) => {
   try {
     // Fetch the user's favorites
     const favorites = await favoritesCollection.findOne({ user_id: user_id });
-
     // Return the user's favorites
     res.writeHead(200, { "Content-Type": "application/json" });
     res.end(JSON.stringify(favorites));

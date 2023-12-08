@@ -60,6 +60,56 @@ function initHost() {
     const sidebarList = document.getElementById("sidebarList");
     sidebarList.insertAdjacentHTML("beforeend", HTML);
   }
+
+  const hostInfoFav = document.getElementById("hostInfoFav");
+  const user_id = "3d6985d6-2f06-493d-82d1-d808e4bd7218";
+  const response = getFavoritesList(user_id, id);
+  response.then((data) => {
+    // check if host is in favoritesHosts array
+    if (data.favoriteHosts.some((host) => host === id))
+      hostInfoFav.innerHTML =
+        "<i class='bx bxs-heart' style='color:#d57d19'></i>";
+  });
+}
+
+async function getFavoritesList(user_id, id) {
+  const response = await isInFavoritesWithID(user_id, id);
+  return response.json();
+}
+
+async function addHostToFavsWithID(user_id, id) {
+  const response = await addHostToFavoritesWithID(user_id, id);
+  return response.json();
+}
+
+function addHostToFavorites() {
+  var queryString = window.location.search;
+  var urlParams = new URLSearchParams(queryString);
+  var id = urlParams.get("host_id");
+  var user_id = "3d6985d6-2f06-493d-82d1-d808e4bd7218";
+
+  const isHostInFav = getFavoritesList(user_id, id);
+  isHostInFav.then((data) => {
+    if (data.favoriteHosts.some((host) => host === id)) {
+      const response = removeHostFromFavsWithID(user_id, id);
+      response.then((data) => {
+        document.getElementById("hostInfoFav").innerHTML =
+          "<i class='la la-heart-o'></i>";
+      });
+    } else {
+      const response = addHostToFavsWithID(user_id, id);
+      response.then((data) => {
+        console.log("addHostToFavsWithID", data);
+        document.getElementById("hostInfoFav").innerHTML =
+          "<i class='bx bxs-heart' style='color:#d57d19'></i>";
+      });
+    }
+  });
+}
+
+async function removeHostFromFavsWithID(user_id, id) {
+  const response = await removeHostFromFavoritesWithID(user_id, id);
+  return response.json();
 }
 
 async function getHostInfo(id) {
