@@ -15,6 +15,7 @@ let partyListingCollection;
 let favoritesCollection;
 let promotedCollection;
 let discountedCollection;
+let favoritesPartyCollection;
 
 // Connect to MongoDB and set up collections for use
 exports.dbConnect = () => {
@@ -23,6 +24,7 @@ exports.dbConnect = () => {
   favoritesCollection = db.collection("Favorites");
   promotedCollection = db.collection("Promoted");
   discountedCollection = db.collection("Discounted");
+  favoritesPartyCollection = db.collection("FavoritesParty");
 };
 
 /**
@@ -167,6 +169,20 @@ exports.getFavorites = async (req, res) => {
   }
 };
 
+
+/**
+ * getPartyListingsByLocation - Retrieve party listings within a specific location.
+ *
+ * @param {Object} req - HTTP request object.
+ * @param {Object} res - HTTP response object.
+ * @param {string} location - Location to filter party listings by.
+ * @returns {Promise<void>} - Returns party listings within the specified location.
+ *
+ * Extracts location from an HTTP request and filters parties by matching location, date, and time.
+ * Responds with a JSON array of party listings (HTTP status 200) on success.
+ * Handles errors with appropriate HTTP status codes (500 for internal server errors or
+ * 400 for missing location parameter).
+ */
 exports.getPartyListingsByLocation = async (req, res, location) => {
   // Validate the presence of required parameters
   if (!location) {
@@ -179,7 +195,8 @@ exports.getPartyListingsByLocation = async (req, res, location) => {
   }
 
   try {
-    // find parties with zip code same as location, and time is within next 3 days
+    // Find parties with zip code, address, state, or city matching the location
+    // and within the next 3 days with a future end date
     const parties = await partyListingCollection
       .find({
         $or: [
@@ -192,6 +209,8 @@ exports.getPartyListingsByLocation = async (req, res, location) => {
         EndDate: { $gt: new Date() },
       })
       .toArray();
+    
+    // Collect party listings into an array
     let partyListings = [];
     await parties.map((party) => {
       partyListings.push(party);
@@ -208,6 +227,20 @@ exports.getPartyListingsByLocation = async (req, res, location) => {
   }
 };
 
+
+
+/**
+ * getPartyListingsByFilters - Retrieves party listings based on input filters.
+ *
+ * @param {Object} filters - Filter parameters for party listings.
+ * @returns {Promise<void>} - Returns filtered party listings and pagination data.
+ *
+ * This function takes input filters and retrieves party listings accordingly.
+ * It handles discounts, pagination, and responds with a JSON object containing party listings
+ * and pagination details (HTTP status 200) on success.
+ * For errors, it responds with appropriate HTTP status codes (500 for internal server errors or
+ * 400 for invalid filter parameters).
+ */
 exports.getPartyListingsByFilters = async (
   req,
   res,
@@ -226,14 +259,19 @@ exports.getPartyListingsByFilters = async (
   try {
     // Build the query object based on the provided filters
     let query = {};
-    let favorite = false;
-    let discount = false;
+    // If the 'favorite' filter is on, fetch the user's favorite hosts and filter by them
     if (favorite === "on") {
-      query.Favorites = { $eq: favorite };
+      const userFavorites = await favoritesCollection.findOne({ user_id: userId });
+      
+      console.log("User favorites:", userFavorites);
+      if (userFavorites && userFavorites.favoriteList) {
+        query.HostName = { $in: userFavorites.favoriteList };
+      }
     }
 
+    // If the 'discount' filter is on, filter by the Discounted field
     if (discount === "on") {
-      query.Discounted = { $eq: discount };
+      query.Discounted = true;
     }
 
     if (start_time) {
@@ -280,6 +318,8 @@ exports.getPartyListingsByFilters = async (
         })
       );
     }
+
+    // checks if any of the prices provided are negative, if so, return error
     if (max_price && Number(max_price) < 0) {
       res.writeHead(400, { "Content-Type": "application/json" });
       return res.end(
@@ -299,6 +339,16 @@ exports.getPartyListingsByFilters = async (
       .limit(Number(limit))
       .toArray();
 
+    // Apply discounts to parties if the 'discount' filter is active
+    if (discount === "on") {
+      for (let party of parties) {
+        const discountEntry = await discountedCollection.findOne({ partyID: party._id.toString() });
+        if (discountEntry) {
+          party.originalPrice = party.Price;
+          party.Price = discountEntry.discountedPrice;
+        }
+      }
+    }    
     // Return the parties along with the pagination data
     res.writeHead(200, { "Content-Type": "application/json" });
     res.end(
