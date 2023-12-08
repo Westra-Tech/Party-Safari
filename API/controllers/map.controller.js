@@ -299,8 +299,8 @@ exports.getPartyListingsByFilters = async (
       });
 
       console.log("User favorites:", userFavorites);
-      if (userFavorites && userFavorites.favoriteList) {
-        query.HostName = { $in: userFavorites.favoriteList };
+      if (userFavorites && userFavorites.favoriteHosts) {
+        query.HostName = { $in: userFavorites.favoriteHosts };
       }
     }
 
@@ -546,7 +546,7 @@ exports.filterFavoriteHostParties = async (req, res) => {
       // console.log("User favorites found:", userFavorites);
 
       // Extract favorite host names
-      const favoriteHostNames = userFavorites.favoriteList;
+      const favoriteHostNames = userFavorites.favoriteHosts;
       // console.log("Favorite host names:", favoriteHostNames);
 
       let parties;

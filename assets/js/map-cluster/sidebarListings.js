@@ -29,7 +29,7 @@ const listingHTML = (
                     <div class="rate-info">
                         <h5>$${
                           discounted
-                            ? '<span style="margin-right:10px"><del style="text-decoration: line-through;text-decoration-thickness: .35em;">' +
+                            ? '<span style="margin-right:10px"><del style="text-decoration: line-through;text-decoration-thickness: .15em;text-decoration-color: black;">$' +
                               originalPrice +
                               "</del></span>"
                             : ""
