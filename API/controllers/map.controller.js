@@ -28,9 +28,12 @@ exports.dbConnect = () => {
 };
 
 /**
- * Handle request for fetching party details.
+ * Handle the request for fetching party details by party_id.
+ * If the party is found, it responds with a JSON object containing the party details.
+ * If the party is not found, it responds with a 404 error.
  * @param {Object} req - The incoming request object.
- * @param {Object} res - The response object.
+ * @param {Object} res - The response object for sending the party details or error messages.
+ * @param {string} party_id - The unique identifier of the party to be fetched.
  */
 exports.getPartyDetails = async (req, res, party_id) => {
   // Validate the presence of the 'party_id' parameter
@@ -62,9 +65,10 @@ exports.getPartyDetails = async (req, res, party_id) => {
 };
 
 /**
- * Add a host to a user's favorites.
- * @param {Object} req - The incoming request object.
- * @param {Object} res - The response object.
+ * Add a host to a user's list of favorite hosts.
+ * If successful, it responds with a JSON object containing the updated list of user's favorite hosts.
+ * @param {Object} req - The incoming request object containing user_id and host_id as query parameters.
+ * @param {Object} res - The response object for sending the updated list of favorite hosts or error messages.
  */
 exports.addHostToFavorites = async (req, res) => {
   const { user_id, host_id } = req.query;
@@ -104,8 +108,9 @@ exports.addHostToFavorites = async (req, res) => {
 
 /**
  * Remove a host from a user's favorites.
- * @param {Object} req - The incoming request object.
- * @param {Object} res - The response object.
+ * Handles errors with appropriate HTTP status codes (400 for missing parameters, 500 for internal server errors).
+ * @param {Object} req - The incoming request object containing user_id and host_id as query parameters.
+ * @param {Object} res - The response object for sending the updated favorites list or error messages.
  */
 exports.removeHostFromFavorites = async (req, res) => {
   const { user_id, host_id } = req.query;
@@ -121,13 +126,13 @@ exports.removeHostFromFavorites = async (req, res) => {
   }
 
   try {
-    // Remove the specified host from user's favorites
+    // Remove the specified host from the user's favorites
     await favoritesCollection.updateOne(
       { user_id: user_id },
       { $pull: { favoriteHosts: host_id } }
     );
 
-    // Fetch updated favorites for the user
+    // Fetch the updated favorites for the user
     const updatedFavorites = await favoritesCollection.findOne({
       user_id: user_id,
     });
@@ -142,6 +147,15 @@ exports.removeHostFromFavorites = async (req, res) => {
   }
 };
 
+
+/**
+ * Retrieve a user's favorite hosts and parties.
+ * If successful, it responds with a JSON object containing the user's favorites.
+ * Handles errors with appropriate HTTP status codes (400 for missing parameters, 500 for internal server errors).
+ *
+ * @param {Object} req - The incoming request object containing user_id as a query parameter.
+ * @param {Object} res - The response object for sending the user's favorites or error messages.
+ */
 exports.getFavorites = async (req, res) => {
   const { user_id } = req.query;
 
@@ -156,7 +170,7 @@ exports.getFavorites = async (req, res) => {
   }
 
   try {
-    // Fetch the user's favorites
+    // Fetch the user's favorite hosts and parties
     const favorites = await favoritesCollection.findOne({ user_id: user_id });
 
     // Return the user's favorites
@@ -257,6 +271,7 @@ exports.getPartyListingsByFilters = async (
   userId
 ) => {
   try {
+    console.log("host: ",host)
     // Build the query object based on the provided filters
     let query = {};
     // If the 'favorite' filter is on, fetch the user's favorite hosts and filter by them
