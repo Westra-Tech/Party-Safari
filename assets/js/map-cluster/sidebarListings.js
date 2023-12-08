@@ -1,7 +1,7 @@
 // assets/js/map-cluster/sidebarListings.js
 const user_id = "3d6985d6-2f06-493d-82d1-d808e4bd7218";
 
-// Generate HTML for listing 
+// Generate HTML for listing
 const listingHTML = (
   id,
   price,
@@ -17,7 +17,8 @@ const listingHTML = (
   isFavorited,
   distance,
   discounted,
-  originalPrice
+  originalPrice,
+  promoted
 ) => {
   return `
     <div class="col-lg-6 col-md-6">
@@ -29,13 +30,19 @@ const listingHTML = (
                         class="img-fluid">
                     <div class="rate-info">
                         <h5>$${
-                          discounted
+                          discounted === true && originalPrice != undefined
                             ? '<span style="margin-right:10px"><del style="text-decoration: line-through;text-decoration-thickness: .15em;text-decoration-color: black;">$' +
                               originalPrice +
                               "</del></span>"
                             : ""
                         }${price}</h5>
-                        <span> ${discounted ? "Discounted" : "Party"}</span>
+                        <span> ${
+                          promoted
+                            ? "Promoted"
+                            : discounted === true && originalPrice != undefined
+                            ? "Discounted"
+                            : "Party"
+                        }</span>
                     </div>
                 </div>
             </a>
@@ -94,7 +101,7 @@ function calculateDistance(lat1, lon1, lat2, lon2) {
 async function loadSidebarListings(listings) {
   var sidebarListings = document.getElementById("sidebarListings");
   var sidebarListingsContent = "";
-  
+
   const sortedListings = sortPartiesByPromotedStatus(listings);
 
   for (listing of sortedListings) {
@@ -117,11 +124,11 @@ async function loadSidebarListings(listings) {
       listing.HostName,
       listing.StartDate,
       listing.EndDate,
-      listing.Promoted,
       response,
       distance.toFixed(3),
       listing.Discounted,
-      listing.originalPrice
+      listing.originalPrice,
+      listing.Promoted
     );
   }
 
@@ -212,6 +219,11 @@ function isLoggedIn() {
 }
 
 async function checkUserFavs(user_id, party_id) {
-  const response = await isInFavorites(user_id, party_id);
+  const response = await fetch(
+    "http://localhost:8000/favorites?user_id=" +
+      user_id +
+      "&party_id=" +
+      party_id
+  );
   return response.json();
 }

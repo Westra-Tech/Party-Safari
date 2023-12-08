@@ -18,6 +18,16 @@ function handleRequest(req, res) {
   } else if (
     parsedUrl.pathname === "/favorites" &&
     req.method === "GET" &&
+    parsedUrl.searchParams.get("user_id")
+  ) {
+    favoritesController.getFavorites(
+      req,
+      res,
+      parsedUrl.searchParams.get("user_id")
+    );
+  } else if (
+    parsedUrl.pathname === "/favorites" &&
+    req.method === "GET" &&
     parsedUrl.searchParams.get("party_id")
   ) {
     favoritesController.isPartyFavorited(
