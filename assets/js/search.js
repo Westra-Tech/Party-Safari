@@ -61,6 +61,7 @@ document
     )
       .then((response) => response.json())
       .then((data) => {
+        console.log(data);
         allParties = data.parties; // Store parties in the global array
         clearAllMarkersFromMap();
         addMarkersToMap(data.parties); // Add all parties to the map

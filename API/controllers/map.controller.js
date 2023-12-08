@@ -147,7 +147,6 @@ exports.removeHostFromFavorites = async (req, res) => {
   }
 };
 
-
 /**
  * Retrieve a user's favorite hosts and parties.
  * If successful, it responds with a JSON object containing the user's favorites.
@@ -182,7 +181,6 @@ exports.getFavorites = async (req, res) => {
     res.end(JSON.stringify({ error: "Internal Server Error" }));
   }
 };
-
 
 /**
  * getPartyListingsByLocation - Retrieve party listings within a specific location.
@@ -223,7 +221,7 @@ exports.getPartyListingsByLocation = async (req, res, location) => {
         EndDate: { $gt: new Date() },
       })
       .toArray();
-    
+
     // Collect party listings into an array
     let partyListings = [];
     await parties.map((party) => {
@@ -240,8 +238,6 @@ exports.getPartyListingsByLocation = async (req, res, location) => {
     res.end(JSON.stringify({ error: "Internal Server Error" }));
   }
 };
-
-
 
 /**
  * getPartyListingsByFilters - Retrieves party listings based on input filters.
@@ -268,16 +264,40 @@ exports.getPartyListingsByFilters = async (
   limit,
   favorite,
   discount,
+  favHosts,
   userId
 ) => {
   try {
-    console.log("host: ",host)
+    if (favHosts === "on") {
+      let response = await favoritesPartyCollection.findOne({
+        user_id: userId,
+      });
+      response = response.favoriteParties;
+      favParties = [];
+      response.forEach((party) => {
+        favParties.push(party.party_id);
+      });
+      const allParties = await partyListingCollection.find().toArray();
+
+      const parties = [];
+      for (let party of allParties) {
+        if (favParties.includes(party._id.toString())) {
+          parties.push(party);
+        }
+      }
+
+      res.writeHead(200, { "Content-Type": "application/json" });
+      res.end(JSON.stringify({ parties: parties }));
+      return;
+    }
     // Build the query object based on the provided filters
     let query = {};
     // If the 'favorite' filter is on, fetch the user's favorite hosts and filter by them
     if (favorite === "on") {
-      const userFavorites = await favoritesCollection.findOne({ user_id: userId });
-      
+      const userFavorites = await favoritesCollection.findOne({
+        user_id: userId,
+      });
+
       console.log("User favorites:", userFavorites);
       if (userFavorites && userFavorites.favoriteList) {
         query.HostName = { $in: userFavorites.favoriteList };
@@ -357,13 +377,15 @@ exports.getPartyListingsByFilters = async (
     // Apply discounts to parties if the 'discount' filter is active
     if (discount === "on") {
       for (let party of parties) {
-        const discountEntry = await discountedCollection.findOne({ partyID: party._id.toString() });
+        const discountEntry = await discountedCollection.findOne({
+          partyID: party._id.toString(),
+        });
         if (discountEntry) {
           party.originalPrice = party.Price;
           party.Price = discountEntry.discountedPrice;
         }
       }
-    }    
+    }
     // Return the parties along with the pagination data
     res.writeHead(200, { "Content-Type": "application/json" });
     res.end(

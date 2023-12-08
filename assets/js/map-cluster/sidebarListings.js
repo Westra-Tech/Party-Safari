@@ -14,7 +14,9 @@ const listingHTML = (
   startTime,
   endTime,
   isFavorited,
-  distance
+  distance,
+  discounted,
+  originalPrice
 ) => {
   return `
     <div class="col-lg-6 col-md-6">
@@ -25,8 +27,14 @@ const listingHTML = (
                     <img src="assets/images/listing/9.jpg" alt=""
                         class="img-fluid">
                     <div class="rate-info">
-                        <h5>$${price}</h5>
-                        <span>Party</span>
+                        <h5>$${
+                          discounted
+                            ? '<span style="margin-right:10px"><del style="text-decoration: line-through;text-decoration-thickness: .35em;">' +
+                              originalPrice +
+                              "</del></span>"
+                            : ""
+                        }${price}</h5>
+                        <span> ${discounted ? "Discounted" : "Party"}</span>
                     </div>
                 </div>
             </a>
@@ -106,7 +114,9 @@ async function loadSidebarListings(listings) {
       listing.StartDate,
       listing.EndDate,
       response,
-      distance.toFixed(3)
+      distance.toFixed(3),
+      listing.Discounted,
+      listing.originalPrice
     );
   }
 
@@ -178,7 +188,7 @@ function favoriteParty(party_id, isFavorited) {
       });
       const favButton = document.getElementById(party_id);
       favButton.innerHTML =
-        "<i class='bx bx-heart' style='color:#da7c17' ></i>";
+        "<i class='bx bxs-heart' style='color:#d57d19'></i>";
       favButton.onclick = function () {
         favoriteParty(party_id, true);
       };
