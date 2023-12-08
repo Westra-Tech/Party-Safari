@@ -1,6 +1,7 @@
 // assets/js/map-cluster/sidebarListings.js
 const user_id = "3d6985d6-2f06-493d-82d1-d808e4bd7218";
 
+// Generate HTML for listing 
 const listingHTML = (
   id,
   price,
@@ -93,7 +94,10 @@ function calculateDistance(lat1, lon1, lat2, lon2) {
 async function loadSidebarListings(listings) {
   var sidebarListings = document.getElementById("sidebarListings");
   var sidebarListingsContent = "";
-  for (listing of listings) {
+  
+  const sortedListings = sortPartiesByPromotedStatus(listings);
+
+  for (listing of sortedListings) {
     const distance = await calculateDistance(
       listing.Latitude,
       listing.Longitude,
@@ -113,6 +117,7 @@ async function loadSidebarListings(listings) {
       listing.HostName,
       listing.StartDate,
       listing.EndDate,
+      listing.Promoted,
       response,
       distance.toFixed(3),
       listing.Discounted,
@@ -130,6 +135,11 @@ async function loadSidebarListings(listings) {
   //       google.maps.event.trigger(markers[markerId], "click");
   //     });
   //   }
+}
+
+// Promoted Parties Appear first in Listing
+function sortPartiesByPromotedStatus(parties) {
+  return parties.sort((a, b) => b.Promoted - a.Promoted);
 }
 
 function formatDate(inputDate) {
