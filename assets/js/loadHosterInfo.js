@@ -64,9 +64,10 @@ function initHost() {
   const hostInfoFav = document.getElementById("hostInfoFav");
   const user_id = "3d6985d6-2f06-493d-82d1-d808e4bd7218";
   const response = getFavoritesList(user_id, id);
+  const hostName = "Sigma Sigma Sigma";
   response.then((data) => {
     // check if host is in favoritesHosts array
-    if (data.favoriteHosts.some((host) => host === id))
+    if (data.favoriteHosts.some((host) => host === hostName))
       hostInfoFav.innerHTML =
         "<i class='bx bxs-heart' style='color:#d57d19'></i>";
   });
