@@ -1,4 +1,3 @@
-const user_id = "3d6985d6-2f06-493d-82d1-d808e4bd7218";
 // document
 //   .getElementById("searchFilterSubmit")
 //   .addEventListener("click", function () {
@@ -52,13 +51,8 @@ document
 
     var formData = new FormData(event.target);
     var searchParams = new URLSearchParams(formData).toString();
-    console.log(searchParams);
-    fetch(
-      "http://localhost:8000/map/party_listings_by_filters?" +
-        searchParams +
-        "&user_id=" +
-        user_id
-    )
+
+    fetch("http://localhost:8000/map/party_listings_by_filters?" + searchParams)
       .then((response) => response.json())
       .then((data) => {
         allParties = data.parties; // Store parties in the global array
