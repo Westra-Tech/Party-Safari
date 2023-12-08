@@ -13,7 +13,8 @@ const listingHTML = (
   host,
   startTime,
   endTime,
-  isFavorited
+  isFavorited,
+  distance
 ) => {
   return `
     <div class="col-lg-6 col-md-6">
@@ -34,7 +35,8 @@ const listingHTML = (
                     <h3>${title}</h3>
                     <p>
                         <i class="la la-map-marker"></i>${addressLine}, ${city}, ${state} ${zip}
-                    </p>
+                        </p>
+                        <strong>At a distance of ${distance} miles from your current location</strong>
                 </a>
                 <ul>
                     <li>${host}</li>
@@ -58,11 +60,38 @@ const listingHTML = (
     </div>`;
 };
 
+function encodeAddressToLongLat(address) {
+  const geocoder = new google.maps.Geocoder();
+  return geocoder.geocode({ address: address });
+}
+
+function calculateDistance(lat1, lon1, lat2, lon2) {
+  // Create LatLng objects
+  var point1 = new google.maps.LatLng(lat1, lon1);
+  var point2 = new google.maps.LatLng(lat2, lon2);
+
+  // Calculate distance using geometry library
+  var distance = google.maps.geometry.spherical.computeDistanceBetween(
+    point1,
+    point2
+  );
+
+  // Convert distance to miles
+  var distanceInMiles = distance * 0.000621371;
+
+  return distanceInMiles;
+}
 
 async function loadSidebarListings(listings) {
   var sidebarListings = document.getElementById("sidebarListings");
   var sidebarListingsContent = "";
   for (listing of listings) {
+    const distance = await calculateDistance(
+      listing.Latitude,
+      listing.Longitude,
+      40.50165524175918,
+      -74.44824480993542
+    );
     const response = await checkUserFavs(user_id, listing._id);
     sidebarListingsContent += listingHTML(
       listing._id,
@@ -76,7 +105,8 @@ async function loadSidebarListings(listings) {
       listing.HostName,
       listing.StartDate,
       listing.EndDate,
-      response
+      response,
+      distance.toFixed(3)
     );
   }
 
@@ -148,7 +178,7 @@ function favoriteParty(party_id, isFavorited) {
       });
       const favButton = document.getElementById(party_id);
       favButton.innerHTML =
-        "<i class='bx bxs-heart' style='color:#d57d19'></i>";
+        "<i class='bx bx-heart' style='color:#da7c17' ></i>";
       favButton.onclick = function () {
         favoriteParty(party_id, true);
       };
