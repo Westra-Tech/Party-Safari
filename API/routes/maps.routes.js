@@ -37,9 +37,15 @@ function handleRequest(req, res) {
     req.method === "DELETE"
   ) {
     mapController.removeHostFromFavorites(req, res);
-  } else if (parsedUrl.pathname === "/map/promoted_parties" && req.method === "POST") {
+  } else if (
+    parsedUrl.pathname === "/map/promoted_parties" &&
+    req.method === "POST"
+  ) {
     mapController.getPromotedParties(req, res);
-  }  else if (parsedUrl.pathname === "/map/favorite_host_parties" && req.method === "POST") {
+  } else if (
+    parsedUrl.pathname === "/map/favorite_host_parties" &&
+    req.method === "POST"
+  ) {
     mapController.filterFavoriteHostParties(req, res);
   } else if (
     parsedUrl.pathname === "/map/party_listings_by_filters" &&
@@ -55,7 +61,10 @@ function handleRequest(req, res) {
       parsedUrl.searchParams.get("host"),
       parsedUrl.searchParams.get("sort_by"),
       parsedUrl.searchParams.get("page"),
-      parsedUrl.searchParams.get("limit")
+      parsedUrl.searchParams.get("limit"),
+      parsedUrl.searchParams.get("Favorites"),
+      parsedUrl.searchParams.get("Discounted"),
+      parsedUrl.searchParams.get("user_id")
     );
   } else {
     // Handle 404 Not Found

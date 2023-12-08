@@ -23,7 +23,6 @@ exports.dbConnect = () => {
   favoritesCollection = db.collection("Favorites");
   promotedCollection = db.collection("Promoted");
   discountedCollection = db.collection("Discounted");
-
 };
 
 /**
@@ -219,11 +218,23 @@ exports.getPartyListingsByFilters = async (
   host,
   sort_by,
   page,
-  limit
+  limit,
+  favorite,
+  discount,
+  userId
 ) => {
   try {
     // Build the query object based on the provided filters
     let query = {};
+    let favorite = false;
+    let discount = false;
+    if (favorite === "on") {
+      query.Favorites = { $eq: favorite };
+    }
+
+    if (discount === "on") {
+      query.Discounted = { $eq: discount };
+    }
 
     if (start_time) {
       query.StartDate = { $gte: new Date(start_time) };
@@ -306,18 +317,16 @@ exports.getPartyListingsByFilters = async (
   }
 };
 
-
-
 /**
  * getPromotedParties - Returns promoted parties from array of party objects or party IDs sorted by amount paid.
  *                      Promotions that paid the most money will be outputted first.
- * 
+ *
  *  @param {Object} req - The HTTP request object.
  * Input:
  *   - Request body contains JSON data with an array of party objects or party IDs.
  *     Example: { "partiesOrIds": [...] }
  *   - Party objects should have an "_id" field.
- * 
+ *
  * @param {Object} res - The HTTP response object.
  * Output:
  *   - Responds with a JSON array of promoted party objects or party IDs.
@@ -326,19 +335,22 @@ exports.getPartyListingsByFilters = async (
  *   - In case of an error, responds with a 500 Internal Server Error.
  */
 exports.getPromotedParties = async (req, res) => {
-  let body = '';
-  req.on('data', chunk => {
+  let body = "";
+  req.on("data", (chunk) => {
     body += chunk.toString();
   });
-  req.on('end', async () => {
+  req.on("end", async () => {
     try {
       const parsedBody = JSON.parse(body);
-      const partiesOrIds = Array.isArray(parsedBody) ? parsedBody : parsedBody.partiesOrIds;
+      const partiesOrIds = Array.isArray(parsedBody)
+        ? parsedBody
+        : parsedBody.partiesOrIds;
 
-      let partyIds, returnFullPartyObjects = false;
+      let partyIds,
+        returnFullPartyObjects = false;
 
-      if (partiesOrIds[0] && typeof partiesOrIds[0] === 'object') {
-        partyIds = partiesOrIds.map(party => party._id.toString());
+      if (partiesOrIds[0] && typeof partiesOrIds[0] === "object") {
+        partyIds = partiesOrIds.map((party) => party._id.toString());
         returnFullPartyObjects = true;
       } else {
         partyIds = partiesOrIds;
@@ -348,18 +360,21 @@ exports.getPromotedParties = async (req, res) => {
       console.log("Searched party IDs: ", partyIds);
 
       // Fetch promotions for the given party IDs
-      const promotions = await promotedCollection.find({
-        partyID: { $in: partyIds }
-      }).toArray();
+      const promotions = await promotedCollection
+        .find({
+          partyID: { $in: partyIds },
+        })
+        .toArray();
 
       // Log promotions data
       console.log("Promotions: ", promotions);
 
       // Filter out promotions that are not currently valid
       const currentTimestamp = new Date();
-      const validPromotions = promotions.filter(promotion =>
-        promotion.promotionStart <= currentTimestamp &&
-        promotion.promotionEndDate >= currentTimestamp
+      const validPromotions = promotions.filter(
+        (promotion) =>
+          promotion.promotionStart <= currentTimestamp &&
+          promotion.promotionEndDate >= currentTimestamp
       );
 
       // Log valid promotions
@@ -369,14 +384,18 @@ exports.getPromotedParties = async (req, res) => {
       validPromotions.sort((a, b) => b.amountPaid - a.amountPaid);
 
       // Extract sorted promoted party IDs
-      const promotedPartyIds = validPromotions.map(promotion => promotion.partyID);
+      const promotedPartyIds = validPromotions.map(
+        (promotion) => promotion.partyID
+      );
 
       let result;
       if (returnFullPartyObjects) {
         // Fetch and return the full party objects for the promoted parties
-        result = await partyListingCollection.find({
-          _id: { $in: promotedPartyIds.map(id => new ObjectId(id)) }
-        }).toArray();
+        result = await partyListingCollection
+          .find({
+            _id: { $in: promotedPartyIds.map((id) => new ObjectId(id)) },
+          })
+          .toArray();
       } else {
         // Return only the promoted party IDs
         result = promotedPartyIds;
@@ -385,7 +404,6 @@ exports.getPromotedParties = async (req, res) => {
       // Sending back the response
       res.writeHead(200, { "Content-Type": "application/json" });
       res.end(JSON.stringify(result));
-
     } catch (error) {
       console.error("Error getting promoted parties: ", error);
       res.writeHead(500, { "Content-Type": "application/json" });
@@ -394,10 +412,9 @@ exports.getPromotedParties = async (req, res) => {
   });
 };
 
-
 /**
  * filterFavoriteHostParties - Returns parties hosted by a user's favorite hosts.
- * 
+ *
  * @param {Object} req - HTTP request with user ID as a query parameter and array of either party objects or party IDs in the body.
  * @param {Object} res - HTTP response with either an array of party objects or array of party IDs that are from favorite hosts.
  *                      Responds with 404 if user favorites are not found and 500 for other errors.
@@ -407,7 +424,7 @@ exports.filterFavoriteHostParties = async (req, res) => {
   // Parse the URL to get user_id from query parameters
   const parsedUrl = new URL(req.url, `http://${req.headers.host}`);
   const userId = parsedUrl.searchParams.get("user_id");
-  
+
   if (!userId) {
     // If user_id is missing, return a 400 Bad Request response
     res.writeHead(400, { "Content-Type": "application/json" });
@@ -415,19 +432,23 @@ exports.filterFavoriteHostParties = async (req, res) => {
     return;
   }
 
-  let body = '';
-  req.on('data', chunk => {
+  let body = "";
+  req.on("data", (chunk) => {
     body += chunk.toString();
   });
 
-  req.on('end', async () => {
+  req.on("end", async () => {
     try {
       const parsedBody = JSON.parse(body);
-      const partiesOrIds = Array.isArray(parsedBody) ? parsedBody : parsedBody.partiesOrIds;
+      const partiesOrIds = Array.isArray(parsedBody)
+        ? parsedBody
+        : parsedBody.partiesOrIds;
 
       // Fetch favorite hosts for the user
       // console.log("Fetching user favorites for user ID:", userId);
-      const userFavorites = await favoritesCollection.findOne({ user_id: userId });
+      const userFavorites = await favoritesCollection.findOne({
+        user_id: userId,
+      });
       if (!userFavorites) {
         // console.log("User favorites not found for user ID:", userId);
         // If user favorites are not found, return a 404 Not Found response
@@ -442,25 +463,31 @@ exports.filterFavoriteHostParties = async (req, res) => {
       // console.log("Favorite host names:", favoriteHostNames);
 
       let parties;
-      if (partiesOrIds[0] && typeof partiesOrIds[0] === 'object') {
+      if (partiesOrIds[0] && typeof partiesOrIds[0] === "object") {
         parties = partiesOrIds;
       } else {
         // Log the IDs being searched in the collection
-        const idsToSearch = partiesOrIds.map(id => new ObjectId(id));
+        const idsToSearch = partiesOrIds.map((id) => new ObjectId(id));
         // console.log("Searching for IDs in partyListingCollection:", idsToSearch);
 
-        parties = await partyListingCollection.find({
-          _id: { $in: idsToSearch }
-        }).toArray();
+        parties = await partyListingCollection
+          .find({
+            _id: { $in: idsToSearch },
+          })
+          .toArray();
 
         // console.log("Found parties:", parties);
       }
 
       // Filter parties whose host name is in the favorite host names
-      const favoriteParties = parties.filter(party => favoriteHostNames.includes(party.HostName));
+      const favoriteParties = parties.filter((party) =>
+        favoriteHostNames.includes(party.HostName)
+      );
 
       // Prepare the result
-      const result = Array.isArray(parsedBody) ? favoriteParties : favoriteParties.map(party => party._id);
+      const result = Array.isArray(parsedBody)
+        ? favoriteParties
+        : favoriteParties.map((party) => party._id);
 
       // Send the response
       res.writeHead(200, { "Content-Type": "application/json" });

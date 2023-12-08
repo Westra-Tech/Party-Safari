@@ -1,3 +1,4 @@
+const user_id = "3d6985d6-2f06-493d-82d1-d808e4bd7218";
 // document
 //   .getElementById("searchFilterSubmit")
 //   .addEventListener("click", function () {
@@ -42,15 +43,22 @@
 // assets/js/search.js
 let allParties = []; // Global array to store all parties
 let currentPage = 1;
-const partiesPerPage = 2; // Number of parties to show per page
+const partiesPerPage = 4; // Number of parties to show per page
 
-document.getElementById("searchForm").addEventListener("submit", function (event) {
+document
+  .getElementById("searchForm")
+  .addEventListener("submit", function (event) {
     event.preventDefault();
 
     var formData = new FormData(event.target);
     var searchParams = new URLSearchParams(formData).toString();
-    
-    fetch("http://localhost:8000/map/party_listings_by_filters?" + searchParams)
+    console.log(searchParams);
+    fetch(
+      "http://localhost:8000/map/party_listings_by_filters?" +
+        searchParams +
+        "&user_id=" +
+        user_id
+    )
       .then((response) => response.json())
       .then((data) => {
         allParties = data.parties; // Store parties in the global array
@@ -61,23 +69,23 @@ document.getElementById("searchForm").addEventListener("submit", function (event
       .catch((error) => {
         console.error("Error:", error);
       });
-});
+  });
 
 function paginateParties(page) {
-    currentPage = page; // Update the current page
-    const startIndex = (page - 1) * partiesPerPage;
-    const endIndex = startIndex + partiesPerPage;
-    const partiesToShow = allParties.slice(startIndex, endIndex);
-    loadSidebarListings(partiesToShow); // Load listings for current page
-    updatePaginationButtons(); // Update the state of pagination buttons
+  currentPage = page; // Update the current page
+  const startIndex = (page - 1) * partiesPerPage;
+  const endIndex = startIndex + partiesPerPage;
+  const partiesToShow = allParties.slice(startIndex, endIndex);
+  loadSidebarListings(partiesToShow); // Load listings for current page
+  updatePaginationButtons(); // Update the state of pagination buttons
 }
 
 function updatePaginationButtons() {
-    const nextPageButton = document.getElementById("nextPageButton");
-    const prevPageButton = document.getElementById("prevPageButton");
+  const nextPageButton = document.getElementById("nextPageButton");
+  const prevPageButton = document.getElementById("prevPageButton");
 
-    nextPageButton.disabled = currentPage * partiesPerPage >= allParties.length;
-    prevPageButton.disabled = currentPage === 1;
+  nextPageButton.disabled = currentPage * partiesPerPage >= allParties.length;
+  prevPageButton.disabled = currentPage === 1;
 }
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -104,16 +112,16 @@ document.addEventListener("DOMContentLoaded", function () {
 
   nextPageButton.addEventListener("click", function () {
     if (currentPage * partiesPerPage < allParties.length) {
-        currentPage++;
-        paginateParties(currentPage);
+      currentPage++;
+      paginateParties(currentPage);
     }
   });
 
   prevPageButton.addEventListener("click", function () {
-      if (currentPage > 1) {
-          currentPage--;
-          paginateParties(currentPage);
-      }
+    if (currentPage > 1) {
+      currentPage--;
+      paginateParties(currentPage);
+    }
   });
 
   // Initial pagination setup on page load
