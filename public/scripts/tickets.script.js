@@ -69,9 +69,7 @@ async function sendTicketUpdateRequest(id){
     // handle the error
     return data.json();
   });
-
-  // return result;
-  
+ 
 
 }
 
@@ -81,12 +79,36 @@ async function sendTicketUpdateRequest(id){
 
 
 // begins the scanning process
-function scan(){
+async function scan(){
   const videoElement = document.getElementById('videoElement');
   const button = document.getElementById('scanButton');
   button.hidden = true;
   videoElement.hidden = false;
 
+  // setUpCamera();
   scanQRCode();
 
+}
+
+async function setUpCamera(){
+  // set up camera
+  const videoElement = document.getElementById('videoElement');
+  const resultElement = document.getElementById('result');
+
+  // Check if the browser supports getUserMedia
+  if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+    // Get video stream from the user's camera
+    navigator.mediaDevices.getUserMedia({ video: true, audio: false })
+      .then(function(stream) {
+        // Attach the stream to the video element
+        videoElement.srcObject = stream;
+        scanQRCode();
+        // console.log("hello");
+      })
+      .catch(function(err) {
+        console.error('Error accessing camera:', err);
+      });
+  } else {
+    console.error('getUserMedia is not supported in this browser.');
+  }
 }

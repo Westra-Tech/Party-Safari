@@ -4,6 +4,7 @@
     --orange: #f2af6f;
     --darkened-orange: #f0a35c;
     --blue: #6cd7f4;
+    --darkened-blue: #00bcef;
     --green: #baf26f;
     --darkened-green: #99eb2d;
     --almost-white: rgb(226, 226, 226);
@@ -30,3 +31,69 @@ video{
     border: 6px solid red;
     border-radius: 20px;
 }
+
+/* Party Host Dashboard */
+
+.brief-party-details{
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+}
+
+
+.listing-button{
+    background-color: var(--blue);
+}
+
+
+.party-item-display{
+    display: flex;
+    padding: 10px;
+    background-color: #797979;
+}
+
+.party-item-display:hover{
+    display: flex;
+    padding: 10px;
+    background-color: #9c9c9c;
+    border: 5px solid white;
+}
+
+
+.party-modifying-options{
+    display: flex;
+    flex-direction: column;
+    padding: 8px;
+    gap: 10px;
+}
+
+.party-modifying-options button{
+    width: 100%;
+}
+
+.party-modifying-options button:hover{
+    width: 100%;
+    background-color: var(--darkened-blue);
+}
+
+
+.scrollable-events-data{
+    overflow-y: auto; 
+}
+
+
+.shrunk-party-image{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.square-image-container{
+    width: 15%;
+    margin-right: 5px;
+}
+
+
+
+
+

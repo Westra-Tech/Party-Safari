@@ -10,6 +10,8 @@
     --almost-white: rgb(226, 226, 226);
 }
 
+
+
 .logo{
     color: var(--orange);
     letter-spacing: 3px;
@@ -25,6 +27,11 @@
     display: flex;
 }
 
+.nav_bar_container ul.accountLoginOptions{
+    margin-left: auto;
+    margin-right: 5px;
+}
+
 .nav_bar_container li{
     display: inline-block;
     font-size: 20px;
@@ -38,9 +45,35 @@
     padding: 14px 16px;
     text-decoration: none;
     color:var(--almost-white);
+    border-radius: 100px;
     
 }
 
+.nav_bar_container ul.accountLoginOptions li a{
+    display: block;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    color:var(--bg);
+    background-color: var(--green);
+    border-radius: 100px; /* rounded buttons*/
+    margin-right: 5px;
+
+}
+
+
 .nav_bar_container li a:hover {
     background-color: var(--bg-darkened);
+}
+
+.nav_bar_container ul.accountLoginOptions li a:hover {
+    background-color: var(--darkened-green);
+    color: var(--bg-darkened);
+}
+
+.nav_bar_container ul.accountLoginOptions li img#pfp{
+	border-radius: 100px;
+    padding-top: 5px;
+    /* margin: auto; */
+    /* padding: auto; */
 }

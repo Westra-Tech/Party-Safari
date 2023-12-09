@@ -15,11 +15,17 @@ class NavigationBar extends HTMLElement {
             <ul>
                 <li id="home"><a href="#">Home</a></li>
                 <li id="map"><a href="#">Map</a></li>
-                <li id="contact"><a href="#">Contact</a></li>
             </ul>
+            <ul class="accountLoginOptions">
+                <li id="login"><a href="#">Login</a></li>
+                <li id="register"><a href="#">Register</a></li>
+            </ul>
+            
+
       
         </div>
         `;
+//                <li><img id="pfp" src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png" loading="lazy" width="52" alt="">
 
         // ADD EVENT LISTENERS
         const home = this.querySelector('#home'); // home button
@@ -33,11 +39,6 @@ class NavigationBar extends HTMLElement {
         map.addEventListener('click', () => {
           window.location.href = '/partyMap';
         });
-
-        contact.addEventListener('click', () => {
-          window.location.href = '/';
-        });
-
 
 
     }
