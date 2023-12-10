@@ -1,0 +1,130 @@
+
+:root{
+    --bg: #404040;
+    --bg-darkened: #333333;
+    --orange: #f2af6f;
+    --darkened-orange: #f0a35c;
+    --blue: #6cd7f4;
+    --green: #baf26f;
+    --darkened-green: #99eb2d;
+    --almost-white: rgb(226, 226, 226);
+    --darkened-almost-white: rgb(182, 182, 182);
+
+}
+
+.logo{
+    color: var(--orange);
+    letter-spacing: 3px;
+    text-align: center;
+    font-size: 26px;
+    font-weight: bold;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+
+.nav_bar_container{
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+    display: flex;
+}
+
+.nav_bar_container ul.accountLoginOptions{
+    margin-left: auto;
+    margin-right: 5px;
+}
+
+.nav_bar_container li{
+    display: inline-block;
+    font-size: 20px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    letter-spacing: 3px;
+}
+
+.nav_bar_container li a{
+    display: block;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    color:var(--almost-white);
+    border-radius: 100px;
+    
+}
+
+.nav_bar_container ul.accountLoginOptions li a{
+    display: block;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    color:var(--bg);
+    background-color: var(--green);
+    border-radius: 100px; /* rounded buttons*/
+    margin-right: 5px;
+
+}
+
+
+.nav_bar_container li a:hover {
+    background-color: var(--bg-darkened);
+}
+
+.nav_bar_container ul.accountLoginOptions li a:hover {
+    background-color: var(--darkened-green);
+    color: var(--bg-darkened);
+}
+
+.nav_bar_container ul.accountLoginOptions li img#pfp{
+	border-radius: 100px;
+    background-color: 5px;
+    margin-right: 10px;
+}
+
+#profile img:hover{
+    background-color: red;
+    border: 4px solid var(--darkened-almost-white);
+}
+
+#profile-menu-container{
+    display: none;
+}
+
+#profile-menu{
+    list-style-type: none;
+}
+
+#profile-menu li{
+    background-color: var(--almost-white);
+    padding-bottom: 10px;
+    padding-top: 10px;
+    padding-right: 10px;
+    padding-left: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+#profile-menu li.user-option:hover{
+    background-color: var(--darkened-almost-white);
+}
+
+#profile-menu li a{
+    text-decoration: none; 
+    color: #000;
+	font-size: 20px;
+	font-style: normal;
+	font-weight: 700;
+	line-height: 20px;
+    border: none;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    letter-spacing: 3px;
+}
+
+#profile-menu li a:hover{
+    background-color: var(--darkened-almost-white);
+    border-radius: 0;
+}
+
+
+#profile-menu-container{
+    position: absolute;
+    transform: translate(-5%, 15%);
+    z-index: 9999;
+    right: 0;
+}

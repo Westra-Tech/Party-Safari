@@ -1,0 +1,2 @@
+LOGIN TO CLUSTER SHELL:
+mongosh "mongodb+srv://atlascluster.bvzvel0.mongodb.net/dummy_db" --apiVersion 1 --username brian

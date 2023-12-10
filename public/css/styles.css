@@ -1,0 +1,169 @@
+:root{
+    --bg: #404040;
+    --bg-darkened: #333333;
+    --orange: #f2af6f;
+    --darkened-orange: #f0a35c;
+    --blue: #6cd7f4;
+    --darkened-blue: #00bcef;
+    --green: #baf26f;
+    --darkened-green: #99eb2d;
+    --almost-white: rgb(226, 226, 226);
+    --darkened-almost-white: rgb(182, 182, 182);
+
+}
+
+/* scan-tickets.html */
+
+body{
+    background-color: var(--bg);
+    color: var(--almost-white);
+}
+
+button{
+    background-color: var(--blue);
+    width: 50%;
+    padding: 10px;
+    border-radius: 20px;
+    border: none;
+}
+
+video{  
+    border: 6px solid red;
+    border-radius: 20px;
+}
+
+/* Party Host Dashboard */
+
+.brief-party-details{
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+    height: 150px;
+    overflow: hidden;
+}
+
+#confirmDeleteButton{
+    margin-bottom: 10px;
+}
+
+#create-new-listing-button{
+    width: 10%;
+    margin: auto;
+    position: absolute;
+    right: 5%;
+}
+
+.delete-confirmation-container {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.delete-confirmation-content {
+    background-color: var(--almost-white);
+    margin: 20% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 300px;
+    text-align: center;
+    color: black;
+}
+
+.delete-confirmation-buttons {
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+.delete-confirmation-buttons button:hover{
+    background-color: var(--darkened-blue);
+}
+
+#description{
+    font-style: italic;
+}
+
+#events-header{
+    display: flex;
+    flex-direction: row;
+    position: relative;
+    align-items: center;
+}
+
+#hostName{
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.listing-button{
+    background-color: var(--blue);
+}  
+
+#myinfo{
+    background-color: #797979;
+    padding: 10px;
+}
+
+.party-item-display{
+    display: flex;
+    padding: 10px;
+    background-color: #797979;
+}
+
+.party-item-display:hover{
+    display: flex;
+    padding: 10px;
+    background-color: #9c9c9c;
+    border: 5px solid white;
+}
+
+
+.party-modifying-options{
+    display: flex;
+    flex-direction: column;
+    padding: 8px;
+    gap: 10px;
+}
+
+.party-modifying-options button{
+    width: 100%;
+}
+
+.party-modifying-options button:hover{
+    width: 100%;
+    background-color: var(--darkened-blue);
+}
+
+
+.scrollable-events-data{
+    overflow-y: auto; 
+}
+
+
+.shrunk-party-image{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.square-image-container{
+    width: 15%;
+    margin-right: 5px;
+}
+
+#title{
+    font-size: 20px;
+    font-weight: bold;
+}
+
+
+
+
+
+
+

@@ -1,0 +1,21 @@
+{
+  "name": "se-report3",
+  "version": "1.0.0",
+  "description": "------------------------------\r HOW TO ADD A NEW API ENDPOINT\r ------------------------------",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@sendgrid/mail": "^7.7.0",
+    "crypto": "^1.0.1",
+    "dotenv": "^16.3.1",
+    "mongodb": "^6.3.0",
+    "path": "^0.12.7",
+    "qrcode": "^1.5.3",
+    "stripe": "^14.5.0"
+  }
+}
