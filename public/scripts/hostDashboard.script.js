@@ -30,6 +30,7 @@ async function updateMyEvents(arr){
         let customElement = document.createElement('party-component');
         customElement.setAttribute("title", party.Name);
         customElement.setAttribute("description", party.Description);
+        console.log(party._id);
 
         const date = new Date(party.StartDate);
         const month = date.toLocaleDateString('en-US', { month: 'short' });
@@ -90,6 +91,7 @@ async function updateHostInformation(json){
 
 
 // on page load, update events list
-const h = "656d0bc954b790022840f8f2";
+// const h = "656d0bc954b790022840f8f2";
+const h = '656d0101a1820ce535ce89da';
 getPartiesByHost(h);
 getHostInformation(h);

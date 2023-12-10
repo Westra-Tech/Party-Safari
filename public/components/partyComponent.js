@@ -33,10 +33,39 @@ class partyComponent extends HTMLElement {
                 <button id="manage-attendance-button" class="listing-button">Manage Attendance</button>
                 <button id="delete-listing-button" class="listing-button">Delete Listing</button>
             </div>
+            <div id="delete-confirmation" class="delete-confirmation-container">
+                <div class="delete-confirmation-content">
+                    <p>Are you sure you want to delete?</p>
+                    <div class="delete-confirmation-buttons">
+                        <button id="confirmDeleteButton">Delete</button>
+                        <button id="cancelDeleteButton">Cancel</button>
+                    </div>
+                </div>
+            </div>
         </div>
+        
         `;
 
-        
+        const deleteButton = this.querySelector('#delete-listing-button');
+        const deletePopUp = this.querySelector('#delete-confirmation');
+        const confirmDeleteButton = this.querySelector('#confirmDeleteButton');
+        const cancelDeleteButton = this.querySelector('#cancelDeleteButton');
+
+
+        deleteButton.addEventListener('click', () => {
+            deletePopUp.style.display = 'block';
+        });
+
+        // hide pop up after confirming delete
+        confirmDeleteButton.addEventListener('click', () => {
+            deletePopUp.style.display = 'none';
+        });
+
+        // hide pop up after confirming cancel
+        cancelDeleteButton.addEventListener('click', () => {
+            deletePopUp.style.display = 'none';
+        });
+
     }
 
 
