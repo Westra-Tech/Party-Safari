@@ -42,7 +42,13 @@ class NavigationBar extends HTMLElement {
         const register = this.querySelector('#register');
         const menu = this.querySelector('#profile-menu-container');
 
+        login.addEventListener('click', () => {
+          window.location.href = '/login';
+        });
 
+        register.addEventListener('click', () => {
+          window.location.href = '/login';
+        });
 
 
         home.addEventListener('click', () => {
