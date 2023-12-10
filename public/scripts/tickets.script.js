@@ -55,7 +55,6 @@ async function sendTicketUpdateRequest(id){
     } 
   };
 
-  let result = "";
 
   fetch(url, options)
   .then(response => response.json())

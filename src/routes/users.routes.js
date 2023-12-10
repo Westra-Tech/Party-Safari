@@ -26,6 +26,16 @@ function handleUserRequest(req, res) {
       res,
       parsedUrl.searchParams.get("N")
     );
+  }else if (
+    parsedUrl.pathname === "/api/users/get-user-by-id" &&
+    req.method === "GET" &&
+    parsedUrl.searchParams.has("user_id")
+  ) {
+    usersController.getUserById(
+      req,
+      res,
+      parsedUrl.searchParams.get("user_id")
+    );
   } else {
     res.writeHead(404, { "Content-Type": "application/json" });
     res.end(JSON.stringify({ error: "Endpoint not found" }));

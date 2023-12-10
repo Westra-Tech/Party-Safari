@@ -8,22 +8,24 @@
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/Westra-Tech/Party-Safari"
+        "url": "git+https://github.com/mdaniels-1/subteam3-demo1.git"
     },
     "author": "",
     "license": "ISC",
     "bugs": {
-        "url": "https://github.com/Westra-Tech/Party-Safari/issues"
+        "url": "https://github.com/mdaniels-1/subteam3-demo1/issues"
     },
-    "homepage": "https://github.com/Westra-Tech/Party-Safari#readme",
+    "homepage": "https://github.com/mdaniels-1/subteam3-demo1#readme",
     "dependencies": {
         "bson": "^6.2.0",
         "cheerio": "^1.0.0-rc.12",
+        "crypto": "^1.0.1",
         "dotenv": "^16.3.1",
-        "mongodb": "^6.2.0",
         "getusermedia": "^2.0.1",
         "ip": "^1.1.8",
         "jsqr": "^1.4.0",
-        "qrcode": "^1.5.3"
+        "mongodb": "^6.2.0",
+        "qrcode": "^1.5.3",
+        "uuid": "^9.0.1"
     }
 }

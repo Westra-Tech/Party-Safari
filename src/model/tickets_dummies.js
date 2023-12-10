@@ -2,8 +2,9 @@
 // tickets_dummies.js
 // this file creates some sample dummy tickets
 
-const dotenv = require("dotenv");
-const path = require("path");
+const dotenv = require('dotenv');
+const path = require('path');
+const crypto = require('crypto');
 
 // console.log(path.dirname(process.cwd()));
 
@@ -41,16 +42,32 @@ tickets_co.insertMany([
     
     // end of semester bash
     {
-        user_id: new ObjectId("6557d49e3a8bf89eb36bb17a"),
-        party_id: new ObjectId("6557d93c0bb1397e7d44075e"),
-        ticket_id: "ticket 1",
+        _id: crypto.randomUUID(),
+        user_id: "",
+        party_id: "6f6ff140-c6eb-4b26-a49a-2ecae8a7b3b5",
+        ticket_id: crypto.randomUUID(),
         status: "not attended",
     },
     {
-        user_id: new ObjectId("6557d49e3a8bf89eb36bb17b"), 
-        party_id: new ObjectId("6557d93c0bb1397e7d44075e"),
-        ticket_id: "ticket 2",
+        _id: crypto.randomUUID(),
+        user_id: "", 
+        party_id: "6f6ff140-c6eb-4b26-a49a-2ecae8a7b3b5",
+        ticket_id: crypto.randomUUID(),
         status: "not attended",
+    },
+    {
+      _id: crypto.randomUUID(),
+      user_id: "", 
+      party_id: "8763852a-bcad-4a9c-8a2b-a962255f2aad",
+      ticket_id: crypto.randomUUID(),
+      status: "not attended",
+    },
+    {
+      _id: crypto.randomUUID(),
+      user_id: "", 
+      party_id: "8763852a-bcad-4a9c-8a2b-a962255f2aad",
+      ticket_id: crypto.randomUUID(),
+      status: "not attended",
     },
     
 ]);

@@ -92,3 +92,29 @@ exports.getNLatestUsers = async (req, res, N) => {
     res.end(JSON.stringify({ error: "Internal Server Error" }));
   }
 }
+
+exports.getUserById = async (req, res, id) =>{
+  // check if parameter is there
+  //check if host_id exists
+  if(!id){
+    res.writeHead(400, { "Content-Type": "application/json" });
+    return res.end(JSON.stringify({ error: "id parameter is missing" + structuredClone(id)}));
+  }
+
+  const query = {_id: id};
+
+  // fetch all parties that this host owns
+  try {
+    const d = await mongoClient.db("Users");
+    const coll = await d.collection("User Data");
+
+    const p = await coll.find(query).toArray();
+
+    res.writeHead(200, { "Content-Type": "application/json" });
+    res.end(JSON.stringify(p));
+  } catch (error) {
+    console.error(error);
+    res.writeHead(500, { "Content-Type": "application/json" });
+    res.end(JSON.stringify({ error: "Internal Server Error" }));
+  }
+}

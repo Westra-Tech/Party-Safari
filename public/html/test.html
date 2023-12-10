@@ -1,18 +1,31 @@
 <!DOCTYPE html>
-<html>
-<head>
-  <title>Test QR Code Scanner</title>
-  <!-- <script src="https://cdn.jsdelivr.net/npm/instascan@1.0.1/instascan.min.js"></script> -->
-  <script src="../scripts/test.js"></script>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="../css/styles.css">
+        <link rel="stylesheet" href="../css/navigation.css">
+        <link rel="stylesheet" href="../css/footer.css">
 
-</head>
+        <title>Test Host Dashboard | PartySafari</title>
+    </head>
+
+    <script src="../components/navigation.js"></script>
+    <script src="../components/footer.js"></script>
+    <script src="../components/partyComponent.js"></script>
+
+    <script src="../scripts/test.js"></script>
 <body>
   <div>
-    <video id="videoElement" autoplay></video>
-    
-    <canvas id="canvas" style="background-color: blue;"></canvas>
+    <div class="my-events-container">
+      <h1>My Events</h1>
+      <div id="scrollable-events-data" class="scrollable-events-data">
+      </div>   
+
   </div>
-  <div id="result">Result stuff here</div>
+    
+
+  </div>
 
 </body>
 </html>

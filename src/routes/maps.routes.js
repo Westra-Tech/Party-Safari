@@ -3,7 +3,7 @@ const mapController = require("../controllers/map.controller.js");
 
 function handleRequest(req, res) {
   mapController.dbConnect();
-  const parsedUrl = new URL(req.url, "http://localhost:8080");
+  const parsedUrl = new URL(req.url, "http://localhost:3000");
 
   // Route requests based on URL paths
   if (parsedUrl.pathname === "/api/data" && req.method === "GET") {

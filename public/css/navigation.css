@@ -8,9 +8,9 @@
     --green: #baf26f;
     --darkened-green: #99eb2d;
     --almost-white: rgb(226, 226, 226);
+    --darkened-almost-white: rgb(182, 182, 182);
+
 }
-
-
 
 .logo{
     color: var(--orange);
@@ -73,7 +73,58 @@
 
 .nav_bar_container ul.accountLoginOptions li img#pfp{
 	border-radius: 100px;
-    padding-top: 5px;
-    /* margin: auto; */
-    /* padding: auto; */
+    background-color: 5px;
+    margin-right: 10px;
+}
+
+#profile img:hover{
+    background-color: red;
+    border: 4px solid var(--darkened-almost-white);
+}
+
+#profile-menu-container{
+    display: none;
+}
+
+#profile-menu{
+    list-style-type: none;
+}
+
+#profile-menu li{
+    background-color: var(--almost-white);
+    padding-bottom: 10px;
+    padding-top: 10px;
+    padding-right: 10px;
+    padding-left: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+#profile-menu li.user-option:hover{
+    background-color: var(--darkened-almost-white);
+}
+
+#profile-menu li a{
+    text-decoration: none; 
+    color: #000;
+	font-size: 20px;
+	font-style: normal;
+	font-weight: 700;
+	line-height: 20px;
+    border: none;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    letter-spacing: 3px;
+}
+
+#profile-menu li a:hover{
+    background-color: var(--darkened-almost-white);
+    border-radius: 0;
+}
+
+
+#profile-menu-container{
+    position: absolute;
+    transform: translate(-5%, 15%);
+    z-index: 9999;
+    right: 0;
 }

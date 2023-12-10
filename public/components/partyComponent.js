@@ -10,6 +10,8 @@ class partyComponent extends HTMLElement {
         this.title = this.getAttribute('title');
         this.description = this.getAttribute('description');
         this.startDate = this.getAttribute('startDate');
+        this.location = this.getAttribute('location');
+
         this.render();
     }
   
@@ -21,9 +23,9 @@ class partyComponent extends HTMLElement {
             </div>
 
             <div class="brief-party-details">
-                <p>${this.title}</p>
-                <p>${this.startDate}</p>
-                <p>${this.description}</p>
+                <p id="title">${this.title}</p>
+                <p id="location-date">${this.location}  |  ${this.startDate}</p>
+                <p id="description">${this.description}</p>
             </div>
 
             <div class="party-modifying-options">

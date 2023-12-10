@@ -14,6 +14,16 @@ function handlePartyRequest(req, res) {
       res,
       parsedUrl.searchParams.get("N")
     );
+  }else if(
+      parsedUrl.pathname === "/api/parties/get-parties-by-host" &&
+      req.method === "GET" &&
+      parsedUrl.searchParams.has("host_id")
+    ){
+      partiesController.getPartiesByHost(
+        req, 
+        res, 
+        parsedUrl.searchParams.get('host_id')
+      );
   } else {
     res.writeHead(404, { "Content-Type": "application/json" });
     res.end(JSON.stringify({ error: "Endpoint not found" }));

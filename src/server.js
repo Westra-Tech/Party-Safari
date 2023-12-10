@@ -14,10 +14,12 @@ const serveScanTicketsPage = require("./views/scan-tickets.view.js");
 const handleScanTicketsRequests = require("./routes/scan-tickets.routes.js");
 const handleMapRequests = require("./routes/maps.routes.js");
 const handlePartyRequests = require("./routes/party.routes.js");
+const serveHostDashboard = require('./views/hostDashboard.views.js');
 
 const router = require("./routes/seba_router.js");
 let serverST2 = new Server(8000, "localhost");
 let UUID = "034e0c73-6f80-4d82-a348-20acc997130a";
+
 
 const server = http.createServer((req, res) => {
   // CORS Allow all origins
@@ -27,49 +29,51 @@ const server = http.createServer((req, res) => {
 
   // Route the request to the appropriate handler
   if (pathname === "/") {
-    serveLandingPage(req, res);
+        serveLandingPage(req, res);
   } else if (pathname === "/partyReviews") {
-    servePartyReviewsPage(req, res);
+        servePartyReviewsPage(req, res);
   } else if (pathname.endsWith(".js") || pathname.endsWith(".css")) {
-    serveStaticFile(req, res);
+        serveStaticFile(req, res);
   } else if (pathname.startsWith("/api/reviews")) {
-    handleReviewRequests(req, res);
+        handleReviewRequests(req, res);
   } else if (pathname.startsWith("/api/rsvp")) {
-    handleRsvpRequests(req, res);
+        handleRsvpRequests(req, res);
   } else if (pathname.startsWith("/api/users")) {
     // Fetches from temporary simplified users collection!
-    handleUserRequests(req, res);
+        handleUserRequests(req, res);
   } else if (pathname.startsWith("/api/parties")) {
-    // Fetches from temporary simplified parties collection!
-    handlePartyReviewRequests(req, res);
+        // Fetches from temporary simplified parties collection!
+        handlePartyReviewRequests(req, res);
   } else if (pathname.startsWith("/scan-tickets")) {
-    serveScanTicketsPage(req, res);
+        serveScanTicketsPage(req, res);
   } else if (pathname.startsWith("/api/scan-tickets")) {
-    handleScanTicketsRequests(req, res);
+        handleScanTicketsRequests(req, res);
   } else if (
     pathname === "/promotions" ||
     pathname === "/create-checkout-session" ||
     pathname === "/shopping_cart" ||
     pathname === "/transactions"
   ) {
-    router.applicationServer(req, res);
+        router.applicationServer(req, res);
   } else if (pathname.startsWith("user?login")) {
-    serverST2.userLogin();
+        serverST2.userLogin();
   } else if (pathname.startsWith("user?profile")) {
-    serverST2.getUserInfo(UUID);
+        serverST2.getUserInfo(UUID);
   } else if (pathname.startsWith("user?edit_profile")) {
-    serverST2.updateUserInfo(UUID);
+        serverST2.updateUserInfo(UUID);
   } else if (pathname.startsWith("user?del_profile")) {
-    serverST2.deleteUser(UUID);
+        serverST2.deleteUser(UUID);
   } else if (req.url.startsWith("/party_listings")) {
-    handlePartyReviewRequests(req, res);
+        handlePartyReviewRequests(req, res);
     return;
   } else if (req.url.startsWith("/map")) {
     handleMapRequests(req, res);
     return;
+  } else if (pathname.startsWith('/host-dashboard')){
+        serveHostDashboard(req, res);
   } else {
-    response.writeHead(404);
-    response.end("Not Found");
+    res.writeHead(404);
+    res.end("Not Found");
   }
 });
 
