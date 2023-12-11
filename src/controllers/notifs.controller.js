@@ -126,7 +126,7 @@ async function createNotif(request, response, user_id, host_id) {
       await notifCollection.insertOne(newNotif);
 
       response.setHeader("Content-Type", "text/plain"); //set content type to plain text
-      response.writeHead(201); //Response Code: Created
+      response.writeHead(200); //Response Code: OK
       response.end("Notification created"); //Response Message
     } catch (error) {
       response.writeHead(400); //Response Code: Bad Request
@@ -170,7 +170,7 @@ async function updateNotif(request, response, notif_id) {
       }
 
       response.setHeader("Content-Type", "text/plain"); //set content type to plain text
-      response.writeHead(201); //Response Code: Created
+      response.writeHead(200); //Response Code: OK
       response.end("Notification updated"); //Response Message
     } catch {
       response.writeHead(400); //Response Code: Bad Request
