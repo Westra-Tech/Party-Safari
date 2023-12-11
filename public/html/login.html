@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="../css/landingPage.css">
+        <link rel="stylesheet" href="../css/navigation.css">
+        <link rel="stylesheet" href="../css/footer.css">
+
+        <title>PartySafari Login</title>
+    </head>
+    <body>
+        <nav-bar></nav-bar>
+        <form action="login.php" method="post" onsubmit="return loginWrapperFunc(event)">
+            <p class="text">Username: <input type="text" name="username" required></p>
+            <p class="text">Password: <input type="password" name="password" required></p>
+            <p class="buttontext"><input type="submit" value="Login"></p>
+        </form>
+        <div id="button-container" class="button_container">
+            <button id="see-reviews" class="see_reviews" onclick="partyReviews()">See Reviews</button>
+            <button id="see-reviews" class="see_reviews" onclick="partyMap()">See Map</button>
+            <button id="see-reviews" class="see_reviews" onclick="scanTickets()">Scan tickets</button>
+            <script>
+                function partyMap() {
+                    // Redirect to the next page
+                    window.location.href = '/partyMap';
+                }
+                function loginWrapperFunc(event){
+                    console.log('attempt to send req start')
+                    sendLoginReq(event);
+                    console.log('attempt to send req over')
+                    return false
+                }
+            </script>
+        </div>
+
+        <site-footer></site-footer>
+
+    
+    </body>
+    <script src ="../scripts/sendLoginReq.script.js"></script>
+    <script src="../components/navigation.js"></script>
+    <script src="../components/footer.js"></script>
+
+</html>

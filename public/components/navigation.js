@@ -45,8 +45,15 @@ class NavigationBar extends HTMLElement {
         const dashboard = this.querySelector('#dashboard');
         const logout = this.querySelector('#logout');
 
+        login.addEventListener('click', () => {
+          window.location.href = '/login';
+        });
 
-        // general navigation
+        register.addEventListener('click', () => {
+          window.location.href = '/login';
+        });
+
+
         home.addEventListener('click', () => {
           window.location.href = '/';
         });

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="../css/landingPage.css">
+        <link rel="stylesheet" href="../css/navigation.css">
+        <link rel="stylesheet" href="../css/footer.css">
+
+        <title>PartySafari Login</title>
+    </head>
+    <body>
+        <logged-in-nav-bar></logged-in-nav-bar>
+
+        <div class="profile-info">
+            <p>Welcome, <span id="username-placeholder">User</span>!</p>
+            <p>Email: <span id="email-placeholder">user@example.com</span></p>
+            <!-- Other user info placeholders -->
+        </div>
+
+        <div id="button-container" class="button_container">
+            <button id="see-reviews" class="buttontext" onclick="partyReviews()">See Reviews</button>
+            <button id="see-reviews" class="buttontext" onclick="partyMap()">See Map</button>
+            <button id="see-reviews" class="buttontext" onclick="scanTickets()">Scan tickets</button>
+            <script>
+                // Function to fetch user info from getUserInfo.script.js
+                const getUserInfo = async () => {
+                const response = await fetch('/profile/getuser');
+                //const data = await response();
+                return response;
+                };
+
+                // Update profile information
+                document.addEventListener('DOMContentLoaded', async () => {
+                try {
+                    // Fetch user info
+                    const userInfo = await getUserInfo();
+                    console.log('user info get');
+                    // Update HTML elements with fetched user data
+                    console.log(userInfo);
+                    document.getElementById('username-placeholder').textContent = userInfo.name;
+                    document.getElementById('email-placeholder').textContent = userInfo.email;
+                    // Update other elements similarly with user data
+                } catch (error) {
+                    console.error('Error fetching user information:', error);
+                }
+                });               
+            </script>
+            <script> 
+                    function partyMap() {
+                    // Redirect to the next page
+                    window.location.href = '/partyMap';
+                    }
+            </script>
+        </div>
+
+        <site-footer></site-footer>
+
+    
+    </body>
+    <script src="../components/LoggedIn-navigation.js"></script>
+    <script src="../components/footer.js"></script>
+
+</html>
