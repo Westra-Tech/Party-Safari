@@ -61,9 +61,9 @@ exports.initLoggedStatus = async () => {
       console.error('Error fetching user emails:', error);
       return [];
     }
-  };
+};
 
-  exports.initUUIDs = async () => {
+exports.initUUIDs = async () => {
     try {
       console.log('begin make file');
       const userUsernameList = await usersCollection.find({}, { projection: {username: 1 } }).toArray();
@@ -91,10 +91,10 @@ exports.initLoggedStatus = async () => {
       console.error('Error fetching user emails:', error);
       return [];
     }
-  };
+};
 
   
-  exports.updateLoggedStatus = async (username) => {
+exports.updateLoggedStatus = async (username) => {
     fs.readFile('usersLogged.json', 'utf8', (err, data) => {
         if (err) {
           console.error('Error reading file:', err);
@@ -151,7 +151,7 @@ exports.initLoggedStatus = async () => {
         });
     }
 
-  exports.updateLoggedStatusFalse = async () => {
+exports.logoutUsers = async () => {
     fs.readFile('usersLogged.json', 'utf8', (err, data) => {
         if (err) {
           console.error('Error reading file:', err);
@@ -161,23 +161,15 @@ exports.initLoggedStatus = async () => {
          // Parse the JSON data
           const jsonData = JSON.parse(data);
           console.log('updating field');
-          // Update a specific field
-          for (const field in jsonData) {
-            if (jsonData[field] === true) {
-                jsonData[field] = false
-                // Convert updated JSON back to string
-                const updatedJsonData = JSON.stringify(jsonData, null, 2);
-                // Write updated JSON back to the file
-                fs.writeFile('usersLogged.json', updatedJsonData, 'utf8', (err) => {
-                    if (err) {
-                    console.error('Error writing file:', err);
-                    } else {
-                    console.log('File updated successfully');
-                    }
-                });
-                    }
+          // logout all users by making file empty
+          fs.writeFile('./usersLogged.json', '{}', 'utf8', (err) => {
+            if (err) {
+              console.error(err);
+              return;
             }
-            console.log("User logout successful");
+            // console.log('The JSON file has been made empty.');
+          });
+            console.log("All users logged out successful");
             //res.writeHead(200, { "Content-Type": "application/json" });
             //return 'OK';
         } catch (error) {

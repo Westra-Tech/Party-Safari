@@ -45,14 +45,40 @@ class NavigationBar extends HTMLElement {
         const dashboard = this.querySelector('#dashboard');
         const logout = this.querySelector('#logout');
 
+        if(window.location.href === 'http://localhost:8080/login'){
+          login.style.display = 'none'; 
+          register.style.display = 'none';
+        }
+
+        if(window.location.href === 'http://localhost:8080/profile'){
+          login.style.display = 'none'; 
+          register.style.display = 'none';
+          pfp.style.display = 'flex';
+        }
+
+        if(window.location.href === 'http://localhost:8080/host-dashboard'){
+          login.style.display = 'none'; 
+          register.style.display = 'none';
+          pfp.style.display = 'flex';
+          cart.style.display = 'none';
+        }
+
         login.addEventListener('click', () => {
+          login.style.display = 'none'; 
+          register.style.display = 'none';
           window.location.href = '/login';
+
         });
 
         register.addEventListener('click', () => {
+          login.style.display = 'none'; 
+          register.style.display = 'none';
           window.location.href = '/login';
         });
 
+        logout.addEventListener('click', () => {
+          window.location.href = '/sendlogout';
+        });
 
         home.addEventListener('click', () => {
           window.location.href = '/';
@@ -64,9 +90,14 @@ class NavigationBar extends HTMLElement {
 
         pfp.addEventListener('click', () => {
           menu.style.display = 'flex';
+
+          //check if party host
         });
 
-        login.addEventListener('click', () => {
+        dashboard.addEventListener('click', () => {
+          login.style.display = 'none'; 
+          register.style.display = 'none';
+          window.location.href = '/host-dashboard';
 
         });
 
@@ -83,13 +114,6 @@ class NavigationBar extends HTMLElement {
 
 
         // menu event listeners
-
-        //check if party host
-        if(true/*user is party host*/){
-          dashboard.addEventListener('click', () => {
-            window.location.href = '/host-dashboard';
-          });
-        }
 
 
     }

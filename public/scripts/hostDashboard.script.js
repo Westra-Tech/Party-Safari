@@ -30,7 +30,7 @@ async function updateMyEvents(arr){
         let customElement = document.createElement('party-component');
         customElement.setAttribute("title", party.Name);
         customElement.setAttribute("description", party.Description);
-        console.log(party._id);
+        // console.log(party._id);
 
         const date = new Date(party.StartDate);
         const month = date.toLocaleDateString('en-US', { month: 'short' });
@@ -90,9 +90,51 @@ async function updateHostInformation(json){
 
 }
 
+// sends a request to the server to pull all of the host's information
+async function getLoggedInUser(){
+    const url = new URL('/api/users/get-logged-in-user', 'http://localhost:8080');
+  
+    const options = {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        } 
+    };
+  
+  
+    fetch(url, options)
+    .then(response => response.json())
+    .then(data => {
+        console.log(data.role.role);
+        if(data.role.role != 2){
+            // leave site if not host
+            window.location.href = '/';
+        }
+        console.log('id: ', data._id);
+        getPartiesByHost(data._id);
+        getHostInformation(data._id);
+        return data._id;
+        // process the response data
+        // return data;
+    })
+    .catch(error => {
+        console.error(error);
+        return null;
+        // handle the error
+        // return data.json();
+    });
+   
+}
+
+
 
 // on page load, update events list
-// const h = "656d0bc954b790022840f8f2";
-const h = '656d0101a1820ce535ce89da';
-getPartiesByHost(h);
-getHostInformation(h);
+const h = "656d0bc954b790022840f8f2";
+getLoggedInUser();
+
+
+
+
+
+
+

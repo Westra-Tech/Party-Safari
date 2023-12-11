@@ -20,6 +20,8 @@ const handleMapRequests = require("./routes/maps.routes.js");
 const handlePartyRequests = require("./routes/party.routes.js");
 const loggedStatus = require("./logged-status.js");
 const getUser = require("./controllers/getUser.controller.js");
+const serveHostDashboard = require('./views/hostDashboard.views.js');
+
 
 const router = require("./routes/seba_router.js");
 let serverST2 = new Server(8000, "localhost");
@@ -61,7 +63,7 @@ const server = http.createServer((req, res) => {
   ) {
     router.applicationServer(req, res);
   } else if (pathname.startsWith("/sendlogout")) {
-    loggedStatus.updateLoggedStatusFalse();
+    loggedStatus.logoutUsers();
     serveLandingPage(req, res);
   } else if (pathname.startsWith("/loginfail")) {
     loginFail(req,res);
@@ -92,7 +94,9 @@ const server = http.createServer((req, res) => {
   } else if (req.url.startsWith("/map")) {
     handleMapRequests(req, res);
     return;
-  } else {
+  }else if (pathname.startsWith('/host-dashboard')){
+    serveHostDashboard(req, res);
+  }else {
     res.writeHead(404);
     res.end("Not Found");
   }

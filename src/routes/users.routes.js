@@ -46,6 +46,22 @@ function handleUserRequest(req, res) {
       res,
       parsedUrl.searchParams.get("username")
     );
+  } else if (
+    parsedUrl.pathname === "/api/users/get-logged-in-user" &&
+    req.method === "GET"
+  ) {
+    usersController.getLoggedInUser(
+      req,
+      res,
+    );
+  } else if (
+    parsedUrl.pathname === "/api/users/get-latest-user" &&
+    req.method === "GET"
+  ) {
+    usersController.getLatestLoggedInUser(
+      req,
+      res,
+    );
   } else {
     res.writeHead(404, { "Content-Type": "application/json" });
     res.end(JSON.stringify({ error: "Endpoint not found" }));

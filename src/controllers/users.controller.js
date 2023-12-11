@@ -1,5 +1,6 @@
 const dotenv = require("dotenv");
 const path = require("path");
+const fs = require('fs');
 
 // Debug: Log the expected path of the .env file
 const envPath = path.resolve(process.cwd(), '.env');
@@ -95,7 +96,6 @@ exports.getNLatestUsers = async (req, res, N) => {
 
 exports.getUserByUsername = async (req, res, user) =>{
   // check if parameter is there
-  //check if host_id exists
   if(!user){
     res.writeHead(400, { "Content-Type": "application/json" });
     return res.end(JSON.stringify({ error: "username parameter is missing" + user}));
@@ -109,11 +109,93 @@ exports.getUserByUsername = async (req, res, user) =>{
     const coll = await d.collection("User Data");
 
     const p = await coll.find(query).toArray();
+    storeUserInfoByUsername(req, res, p);
 
     res.writeHead(200, { "Content-Type": "application/json" });
     res.end(JSON.stringify(p));
   } catch (error) {
     console.error(error);
+    res.writeHead(500, { "Content-Type": "application/json" });
+    res.end(JSON.stringify({ error: "Internal Server Error" }));
+  }
+}
+
+exports.getUserById = async (req, res, id) =>{
+  // check if parameter is there
+  //check if host_id exists
+  if(!id){
+    res.writeHead(400, { "Content-Type": "application/json" });
+    return res.end(JSON.stringify({ error: "id parameter is missing" + structuredClone(id)}));
+  }
+
+  const query = {_id: id};
+
+  // fetch all parties that this host owns
+  try {
+    const d = await mongoClient.db("Users");
+    const coll = await d.collection("User Data");
+
+    const p = await coll.find(query).toArray();
+
+    res.writeHead(200, { "Content-Type": "application/json" });
+    res.end(JSON.stringify(p));
+  } catch (error) {
+    console.error(error);
+    res.writeHead(500, { "Content-Type": "application/json" });
+    res.end(JSON.stringify({ error: "Internal Server Error" }));
+  }
+}
+
+
+storeUserInfoByUsername = async(req, res, user) =>{
+  // check if parameter is there
+  if(!user){
+    console.log('no username');
+  }
+
+  fs.writeFile('./storedUserInfo.json', JSON.stringify(user[0]), (err) => {
+    if (err) {
+      console.error('Error writing file:', err);
+    } else {
+      console.log('Written to file successfully');
+    }
+  });
+
+}
+
+exports.getLoggedInUser = async(req, res) =>{
+  try {
+    fs.readFile('./storedUserInfo.json', 'utf8', (err, data) => {
+      if (err) {
+        res.writeHead(500, { "Content-Type": "application/json" });
+        res.end(JSON.stringify({ error: "Internal Server Error" }));
+      }
+      const jsonData = JSON.parse(data);
+      res.writeHead(200, { "Content-Type": "application/json" });
+      res.end(JSON.stringify(jsonData));
+    });
+
+  } catch (error) {
+    res.writeHead(500, { "Content-Type": "application/json" });
+    res.end(JSON.stringify({ error: "Internal Server Error" }));
+  }
+}
+
+exports.getLatestLoggedInUser = async(req, res) =>{
+  try {
+    fs.readFile('./usersLogged.json', 'utf8', (err, data) => {
+      if (err) {
+        res.writeHead(500, { "Content-Type": "application/json" });
+        res.end(JSON.stringify({ error: "Internal Server Error" }));
+      }
+      const jsonData = JSON.parse(data);
+      const keys = Object.keys(jsonData);
+      const lastUserByUsername = keys[keys.length-1];
+      res.writeHead(200, { "Content-Type": "application/json" });
+      res.end(JSON.stringify({username: lastUserByUsername}));
+    });
+
+  } catch (error) {
     res.writeHead(500, { "Content-Type": "application/json" });
     res.end(JSON.stringify({ error: "Internal Server Error" }));
   }

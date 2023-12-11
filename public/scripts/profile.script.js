@@ -40,8 +40,35 @@ async function updateUserInformation(json){
 
 }
 
+//gets username of latest user and updates page
+async function getLatestUserUsername(){
+    const url = new URL('/api/users/get-latest-user', 'http://localhost:8080');
+  
+    const options = {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        } 
+    };
+  
+  
+    fetch(url, options)
+    .then(response => response.json())
+    .then(data => {
+        console.log(data.username);
+        getUserInformation(data.username);
+        // process the response data
+        return data.username;
+    })
+    .catch(error => {
+        console.error(error);
+        // handle the error
+        // return data.json();
+        return "";
+    });
+}
 
 // on page load, update events list
 
-const h = "admin";
-getUserInformation(h);
+
+getLatestUserUsername();
