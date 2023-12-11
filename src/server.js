@@ -81,8 +81,7 @@ const server = http.createServer((req, res) => {
       */
      goProfile(req,res);
   } else if (pathname.startsWith("/profile/getuser")) {
-      getUser();
-    //serverST2.getUserInfo(UUID);
+    serverST2.getUserInfo(UUID);
   } else if (pathname.startsWith("user?edit_profile")) {
     serverST2.updateUserInfo(UUID);
   } else if (pathname.startsWith("user?del_profile")) {
@@ -103,6 +102,7 @@ const port = 8080;
 const host = "localhost";
 loggedStatus.dbConnect();
 loggedStatus.initLoggedStatus(); //init all user to logged out 
+loggedStatus.initUUIDs();
 server.listen(port, host, () => {
   console.log(`Server is running on http://${host}:${port}`);
 });

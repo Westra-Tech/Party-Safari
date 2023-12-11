@@ -62,6 +62,37 @@ exports.initLoggedStatus = async () => {
       return [];
     }
   };
+
+  exports.initUUIDs = async () => {
+    try {
+      console.log('begin make file');
+      const userUsernameList = await usersCollection.find({}, { projection: {username: 1 } }).toArray();
+      //console.log(userUsernameList);
+      const usernameToObj = {}
+      
+      userUsernameList.forEach((item) => {
+        usernameToObj[item.username] = item._id;
+      });
+      
+      // Convert object to JSON string
+      const jsonData = JSON.stringify(usernameToObj, 2);
+      
+      // Write JSON string to a file
+      fs.writeFile('username_UUID.json', jsonData, (err) => {
+        if (err) {
+          console.error('Error writing JSON file:', err);
+        } else {
+          console.log('JSON file created successfully');
+        }
+      });
+
+
+    } catch (error) {
+      console.error('Error fetching user emails:', error);
+      return [];
+    }
+  };
+
   
   exports.updateLoggedStatus = async (username) => {
     fs.readFile('usersLogged.json', 'utf8', (err, data) => {
@@ -93,29 +124,6 @@ exports.initLoggedStatus = async () => {
         }
       });
   };
-
-  exports.findLoggedIn = async () => {
-    fs.readFile('usersLogged.json', 'utf8', (err, data) => {
-      if (err) {
-        console.error('Error reading file:', err);
-        return false;
-      }
-    const jsonData = JSON.parse(data);
-      console.log('checking for logged in user');
-      // Update a specific field
-      for (const field in jsonData) {
-        if (jsonData[field] === true) {
-            if(found == true){
-                return field
-            }
-            found == true;
-        }
-        }
-      console.log('not found')
-      return found;
-    });
-  };
-
 
     exports.check = async () => {
         fs.readFile('usersLogged.json', 'utf8', (err, data) => {
