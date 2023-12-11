@@ -69,42 +69,40 @@ function getQueryParamsForNotifs(url, request) {
     }
   }
 
-// PUT request to update notification; body contains notif_text, URL contains: /api/notifications/updateNotif?notif_id={notif_id}
-else if (request === "PUT" && url.includes("/updateNotif")) {
-  // Regex to isolate notif_id
-  const request_regex = new RegExp(
-    /\/api\/notifications\/updateNotif\/?\?notif_id=([^&]*)/
-  );
-  const match = url.match(request_regex);
+  // PUT request to update notification; body contains notif_text, URL contains: /api/notifications/updateNotif?notif_id={notif_id}
+  else if (request === "PUT" && url.includes("/updateNotif")) {
+    // Regex to isolate notif_id
+    const request_regex = new RegExp(
+      /\/api\/notifications\/updateNotif\/?\?notif_id=([^&]*)/
+    );
+    const match = url.match(request_regex);
 
-  // Check if there is a match
-  if (match !== null && match[1] !== undefined && match[1] !== "") {
-    const notif_id = match[1];
-    return notif_id;
-  } else {
-    // No match found
-    return null;
+    // Check if there is a match
+    if (match !== null && match[1] !== undefined && match[1] !== "") {
+      const notif_id = match[1];
+      return notif_id;
+    } else {
+      // No match found
+      return null;
+    }
   }
-}
-// ELSE IF for flipping notifications global boolean; URL contains: /api/notifications/flipNotificationsGlobal?user_id={user_id}
-else if (request === "PUT" && url.includes("/flipNotificationsGlobal")) {
-  // Regex to isolate user_id
-  const request_regex = new RegExp(
-    /\/api\/notifications\/flipNotificationsGlobal\/?\?user_id=([^&]*)/
-  );
-  const match = url.match(request_regex);
+  // ELSE IF for flipping notifications global boolean; URL contains: /api/notifications/flipNotificationsGlobal?user_id={user_id}
+  else if (request === "PUT" && url.includes("/flipNotificationsGlobal")) {
+    // Regex to isolate user_id
+    const request_regex = new RegExp(
+      /\/api\/notifications\/flipNotificationsGlobal\/?\?user_id=([^&]*)/
+    );
+    const match = url.match(request_regex);
 
-  // Check if there is a match
-  if (match !== null && match[1] !== undefined && match[1] !== "") {
-    const user_id = match[1];
-    return user_id;
-  } else {
-    // No match found
-    return null;
+    // Check if there is a match
+    if (match !== null && match[1] !== undefined && match[1] !== "") {
+      const user_id = match[1];
+      return user_id;
+    } else {
+      // No match found
+      return null;
+    }
   }
-}
-
-
   //DELETE request
   //delete notif; URL contains: /api/notifications/deleteNotif/?notif_id={notif_id}
   else if (request == "DELETE" && url.includes("/deleteNotif")) {
@@ -124,6 +122,7 @@ else if (request === "PUT" && url.includes("/flipNotificationsGlobal")) {
     }
   }
 }
+
 
 // Function to handle requests
 function applicationServer(request, response) {
