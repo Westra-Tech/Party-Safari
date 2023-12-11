@@ -24,6 +24,7 @@ const mongoClient = new MongoClient(uri, {
 });
 
 let usersCollection;
+let usernameActive;
 
 // Connect to MongoDB and set up collections for use
 exports.dbConnect = async () => {
@@ -31,24 +32,37 @@ exports.dbConnect = async () => {
     usersCollection = db.collection("User Data");
   };
   
-exports.findUser = async (req, res) => {
+exports.findUser = async () => {   
+        fs.readFile('usersLogged.json', 'utf8', (err, data) => {
+          if (err) {
+            console.error('Error reading file:', err);
+          }
+        const jsonData = JSON.parse(data);
+          console.log('checking for logged in user');
+          // Update a specific field
+          for (const field in jsonData) {
+            if (jsonData[field] === true) {
+                usernameActive = field;
+            }
+            }
+          console.log('not found')
+        });
+
+    
+
   try {
     // Fetch the user details using the provided 'username' and 'password'
-    const user = await usersCollection.findOne({ username, password });
+
+    const user = await usersCollection.findOne({usernameActive});
     if (user) {
       // User found, return the user_id
-      console.log("User login successful:", user);
-      res.writeHead(200, { "Content-Type": "application/json" });
-      return res.end(JSON.stringify({ user_id: user._id }));
+        return user;
     } else {
       // No user found with the given username and password
-      console.error("User not found or invalid credentials: ", username);
-      res.writeHead(401, { "Content-Type": "application/json" });
-      return res.end(JSON.stringify({ error: "Invalid credentials" }));
+        return null;
     }
   } catch (error) {
     console.error(error);
-    res.writeHead(500, { "Content-Type": "application/json" });
-    res.end(JSON.stringify({ error: "Internal Server Error" }));
+    return null;
   }
 };

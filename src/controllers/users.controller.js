@@ -92,3 +92,29 @@ exports.getNLatestUsers = async (req, res, N) => {
     res.end(JSON.stringify({ error: "Internal Server Error" }));
   }
 }
+
+exports.getUserByUsername = async (req, res, user) =>{
+  // check if parameter is there
+  //check if host_id exists
+  if(!user){
+    res.writeHead(400, { "Content-Type": "application/json" });
+    return res.end(JSON.stringify({ error: "username parameter is missing" + user}));
+  }
+
+  const query = {username: user};
+
+  // fetch data
+  try {
+    const d = await mongoClient.db("Users");
+    const coll = await d.collection("User Data");
+
+    const p = await coll.find(query).toArray();
+
+    res.writeHead(200, { "Content-Type": "application/json" });
+    res.end(JSON.stringify(p));
+  } catch (error) {
+    console.error(error);
+    res.writeHead(500, { "Content-Type": "application/json" });
+    res.end(JSON.stringify({ error: "Internal Server Error" }));
+  }
+}
