@@ -7,11 +7,11 @@ const filePath = path.join(__dirname, './../../public/html/login.html');
 const login = (req, res) => {
     fs.readFile(filePath, 'utf8', (err, data) => {
         if (err) {
-            res.statusCode = 500;
+            //res.statusCode = 500;
             res.end('Error loading HTML file');
         } else {
-            res.setHeader('Content-Type', 'text/html');
-            res.statusCode = 200;
+            //res.setHeader('Content-Type', 'text/html');
+            //res.statusCode = 200;
             res.end(data);
         }
     });

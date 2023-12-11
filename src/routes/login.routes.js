@@ -1,8 +1,10 @@
 // routes/login.routes.js
 const usersController = require("../controllers/users.controller.js");
 const loginFail = require("../views/loginfail.views.js");
+const loggedStatus = require("../logged-status.js");
 
 function handleLogins(req, res) {
+//console.log(req);
   usersController.dbConnect();
 
   const parsedUrl = new URL(req.url, "http://localhost:8080");
@@ -19,12 +21,13 @@ function handleLogins(req, res) {
     console.log('attempt to login handle login');
     usersController.login(req, res, username, password)
       .then((result) => {
-        if (result.ok) {
+        console.log(result.statusMessage);
+        if (result.statusMessage=='OK') {
             console.log("handle logins, ok");
             //set username to true in json
-            
+            loggedStatus.updateLoggedStatus(username);
           // Redirect to success page or handle success case
-          res.writeHead(302, { Location: "/landingPage.views.js" }); // Change '/success' to your success route
+          //res.writeHead(302, { Location: "/landingPage.views.js" }); // Change '/success' to your success route
           res.end();
         } else {
           // Redirect to login fail page

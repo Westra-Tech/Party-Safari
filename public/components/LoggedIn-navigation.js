@@ -26,7 +26,7 @@ class LoggedInNavigationBar extends HTMLElement {
                     <li><hr></hr></li>
                     <li id="cart" class="user-option"><a href="#">Cart</a></li>
                     <li id="dashboard" class="user-option"><a href="#">Dashboard</a></li>
-                    <li id="logout" class="user-option"><a href="#">Logout</a></li>
+                    <li id="logout" class="user-option"><a href="#">logout</a></li>
                 </ul>
             </div>
         </div>
@@ -37,13 +37,12 @@ class LoggedInNavigationBar extends HTMLElement {
         const home = this.querySelector('#home'); // home button
         const map = this.querySelector('#map'); // this is the text content of the review
         const pfp = this.querySelector('#profile');
-        const logout = this.querySelector('#Logout');
-        const register = this.querySelector('#register');
+        const logout = this.querySelector('#logout');
         const menu = this.querySelector('#profile-menu-container');
 
         logout.addEventListener('click', () => {
-          
-          window.location.href = '/login';
+          //sendlogout();
+          window.location.href = '/sendlogout';
         });
 
         home.addEventListener('click', () => {
@@ -56,10 +55,6 @@ class LoggedInNavigationBar extends HTMLElement {
 
         pfp.addEventListener('click', () => {
           menu.style.display = 'flex';
-        });
-
-        login.addEventListener('click', () => {
-
         });
 
         //hide menu if click outside of it

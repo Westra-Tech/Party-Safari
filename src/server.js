@@ -18,7 +18,8 @@ const serveScanTicketsPage = require("./views/scan-tickets.view.js");
 const handleScanTicketsRequests = require("./routes/scan-tickets.routes.js");
 const handleMapRequests = require("./routes/maps.routes.js");
 const handlePartyRequests = require("./routes/party.routes.js");
-const initLoggedStatus = require("./logged-status.js")
+const loggedStatus = require("./logged-status.js");
+const getUser = require("./controllers/getUser.controller.js");
 
 const router = require("./routes/seba_router.js");
 let serverST2 = new Server(8000, "localhost");
@@ -59,6 +60,9 @@ const server = http.createServer((req, res) => {
     pathname === "/transactions"
   ) {
     router.applicationServer(req, res);
+  } else if (pathname.startsWith("/sendlogout")) {
+    loggedStatus.updateLoggedStatusFalse();
+    serveLandingPage(req, res);
   } else if (pathname.startsWith("/loginfail")) {
     loginFail(req,res);
   } else if (pathname.startsWith("/login")) {
@@ -67,9 +71,18 @@ const server = http.createServer((req, res) => {
     console.log('attempt to send login req');
     handleLogins(req,res);
   } else if (pathname.startsWith("/profile")) {
-    goProfile(req,res);
-  } else if (pathname.startsWith("user?profile")) {
-    serverST2.getUserInfo(UUID);
+    /*
+      checklog = loggedStatus.check();
+      if(checklog==true){
+        goProfile(req,res);
+      }else{
+        loginPage(req,res);
+      }
+      */
+     goProfile(req,res);
+  } else if (pathname.startsWith("/profile/getuser")) {
+      getUser();
+    //serverST2.getUserInfo(UUID);
   } else if (pathname.startsWith("user?edit_profile")) {
     serverST2.updateUserInfo(UUID);
   } else if (pathname.startsWith("user?del_profile")) {
@@ -88,8 +101,8 @@ const server = http.createServer((req, res) => {
 
 const port = 8080;
 const host = "localhost";
-initLoggedStatus.dbConnect();
-initLoggedStatus.initLoggedStatus(); //init all user to logged out 
+loggedStatus.dbConnect();
+loggedStatus.initLoggedStatus(); //init all user to logged out 
 server.listen(port, host, () => {
   console.log(`Server is running on http://${host}:${port}`);
 });

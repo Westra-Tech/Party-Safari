@@ -1,1 +1,5 @@
-{"admin":false,"undefined":false}
+{
+  "admin": true,
+  "test2": false,
+  "undefined": false
+}
