@@ -41,10 +41,12 @@ class NavigationBar extends HTMLElement {
         const login = this.querySelector('#login');
         const register = this.querySelector('#register');
         const menu = this.querySelector('#profile-menu-container');
+        const cart = this.querySelector('#cart');
+        const dashboard = this.querySelector('#dashboard');
+        const logout = this.querySelector('#logout');
 
 
-
-
+        // general navigation
         home.addEventListener('click', () => {
           window.location.href = '/';
         });
@@ -74,7 +76,6 @@ class NavigationBar extends HTMLElement {
 
 
         // menu event listeners
-        const dashboard = this.querySelector('#dashboard');
 
         //check if party host
         if(true/*user is party host*/){

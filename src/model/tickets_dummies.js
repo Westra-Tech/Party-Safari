@@ -6,6 +6,7 @@ const dotenv = require('dotenv');
 const path = require('path');
 const crypto = require('crypto');
 
+
 // console.log(path.dirname(process.cwd()));
 
 // Debug: Log the expected path of the .env file
@@ -34,41 +35,41 @@ const mongoClient = new MongoClient(uri, {
 
 
 // Connect to MongoDB and set up collections for use
-  const db = mongoClient.db("dummy_db");
-  const tickets_co = db.collection("tickets_co");
+  const db = mongoClient.db("Parties");
+  const tickets_co = db.collection("Tickets");
 
 
 tickets_co.insertMany([
     
-    // end of semester bash
+    // POST FINALParty, Sigma Study Party
     {
         _id: crypto.randomUUID(),
-        user_id: "",
-        party_id: "6f6ff140-c6eb-4b26-a49a-2ecae8a7b3b5",
+        user_id: "45fcd7ed-703d-4153-b427-01dad1e65fd4", 
+        party_id: new ObjectId("655cfa10a2d6fb0a5d763b87"), 
         ticket_id: crypto.randomUUID(),
         status: "not attended",
     },
     {
         _id: crypto.randomUUID(),
-        user_id: "", 
-        party_id: "6f6ff140-c6eb-4b26-a49a-2ecae8a7b3b5",
+        user_id: "3d6985d6-2f06-493d-82d1-d808e4bd7218", 
+        party_id: new ObjectId("655cfa10a2d6fb0a5d763b87"), 
         ticket_id: crypto.randomUUID(),
         status: "not attended",
     },
     {
       _id: crypto.randomUUID(),
-      user_id: "", 
-      party_id: "8763852a-bcad-4a9c-8a2b-a962255f2aad",
+      user_id: "45fcd7ed-703d-4153-b427-01dad1e65fd4", 
+      party_id: new ObjectId("6572798c9dac8bc06c31ba5f"), 
       ticket_id: crypto.randomUUID(),
       status: "not attended",
     },
     {
       _id: crypto.randomUUID(),
-      user_id: "", 
-      party_id: "8763852a-bcad-4a9c-8a2b-a962255f2aad",
+      user_id: "3d6985d6-2f06-493d-82d1-d808e4bd7218", 
+      party_id: new ObjectId("6572798c9dac8bc06c31ba5f"), 
       ticket_id: crypto.randomUUID(),
       status: "not attended",
-    },
+    }
     
 ]);
   

@@ -111,3 +111,31 @@ async function setUpCamera(){
     console.error('getUserMedia is not supported in this browser.');
   }
 }
+
+// sends a request to the server to pull all of the host's information
+async function getHostInformation(id){
+  const url = new URL('/api/users/get-user-by-id', 'http://localhost:8080');
+  url.searchParams.append('user_id', id);
+
+  const options = {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      } 
+  };
+
+
+  fetch(url, options)
+  .then(response => response.json())
+  .then(data => {
+      updateHostInformation(data[0]);
+      // process the response data
+      // return data;
+  })
+  .catch(error => {
+      console.error(error);
+      // handle the error
+      // return data.json();
+  });
+ 
+}

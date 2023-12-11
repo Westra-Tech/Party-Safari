@@ -31,6 +31,7 @@ class partyComponent extends HTMLElement {
             <div class="party-modifying-options">
                 <button id="edit-listing-button" class="listing-button">Edit Listing</button>
                 <button id="manage-attendance-button" class="listing-button">Manage Attendance</button>
+                <button id="scan-tickets-button" class="listing-button">Scan Tickets</button>
                 <button id="delete-listing-button" class="listing-button">Delete Listing</button>
             </div>
             <div id="delete-confirmation" class="delete-confirmation-container">
@@ -47,6 +48,8 @@ class partyComponent extends HTMLElement {
         `;
 
         const deleteButton = this.querySelector('#delete-listing-button');
+        const scanTicketsButton = this.querySelector('#scan-tickets-button');
+
         const deletePopUp = this.querySelector('#delete-confirmation');
         const confirmDeleteButton = this.querySelector('#confirmDeleteButton');
         const cancelDeleteButton = this.querySelector('#cancelDeleteButton');
@@ -66,9 +69,13 @@ class partyComponent extends HTMLElement {
             deletePopUp.style.display = 'none';
         });
 
+        //scan tickets
+        scanTicketsButton.addEventListener('click', () => {
+            window.location.href = '/scan-tickets';
+        });
+
     }
-
-
+    
   }
   
   customElements.define("party-component", partyComponent);

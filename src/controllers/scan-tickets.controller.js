@@ -34,8 +34,8 @@ let ticketsCollection;
 
 // Connect to MongoDB and set up collections for use
 async function connect(){
-    const db = mongoClient.db("dummy_db");
-    ticketsCollection = db.collection("tickets_co");
+    const db = mongoClient.db("Parties");
+    ticketsCollection = db.collection("Tickets");
 };
 
 async function disconnect(){
@@ -45,7 +45,7 @@ async function disconnect(){
 // id is the _id of the ticket object in database
 async function updateTicketStatus(req, res, id){
     try{
-        const originalTicket = { _id: new ObjectId(id) };
+        const originalTicket = { _id: id.trim()};
 
         const updatedField = { $set: { status: "attended" } };
 

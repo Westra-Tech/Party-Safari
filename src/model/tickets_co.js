@@ -30,9 +30,9 @@ const mongoClient = new MongoClient(uri, {
   },
 });
 
-const db = mongoClient.db("dummy_db");
+const db = mongoClient.db("Parties");
 
-db.createCollection("tickets_co", {
+db.createCollection("Tickets", {
     validator: {
         $jsonSchema: {
             bsonType: "object",
@@ -47,7 +47,7 @@ db.createCollection("tickets_co", {
                     description: "user_id is required and must be an ObjectId"
                 },
                 party_id: {
-                    bsonType: "string",
+                    bsonType: "objectId",
                     description: "party_id is required and must be an ObjectId"
                 },
                 ticket_id: {

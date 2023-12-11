@@ -128,3 +128,8 @@
     z-index: 9999;
     right: 0;
 }
+
+/* #login, #register{ */
+#profile{
+    display: none;
+}

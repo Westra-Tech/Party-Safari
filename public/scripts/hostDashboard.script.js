@@ -21,7 +21,7 @@ async function getPartiesByHost(id){
     });
    
 }
-
+// updates my events part in html
 async function updateMyEvents(arr){
 
     const div = document.getElementById('scrollable-events-data');
@@ -72,6 +72,7 @@ async function getHostInformation(id){
    
 }
 
+// updates host information parts in html
 async function updateHostInformation(json){
 
     const name = document.getElementById('hostName');

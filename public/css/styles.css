@@ -38,8 +38,61 @@ video{
     width: 70%;
     display: flex;
     flex-direction: column;
-    height: 150px;
+    height: 200px;
     overflow: hidden;
+}
+
+#confirmDeleteButton{
+    margin-bottom: 10px;
+}
+
+#create-new-listing-button{
+    width: 10%;
+    margin: auto;
+    position: absolute;
+    right: 5%;
+}
+
+.delete-confirmation-container {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.delete-confirmation-content {
+    background-color: var(--almost-white);
+    margin: 20% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 300px;
+    text-align: center;
+    color: black;
+}
+
+.delete-confirmation-buttons {
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+.delete-confirmation-buttons button:hover{
+    background-color: var(--darkened-blue);
+}
+
+#description{
+    font-style: italic;
+}
+
+#events-header{
+    display: flex;
+    flex-direction: row;
+    position: relative;
+    align-items: center;
 }
 
 #confirmDeleteButton{
