@@ -19,7 +19,13 @@ const server = http.createServer((req, res) => {
     res.end();
     return;
   }
-
+  if (req.url.length > 2048) {
+    // 2048 is a commonly used limit, but you can adjust as needed
+    console.log("414 URI Too Long");
+    res.writeHead(414, { "Content-Type": "text/plain" });
+    res.end("URI Too Long");
+    return;
+  }
   if (req.url.startsWith("/party_listings")) {
     handlePartyRequests(req, res);
     return;
